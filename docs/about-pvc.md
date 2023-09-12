@@ -1,4 +1,4 @@
-# About the Parallel Virtual Cluster system
+# About PVC
 
 - [About the Parallel Virtual Cluster system](#about-the-parallel-virtual-cluster-system)
   * [Project Motivation](#project-motivation)
