@@ -6,3 +6,15 @@ markdown_extensions:
   - toc:
       permalink: yes
       toc_depth: '1-4'
+nav:
+  - 'Home': 'index.md'
+  - 'About PVC': 'about-pvc.md'
+  - 'Deployment':
+    - 'Cluster Architecture': 'cluster-architecture.md'
+    - 'Getting Started': 'getting-started.md'
+  - 'Manuals':
+    - 'PVC CLI': 'manuals/cli.md'
+    - 'PVC HTTP API': 'manuals/api.md'
+    - 'PVC Node Daemon': 'manuals/daemon.md'
+    - 'PVC Provisioner': 'manuals/provisioner.md'
+    - 'PVC Node Health Plugins': 'manuals/health-plugins.md'
