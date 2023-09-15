@@ -6,6 +6,10 @@ build:
   tools:
     python: '3.9'
 
+python:
+  install:
+    - requirements: requirements.txt
+
 mkdocs:
   configuration: mkdocs.yml
   fail_on_warning: false
