@@ -1,27 +1,47 @@
-# PVC Cluster Architecture considerations
+---
+title: Cluster Architecture
+---
 
-- [PVC Cluster Architecture considerations](#pvc-cluster-architecture-considerations)
-  * [Node Specification](#node-specification)
-    + [n-1 Redundancy](#n-1-redundancy)
-    + [CPU](#cpu)
-    + [Memory](#memory)
-    + [Disk](#disk)
-    + [Network](#network)
-  * [PVC architecture](#pvc+architecture)
-    + [Operating System](#operating-system)
-    + [Ceph Storage Layout](#ceph-storage-layout)
-    + [Networks](#networks)
-      - [System Networks](#system+networks)
-      - [Client Networks](#client+networks)
-    + [Fencing and Recovery](#fencing-and-recovery)
-  * [Advanced Layouts](#advanced+layouts)
-    + [Coordinators versus Hypervisors](#coordinators-versus-hypervisors)
-    + [Georedundancy](#georedundancy)
-  * [Example System Diagrams](#example+system-diagrams)
-    + [Small 3-node cluster](#small-3-node-cluster)
-    + [Large 8-node cluster](#large-8-node-cluster)
+[TOC]
 
-This document contains considerations the administrator should make when preparing for and building a PVC cluster. It is important that prospective PVC administrators read this document *thoroughly* before deploying a cluster to ensure they understand the requirements, caveats, and important details about how PVC operates.
+## Operating System
+
+PVC is designed to run on top of Debian GNU/Linux, of any version since Debian 10.x "Buster". This is the operating system installed by the [PVC Node installer](https://github.com/parallelvirtualcluster/pvc-installer) and expected by the [PVC Ansible deployment playbooks](https://github.com/parallelvirtualcluster/pvc-ansible). No other operating systems, including derivatives of Debian, are supported by PVC.
+
+At this time, only the `amd64` (`x86_64`) architecture is supported by PVC, though this may change in future versions.
+
+PVC requires Python 3, at least version 3.7. It is designed to operate using the system Python3 packages of the supported Debian releases, and does not require a virtualenv, PIP, or other similar tools.
+
+## PVC Terminology
+
+PVC uses several terms throughout that are important to define.
+
+* cluster: A PVC "cluster" is a collection of PVC "nodes" that function together in a redundant configuration. Management is done against a cluster, and resources allocated, assigned, and run on the cluster as a whole.
+
+* node: PVC clusters consist of several "nodes", which are physical server computers running the PVC system daemons.
+
+* virtual machine/VM: A guest operating system running inside of the KVM hypervisor on top of a PVC cluster. VMs are assigned to individual nodes, but can float across the various nodes in the cluster using live-migration (if supported by the VM configuration).
+
+* OSD: PVC clusters allocate storage for virtual machines from a set of special disks called "OSDs"; this term is borrowed from the terminology of the underlying Ceph storage subsystem.
+
+* pool: Storage in the PVC cluser is allocated to "pools", which reside on a set of OSDs using a given replication profile.
+
+* volume: Individual storage "volumes" for VMs are allocated to storage pools.
+
+* network: PVC makes use of several different networks (vLANs or VXLANs) of different classes.
+
+## Cluster Layout
+
+The following diagrams show both a 3-node cluster and an 8-node cluster for comparison, along with how their networks (detailed below) are laid out both physically and logically. These diagrams can be referenced during the following sections to understand the layout of the cluster.
+
+[![Small 3-node cluster](images/pvc-3-node-cluster.png)](images/pvc-3-node-cluster.png)
+
+[![Large 8-node cluster](images/pvc-8-node-cluster.png)](images/pvc-8-node-cluster.png)
+
+## Software Stack
+
+
+
 
 ## Node Specification
 
