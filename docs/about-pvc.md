@@ -2,19 +2,22 @@
 title: "About PVC"
 ---
 
-- [Project Motivation](#project-motivation)
-- [Building Blocks](#building-blocks)
-- [Cluster Architecture](#cluster-architecture)
-- [Clients](#clients)
-  * [API Client](#api-client)
-  * [Direct Bindings](#direct-bindings)
-  * [CLI Client](#cli-client)
-- [Deployment](#deployment)
-- [Frequently Asked Questions](#frequently-asked-questions)
-  * [General Questions](#general-questions)
-  * [Feature Questions](#feature-questions)
-  * [Storage Questions](#storage-questions)
-- [About The Author](#about-the-author)
+- [About PVC](#about-the-parallel-virtual-cluster-system)
+  * [Project Motivation](#project-motivation)
+  * [Building Blocks](#building-blocks)
+  * [Cluster Architecture](#cluster-architecture)
+  * [Clients](#clients)
+    + [API Client](#api-client)
+    + [Direct Bindings](#direct-bindings)
+    + [CLI Client](#cli-client)
+  * [Deployment](#deployment)
+  * [Frequently Asked Questions](#frequently-asked-questions)
+    + [General Questions](#general-questions)
+    + [Feature Questions](#feature-questions)
+    + [Storage Questions](#storage-questions)
+  * [About The Author](#about-the-author)
+
+This document contains information about the project itself, the software stack, its motivations, and a number of frequently-asked questions.
 
 ## Project Motivation
 
