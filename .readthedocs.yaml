@@ -5,9 +5,11 @@ build:
   os: 'ubuntu-22.04'
   tools:
     python: '3.9'
-  apt_packages:
-    - mkdocs
 
 mkdocs:
   configuration: mkdocs.yml
   fail_on_warning: false
+
+python:
+  install:
+    - requirements: requirements.txt
