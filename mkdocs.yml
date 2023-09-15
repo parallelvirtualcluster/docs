@@ -11,8 +11,10 @@ nav:
   - 'Home': 'index.md'
   - 'About PVC': 'about-pvc.md'
   - 'Deployment':
-    - 'Cluster Architecture': 'cluster-architecture.md'
-    - 'Getting Started': 'getting-started.md'
+    - 'Cluster Architecture': 'deployment/cluster-architecture.md'
+    - 'Hardware Requirements': 'deployment/hardware-requirements.md'
+    - 'Fencing & Georedundancy': 'deployment/fencing-and-georedundancy.md'
+    - 'Getting Started Guide': 'deployment/getting-started.md'
   - 'Manuals':
     - 'PVC CLI': 'manuals/cli.md'
     - 'PVC HTTP API': 'manuals/api.md'
