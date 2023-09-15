@@ -40,56 +40,6 @@ The storage subsystem is provided by Ceph, a distributed object-based storage su
 
 All the components are designed to be run on top of Debian GNU/Linux, specifically Debian 10.x "Buster" or 11.x "Bullseye", with the SystemD system service manager. This OS provides a stable base to run the various other subsystems while remaining truly Free Software, while SystemD provides functionality such as automatic daemon restarting and complex startup/shutdown ordering.
 
-## Cluster Architecture
-
-A PVC cluster is based around "nodes", which are physical servers on which the various daemons, storage, networks, and virtual machines run. Each node is self-contained and is able to perform any and all cluster functions if needed and configured to do so; there is no strict segmentation of function between different "types" of physical hosts. Ideally, all nodes in a cluster will be identical in specifications, but in some situations mismatched nodes are acceptable, with limitations.
-
-A subset of the nodes, called "coordinators", are statically configured to provide services for the cluster. For instance, all databases, FRRouting instances, and Ceph management daemons run only on the set of cluster coordinators. At cluster bootstrap, 1 (testing-only), 3 (small clusters), or 5 (large clusters) nodes may be chosen as the coordinators. Other nodes can then be added as "hypervisor" nodes, which then provide only block device (storage) and VM (compute) functionality by connecting to the set of coordinators. This limits the scaling problem of the databases while ensuring there is still maximum redundancy and resiliency for the core cluster services. 
-
-Additional nodes can be added to the cluster either as coordinators, or as hypervisors, by adding them to the Ansible configuration and running it against the full set of nodes. Note that the number of coordinators must always be odd, and more than 5 coordinators are normally unnecessary and can cause issues with the database; it is thus normally advisable to add any nodes beyond the initial set as hypervisors instead of coordinators. Nodes can be removed from service, but this is a manual process and should not be attempted unless absolutely required; the Ceph subsystem in particular is sensitive to changes in the coordinator nodes. Nodes can also be upgraded or replaced dynamically and without interrupting the cluster, allowing for seamless hardware maintenance, upgrades, and even replacement, as cluster state configuration is held cluster-wide.
-
-During runtime, one coordinator is elected the "primary" for the cluster. This designation can shift dynamically in response to cluster events, or be manually migrated by an administrator. The coordinator takes on a number of roles for which only one host may be active at once, for instance to provide DHCP services to managed client networks or to interface with the API.
-
-Nodes are networked together via a set of statically-configured, simple layer-2 networks. At a minimum, 2 discrete networks are required, with an optional 3rd.
-
- * The "upstream" network is the primary network for the nodes, and provides functions such as upstream Internet access, routing to and from the cluster nodes, and management via the API; it may be either a firewalled public or NAT'd RFC1918 network, but should never be exposed directly to the Internet. It should also contain, or be able to route to, the IPMI BMC management interfaces of the node chassis'.
- * The "cluster" network is an unrouted RFC1918 network which provides inter-node communication for managed client network traffic (VXLANs), cross-node routing, VM migration and failover, and database replication and access.
- * The "storage" network is another unrouted RFC1918 network which provides a dedicated logical and/or physical link between the nodes for storage traffic, including VM block device storage traffic, inter-OSD replication traffic, and Ceph heartbeat traffic, thus allowing it to be completely isolated from the other networks for maximum performance. This network can be optionally colocated with the "cluster" network, by specifying the same device for both, and can be further combined by specifying the same IP for both to completely collapse the "cluster" and "storage" networks. A collapsed cluster+storage configuration may be ideal to simplify management of small clusters, or a split configuration can be used to provide flexibility for large or demanding high-performance clusters - this choice is left to the administrator based on their needs.
- 
- Within each network is a single "floating" IP address which follows the primary coordinator, providing a single interface to the cluster. Once configured, the cluster is then able to create additional networks of two kinds, "bridged" traditional vLANs and "managed" routed VXLANs, to provide network access to VMs.
-
-Further information about the general cluster architecture, including important considerations for node specifications/sizing and network configuration, [can be found at the cluster architecture page](/cluster-architecture). It is imperative that potential PVC administrators read this document thoroughly to understand the specific requirements of PVC and avoid potential missteps in obtaining and deploying their cluster.
-
-More information about the node daemon can be found at the [Node Daemon manual page](/manuals/daemon) and details about the health system and health plugins for nodes can be found at the [health plugin manual page](/manuals/health-plugins).
-
-## Clients
-
-### API Client
-
-The API client is a Flask-based RESTful API and is the core interface to PVC. By default the API will run on the primary coordinator, listening on TCP port 7370 on the "upstream" network floating IP address. All other clients communicate with this API to perform actions against the cluster. The API features basic authentication using UUID-based API keys to prevent unauthorized access, and can optionally be configured with full TLS encryption to provide integrity and confidentiality across public networks.
-
-The API generally accepts all requests as HTTP form requests following standard RESTful guidelines, supporting arguments in the URI string or, with limited exceptions, in the message body. The API returns JSON response bodies to all requests consisting either of the information requested, or a `{ "message": "text" }` construct to pass informational status messages back to the client.
-
-The API client manual can be found at the [API manual page](/manuals/api), and the full API details can be found in the [API reference specification](/manuals/api-reference.html).
-
-### Direct Bindings
-
-The API client uses a dedicated set of Python libraries, packaged as the `pvc-daemon-common` Debian package, to communicate with the cluster. One can thus use these libraries to build custom Python clients that directly interface with the PVC cluster, without having to get "into the weeds" of the Zookeeper or PostgreSQL databases.
-
-### CLI Client
-
-The CLI client is a Python Click application, which provides a convenient CLI interface to the API client. It supports connecting to multiple clusters from a single instance, with or without authentication and over both HTTP or HTTPS, including a special "local" cluster if the client determines that an API configuration exists on the local host. Information about the configured clusters is stored in a local JSON document, and a default cluster can be set with an environment variable. The CLI client can thus be run either on PVC nodes themselves, or on other, remote systems which can then interface with cluster(s) over the network.
-
-The CLI client is self-documenting using the `-h`/`--help` arguments throughout, easing the administrator learning curve and providing easy access to command details. A short manual can also be found at the [CLI manual page](/manuals/cli).
-
-## Deployment
-
-The overall management, deployment, bootstrapping, and configuring of nodes is accomplished via a set of Ansible roles and playbooks, found in the [`pvc-ansible` repository](https://github.com/parallelvirtualcluster/pvc-ansible), and nodes are installed via a custom installer ISO generated by the [`pvc-installer` repository](https://github.com/parallelvirtualcluster/pvc-installer). Once the cluster is set up, nodes can be added, replaced, updated, or reconfigured using this Ansible framework.
-
-Details about the Ansible setup and node installer can be found in those repositories.
-
-The [getting started documentation](/getting-started) provides a walk-through of using these tools to bootstrap a new cluster.
-
 ## Frequently Asked Questions
 
 ### General Questions
