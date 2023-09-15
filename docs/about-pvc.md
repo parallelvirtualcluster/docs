@@ -20,43 +20,41 @@ At the high-end, very large projects like OpenStack and CloudStack provide very 
 
 Finally, proprietary solutions dominate this space. VMWare and Nutanix are the two largest names, with these products providing functionality for both small and large clusters, but proprietary software limits both flexibility and freedom, and the costs associated with these solutions is immense.
 
-PVC aims to bridge the gaps between these categories. Like the larger FLOSS and proprietary projects, PVC can scale up to very large cluster sizes, while remaining usable even for small clusters as well. Like the smaller FLOSS and proprietary projects, PVC aims to be very simple to use, with a fully programmable API, allowing administrators to get on with more important things. Like the other FLOSS solutions, PVC is free, both as in beer and as in speech, allowing the administrator to inspect, modify, and tailor it to their needs. And finally, PVC is built from the ground-up to support host-level redundancy at every layer, rather than this being an expensive, optional, or tacked on feature, using standard, well-tested and well-supported components.
+PVC aims to bridge the gaps between these 3 categories. Like the larger FLOSS and proprietary projects, PVC can scale up to very large cluster sizes, while remaining easily usable for small clusters as well. Like the smaller FLOSS and proprietary projects, PVC aims to be very simple to use, with a consistent CLI interface and a fully programmable API, allowing administrators to easily manage the cluster and then get on with more important things. Like the other FLOSS solutions, PVC is Free Software, free both as in beer and as in speech, allowing the administrator to inspect, modify, and tailor it to their needs. Finally, PVC is built from the ground-up to support host-level redundancy at every layer, rather than this being an expensive, optional, or tacked on feature, using standard, well-tested and well-supported components.
 
 In short, it is a Free Software, scalable, redundant, self-healing, and self-managing private cloud solution designed with administrator simplicity in mind. 
 
 ## Building Blocks
 
-PVC is build from a number of other, open source components. The main system itself is a series of software daemons (services) written in Python 3, with the CLI interface also written in Python 3.
+PVC itself is a series of software daemons (services) written in Python 3, with the CLI interface also written in Python 3, designed to glue other FLOSS tools together in order to provide a consistent cluster.
 
-Virtual machines themselves are run with the Linux KVM subsystem via the Libvirt virtual machine management library. This provides the maximum flexibility and compatibility for running various guest operating systems in multiple modes (fully-virtualized, para-virtualized, virtio-enabled, etc.).
+Virtual Machines (VMs) on PVC are run with the Linux KVM subsystem via the Libvirt virtual machine management library. This provides the maximum flexibility and compatibility for running various guest operating systems in multiple modes (fully-virtualized, para-virtualized, virtio-enabled, etc.).
 
 To manage cluster state, PVC uses Zookeeper. This is an Apache project designed to provide a highly-available and always-consistent key-value database. The various daemons all connect to the distributed Zookeeper database to both obtain details about cluster state, and to manage that state. For instance the node daemon watches Zookeeper for information on what VMs to run, networks to create, etc., while the API writes to or reads information from Zookeeper in response to requests. The Zookeeper database is the glue which holds the cluster together.
 
-Additional relational database functionality, specifically for the managed network DNS aggregation subsystem and the VM provisioner, is provided by the PostgreSQL database system and the Patroni management tool, which provides automatic clustering and failover for PostgreSQL database instances.
+Additional relational database functionality, specifically for the VM provisioner and (optional) managed network DNS aggregation subsystem, is provided by the PostgreSQL database system and the Patroni management tool, which provides automatic clustering and failover for PostgreSQL database instances, itself leveraging Zookeeper.
 
-Node network routing for managed networks providing EBGP VXLAN and route-learning is provided by FRRouting, a descendant project of Quaaga and GNU Zebra. Upstream routers can use this interface to learn routes to cluster networks as well. PVC also makes extensive use of the standard Linux `iprouting` stack.
+Node network routing for EBGP VXLAN managed networks and route-learning is provided by FRRouting, a descendant project of Quaaga and GNU Zebra. Upstream routers can use this interface to learn routes to cluster networks as well. PVC also makes extensive use of the standard Linux `iprouting` stack, with VMs connected to each other and to physical interfaces via software bridging, VXLANs (managed networks) and vLANs (bridged networks).
 
-The storage subsystem is provided by Ceph, a distributed object-based storage subsystem with proven stability, extensive scalability, self-managing, and self-healing functionality. The Ceph RBD (RADOS Block Device) subsystem is used to provide VM block devices similar to traditional LVM or ZFS zvols, but in a distributed, shared-storage manner.
+The storage subsystem for PVC is provided by Ceph, a distributed object-based storage subsystem with proven stability, extensive scalability, self-managing, and self-healing functionality. The Ceph RBD (RADOS Block Device) subsystem is used to provide VM block devices similar to traditional LVM or ZFS zvols, but in a distributed, shared-storage manner, leveraging the Libvirt/KVM direct RBD interface.
 
-All the components are designed to be run on top of Debian GNU/Linux with the SystemD system service manager; several versions of Debian are supported, including 10.x "Buster", 11.x "Bullseye", and 12.x "Bookworm". This OS provides a stable base to run the various other subsystems while remaining truly Free Software, while SystemD provides functionality such as automatic daemon restarting and complex startup/shutdown ordering.
+All components of PVC are designed to be run on top of Debian GNU/Linux with the SystemD system service manager; several versions of Debian are supported, including 10.x "Buster", 11.x "Bullseye", and 12.x "Bookworm". This OS provides a stable base to run the various other subsystems while remaining truly Free Software, while SystemD provides functionality such as automatic daemon restarting and complex startup/shutdown ordering. New Debian releases occur every 2-3 years, and PVC is updated regularly to add compatibility for new versions.
 
 ## Frequently Asked Questions
 
-### General Questions
+#### What is PVC?
 
-#### What is it?
-
-PVC is a virtual machine management suite designed around high-availability and ease-of-use. It can be considered an alternative to OpenStack, ProxMox, Nutanix, and other similar solutions that manage not just the VMs, but the surrounding infrastructure as well.
+In short, it is a Free Software, scalable, redundant, self-healing, and self-managing private cloud solution designed with administrator simplicity in mind. In order words, it is a virtual machine management tool or "private cloud" system designed around high-availability and ease-of-use. It can be considered an alternative to OpenStack, ProxMox, Nutanix, and other similar solutions that manage not just the VMs, but the surrounding infrastructure as well.
 
 #### Why would you make this?
 
-After becoming frustrated by numerous other management tools, I discovered that what I wanted didn't exist as FLOSS software, so I built it myself. Since then, I have also been able to leverage PVC both for my own purposes as well as for my employer, a win-win for the project.
+After becoming frustrated by numerous other tools such as ProxMox and Pacemaker/Corosync for VM management, I discovered that what I wanted didn't really exist as FLOSS software, so I decided to build it myself. Since then, I have also been able to leverage PVC both for my own purposes as well as for my employer, a win-win for the project. While other competetors have since emerged, I believe PVC best suits my own needs and can be useful for others too.
 
 #### Is PVC right for me?
 
 PVC might be right for you if:
 
-1. You need KVM-based VMs.
+1. You primarily use Virtual Machines (VMs) and a simple management layer for them.
 2. You want management of storage and networking (a.k.a. "batteries-included") in the same tool.
 3. You want hypervisor-level redundancy, able to tolerate hypervisor downtime seamlessly, for all elements of the stack.
 4. You have a requirement of at least 3 nodes' worth of compute and storage.
@@ -67,7 +65,7 @@ If all you want is a simple home server solution, or you demand scalability beyo
 
 For a redundant cluster, yes. PVC requires a majority quorum for proper operation at various levels, and the smallest possible majority quorum is 2-of-3; thus 3 nodes is the smallest safe minimum. That said, you can run PVC on a single node for testing/lab purposes without host-level redundancy, should you wish to do so, and it might also be possible to run 2 "main" systems with a 3rd "quorum observer" hosting only the management tools but no VMs; however these options are not officially supported, as PVC is designed primarily for 3+ node operation.
 
-### Feature Questions
+For more details, see the [Cluster Architecture page](/deployment/cluster-architecture).
 
 #### Does PVC support containers (Docker/Kubernetes/LXC/etc.)?
 
@@ -75,31 +73,23 @@ No, not directly. PVC supports only KVM VMs. To run containers, you would need t
 
 #### Does PVC have a WebUI?
 
-Not yet. Right now, PVC management is done exclusively with the CLI interface to the API. A WebUI can and likely will be built in the future, but I'm not a frontend developer and I do not consider this a personal priority. As of late 2020 the API is generally stable, so I would welcome 3rd party assistance here.
-
-#### I want feature X, does it fit with PVC?
-
-That depends on the specific feature. I will limit features to those that align with the overall goals of PVC, that is to say, to provide an easy-to-use hyperconverged virtualization system focused on redundancy. If a feature suits this goal it is likely to be considered; if it does not, it will not. PVC is rapidly approaching the completion of its 1.0 road-map, which I consider feature-complete for the primary use-case, and future versions may expand in scope.
-
-### Storage Questions
-
-#### Can I use RAID-5/RAID-6 with PVC?
-
-The short answer is no. The long answer is: Ceph, the storage backend used by PVC, does support "erasure coded" pools which implement a RAID-5-like (striped with distributed parity) functionality, but PVC does not support this for several reasons, mostly related to ease of management and performance. If you use PVC, you must accept at the very least a 2x storage penalty, and for true multi-node safety and resiliency, a 3x storage penalty for VM storage. This is a trade-off of the architecture and should be taken into account when sizing storage in nodes.
+Not right now. Currently PVC management is done exclusively with the CLI interface to the API. A WebUI can and likely will be built in the future, but I'm not a frontend developer and I do not consider this a personal priority. As of late 2022 the API is generally stable, so I would welcome 3rd party assistance here.
 
 #### Can I use spinning HDDs with PVC?
 
-You can, but you won't like the results. SSDs, and specifically datacentre-grade SSDs for resiliency, are required to obtain any sort of reasonable performance when running multiple VMs. The higher-performance the drives, the faster the storage.
+No. Spinning disks are far too slow to use with PVC, either as system disks or as VM data disks. This has been tested, and the performance impact is so significant that it cannot be recommended under any circumstances, even for testing/development purposes. SSDs are an absolute requirement.
 
-#### What network speed does PVC require?
+#### Can I use RAID-5/RAID-6 with PVC?
 
-For optimal performance, nodes should use at least 10-Gigabit Ethernet network interfaces wherever possible, and on large clusters a dedicated 10-Gigabit "storage" network, separate from the "upstream"/"cluster" networks, is strongly recommended. The storage system performance, especially for writes, is more heavily bottlenecked by the network speed than the actual storage device speed when speaking of high-performance disks. 1-Gigabit Ethernet will be sufficient for some use-cases and is sufficient for the non-storage networks (VM traffic notwithstanding), but storage performance will become severely limited as the cluster grows. Even slower network speeds (e.g. 100-Megabit) are not sufficient for PVC to operate properly except in very limited testing scenarios.
+No. Ceph, the storage backend used by PVC, does support "erasure coded" pools which implement a RAID-5-like (striped with distributed parity) functionality, but PVC does not support this for several reasons: EC pools with less than 5-7 nodes are unreliable and prone to failure, EC causes a major performance penalty around random I/Os, and implementing EC is very complex, beyond what is desired in PVC. If you use PVC with the in-built storage subsystem, you must accept a 3x storage penalty for VM storage to provide proper redundancy and resiliency; this is a trade-off of the architecture and should be taken into account when sizing storage in nodes.
 
-#### What Ceph version does PVC use?
+#### What networking does PVC require?
 
-PVC requires Ceph 14.x (Nautilus). The official PVC repository at https://repo.bonifacelabs.ca includes Ceph 14.2.x for Debian Buster (updated regularly), since by default it only includes 12.x (Luminous).
+10GbE is the recommended minimum for running a production-grade PVC cluster. 1GbE is sufficient for testing, but will severely bottleneck storage performance, and thus is not recommended in production. Anything less than 1GbE will not operate correctly and the storage cluster will fail to form quorum.
+
+PVC makes extensive use of vLANs, so a vLAN-aware (layer 2 managed) switch is critical for a PVC cluster. In addition, LACP (802.3ad) bonding (between one or two switches) is strongly recommended for additional network-layer redundancy.
 
 ## About The Author
 
-PVC is written by [Joshua](https://www.boniface.me) [M.](https://bonifacelabs.ca) [Boniface](https://github.com/joshuaboniface). A Linux system administrator by trade, Joshua is always looking for the best solutions to his user's problems, be they developers or end users. PVC grew out of his frustration with the various FOSS virtualization tools, as well as and specifically, the constant failures of Pacemaker/Corosync to gracefully manage a virtualization cluster. He started work on PVC at the end of May 2018 as a simple alternative to a Corosync/Pacemaker-managed virtualization cluster, and has been growing the feature set and stability of the system ever since.
+PVC is written by [Joshua](https://www.boniface.me) [M.](https://bonifacelabs.ca) [Boniface](https://github.com/joshuaboniface). A Linux system administrator by trade, Joshua is always looking for the best solutions to his user's problems, be they developers or end users. PVC grew out of his frustration with the various FLOSS virtualization tools, specifically his (poor) opinion of the design of ProxMox and the constant failures of Pacemaker/Corosync to gracefully manage a virtualization cluster. He started work on PVC in May 2018 as an alternative, and has been growing the feature set and stability of the system ever since.
 
