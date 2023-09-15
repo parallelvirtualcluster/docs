@@ -38,7 +38,7 @@ Node network routing for managed networks providing EBGP VXLAN and route-learnin
 
 The storage subsystem is provided by Ceph, a distributed object-based storage subsystem with proven stability, extensive scalability, self-managing, and self-healing functionality. The Ceph RBD (RADOS Block Device) subsystem is used to provide VM block devices similar to traditional LVM or ZFS zvols, but in a distributed, shared-storage manner.
 
-All the components are designed to be run on top of Debian GNU/Linux, specifically Debian 10.x "Buster" or 11.x "Bullseye", with the SystemD system service manager. This OS provides a stable base to run the various other subsystems while remaining truly Free Software, while SystemD provides functionality such as automatic daemon restarting and complex startup/shutdown ordering.
+All the components are designed to be run on top of Debian GNU/Linux with the SystemD system service manager; several versions of Debian are supported, including 10.x "Buster", 11.x "Bullseye", and 12.x "Bookworm". This OS provides a stable base to run the various other subsystems while remaining truly Free Software, while SystemD provides functionality such as automatic daemon restarting and complex startup/shutdown ordering.
 
 ## Frequently Asked Questions
 
