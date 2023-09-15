@@ -3,6 +3,7 @@ site_name: Parallel Virtual Cluster documentation
 theme:
   name: readthedocs
   titles_only: yes
+  logo: "images/pvc_logo_black.png"
 markdown_extensions:
   - toc:
       permalink: yes
