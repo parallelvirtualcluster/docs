@@ -1,6 +1,6 @@
 site_name: Parallel Virtual Cluster documentation
 theme:
-  name: readthedocs
+  name: material
   titles_only: yes
 markdown_extensions:
   - toc:
