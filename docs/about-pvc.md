@@ -1,7 +1,3 @@
----
-title: About PVC
----
-
 # About PVC
 
 - [About the Parallel Virtual Cluster system](#about-the-parallel-virtual-cluster-system)
