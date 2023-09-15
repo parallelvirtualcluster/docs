@@ -4,8 +4,6 @@ title: "About PVC"
 
 [TOC]
 
-This document contains information about the project itself, the software stack, its motivations, and a number of frequently-asked questions.
-
 ## Project Motivation
 
 Server administration has changed significantly in recent decades. Computing-as-a-resource and software-defined infrastructure is now the norm, and the days of pet servers, painstaking manual configurations, and installing from CR-ROM ISOs is long gone. This is a brave new world.
