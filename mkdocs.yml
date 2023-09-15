@@ -1,9 +1,8 @@
 site_name: Parallel Virtual Cluster documentation
 theme:
-  name: material
+  name: mkdocs
   titles_only: yes
 markdown_extensions:
   - toc:
       permalink: yes
       toc_depth: '1-4'
-
