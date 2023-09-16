@@ -30,7 +30,7 @@ All aforementioned server vendors support some form of IPMI Lights-out Managemen
 
 * It is **recommended** for a redundant, production PVC node to feature IPMI Lights-out Management, on a dedicated Ethernet port, with support for IPMI-over-LAN functionality, reachable from or in the [cluster "upstream" network](/deployment/cluster-architecture/#upstream).
 
-This feature is not strictly required, however it is required for the [PVC fencing system](/deployment/fencing-georedundancy) to function properly, which is required for auto-recovery from node failures. PVC will detect the lack of a reachable IPMI interface at startup and disable fencing and auto-recovery in such a case.
+This feature is not strictly required, however it is required for the [PVC fencing system](/deployment/fencing-and-georedundancy) to function properly, which is required for auto-recovery from node failures. PVC will detect the lack of a reachable IPMI interface at startup and disable fencing and auto-recovery in such a case.
 
 ## CPU
 
