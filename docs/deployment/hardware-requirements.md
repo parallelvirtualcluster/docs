@@ -127,7 +127,7 @@ In addition, unlike CPU cores, Memory is not easily over-provisioned. While a PV
 
 SSDs are critically important for the proper operation of a PVC node's system disks. The system performs a very large number of writes to its system disks, and requires speedy random I/Os both in reads and writes to function correctly. Spinning hard drives or slow flash (e.g. SD cards or USB flash drives) are **not** usable and should not be considered; SATA-DOMs can be sufficient if performant enough.
 
-In addition, power loss protection (PLP) and large drive write endurance - normally collectively covered under the label of "datacenter-grade" - are important to avoid potential data loss during power events and premature failure of disks, especially given Ceph's replication resulting in write amplification. For write endurance, a rating of 1 Drive Write Per Day (DWPD) is usually sufficient.
+In addition, power loss protection (PLP) and large drive write endurance - normally collectively covered under the label of "datacenter-grade" - are important to avoid potential data loss during power events and premature failure of disks. For write endurance, a rating of 1 Drive Write Per Day (DWPD) is usually sufficient.
 
 * The **minimum** system disk type for a functional PVC node is SATA SSDs or SATA-DOMs.
 
