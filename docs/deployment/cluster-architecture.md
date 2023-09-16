@@ -4,6 +4,8 @@ title: Cluster Architecture
 
 [TOC]
 
+This document details the general architecture of a PVC cluster, including its main components, how the interoperate, how nodes are laid out, and the networks required by a cluster. This document must be read and understood to properly administrate a PVC cluster.
+
 ## Operating System
 
 PVC is designed to run on top of Debian GNU/Linux, of any version since Debian 10.x "Buster". This is the operating system installed by the [PVC Node installer](https://github.com/parallelvirtualcluster/pvc-installer) and expected by the [PVC Ansible deployment playbooks](https://github.com/parallelvirtualcluster/pvc-ansible). No other operating systems, including derivatives of Debian, are supported by PVC.
