@@ -26,7 +26,7 @@ PVC uses several terms throughout that are important to define.
 
 * OSD: PVC clusters allocate storage for virtual machines from a set of special disks called "OSDs"; this term is borrowed from the terminology of the underlying Ceph storage subsystem.
 
-* pool: Storage in the PVC cluser is allocated to "pools", which reside on a set of OSDs using a given replication profile.
+* pool: Storage in the PVC cluster is allocated to "pools", which reside on a set of OSDs using a given replication profile.
 
 * volume: Individual storage "volumes" for VMs are allocated to storage pools.
 
@@ -56,7 +56,7 @@ Coordinators are nodes which contain the various databases and core daemons whic
 
 Coordinators are decided at deploy time, and the number of coordinators as well as their network addresses cannot be changed at runtime without extensive downtime and reconfiguration. Thus extreme care must be taken to choose the optimal coordinator configuration and network layout when deploying the cluster.
 
-A normal cluster will contain either 3 or 5 coordinators, depending on its size. For clusters of between 3 and 12 nodes, 3 coordinators is generally sufficient; for larger clusters, 5 coordinators may provide additional resiliency as two (2) could then be brought down for maintnance instead of just one (1) while still retaining quorum.
+A normal cluster will contain either 3 or 5 coordinators, depending on its size. For clusters of between 3 and 12 nodes, 3 coordinators is generally sufficient; for larger clusters, 5 coordinators may provide additional resiliency as two (2) could then be brought down for maintenance instead of just one (1) while still retaining quorum.
 
 ### Primary Coordinator
 
@@ -70,7 +70,7 @@ The primary coordinator transitions between coordinators via a lockstep migratio
 
 Any PVC node that is not a coordinator is a hypervisor. Hypervisors do not run any of the indicated services, and are used exclusively for VM compute and, optionally, OSD storage disks.
 
-All nodes added to a cluster beyond the intiial coordinators must be added as hypervisors.
+All nodes added to a cluster beyond the initial coordinators must be added as hypervisors.
 
 ## Quorum and Node Loss
 
@@ -144,7 +144,7 @@ The "storage" network provides inter-node connectivity within the PVC cluster, f
 
 The "storage" network requires no outside routing, and is entirely local to the PVC cluster itself. A `/24` subnet of RFC1918 addresses should be used. This network should use the largest possible MTU on the underlying network hardware for optimal performance.
 
-For small clusters, a common configuration is to colocate the Storage and Cluster networks onto the same vLAN and IP space, in effect merging their functions. Note that this precludes separation of the networks onto different physical links in the future. Very high performance or large clusters should thus avoid this.
+For small clusters, a common configuration is to collocate the Storage and Cluster networks onto the same vLAN and IP space, in effect merging their functions. Note that this precludes separation of the networks onto different physical links in the future. Very high performance or large clusters should thus avoid this.
 
 ### Client Networks
 
@@ -182,13 +182,13 @@ Once one or more PFs are configured, VFs can then be created on individual nodes
 
 **NOTE:** The administrator must be careful to ensure the allocated VFs and PFs are identical between all nodes, otherwise migration of VMs between nodes can result in incorrect network assignments.
 
-Once VFs are created, they may be attached to VMs using one of the two strategies mentioned above. Each strategy has tradeoffs, so careful consideration is required:
+Once VFs are created, they may be attached to VMs using one of the two strategies mentioned above. Each strategy has trade-offs, so careful consideration is required:
 
 * `macvtap` bindings allow VMs to be live-migrated (assuming the required VF exists on the target node), but are less flexible: the vLAN of the VF must be configured in PVC and are limited to one vLAN per VF, and maximum performance can be impacted. `macvtap` is mostly useful for isolation of networks to a slightly higher degree than normal Bridged networks, rather than performance, though the hypervisor could still inspect and access traffic on the VF.
 
 * `hostdev` bindings allow the maximum flexibility inside the guest, allowing very high performance and the configuration of an arbitrary number of vLANs on the VF from within the guest, but **the VM cannot be live-migrated** between nodes and must be shut down instead. They also provide the maximum isolation possible, with the VF not being visible in any way to the hypervisor (bi-directional isolation).
 
-#### Direct Passthrough
+#### Direct Pass-through
 
-Though not explicitly managed by PVC, it is also possible to use direct PCIe passthrough mechanisms in Libvirt to pass NICs (or other devices) into a guest. These must be configured manually, and have all the same benefits and caveats as the `hostdev` SR-IOV interface mentioned above.
+Though not explicitly managed by PVC, it is also possible to use direct PCIe pass-through mechanisms in Libvirt to pass NICs (or other devices) into a guest. These must be configured manually, and have all the same benefits and caveats as the `hostdev` SR-IOV interface mentioned above.
 

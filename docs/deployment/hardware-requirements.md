@@ -8,25 +8,25 @@ Note, however, that your individual needs may be different, and thus your own re
 
 [TOC]
 
-## N-1 Redunancy
+## N-1 Redundancy
 
 This document details the recommendations for *individual* node hardware choices, however it is important to consider the entire cluster when sizing nodes.
 
-PVC is designed to operated in N-1 mode, that is, all sizing of the cluster should take into account the loss of 1 node after pooling all the available resources.
+PVC is designed to operate in "N-1" mode, that is, all sizing of the cluster should take into account the loss of 1 node after pooling all the available resources.
 
-For example, consider 3 nodes each with 16 CPU cores and 128GB of RAM. This totals 48 CPU cores and 384GB of RAM, however we should consider the N-1 number, that is 32 CPU cores and 256GB of RAM, to be the maximum usable quantity of each.
+For example, consider 3 nodes each with 16 CPU cores and 128GB of RAM. This totals 48 CPU cores and 384GB of RAM, however we should consider the N-1 number, that is 32 CPU cores and 256GB of RAM, to be the maximum usable quantity of each available across the entire cluster.
 
-Disks are even more limited. As outlined in the [Cluster Storage section of the Cluster Architecture](/deployment/cluster-architecture/#cluster-storage) documentation, a normal pool replication level for reliable redundant operation is 3 copies with 2 minimum copies. Thus, continue the above 3 node example, if each node features a 2TB data SSD, the total available N-1 storage is 2TB (as 3 x 2TB / 3 = 2TB).
+Disks are even more limited. As outlined in the [Cluster Storage section of the Cluster Architecture](/deployment/cluster-architecture/#cluster-storage) documentation, a normal pool replication level for reliable redundant operation is 3 copies with 2 minimum copies. Thus, to continue the above 3 node example, if each node features a 2TB data SSD, the total available N-1 storage is 2TB (as 3 x 2TB / 3 = 2TB).
 
 ## Hardware Vendors
 
 PVC places no limitations of the hardware vendor for nodes; any vendor that produces a system compatible with the rest of these requirements will be suitable.
 
-Some common recommended vendors, with whom the author has had good experiences, include Dell (PowerEdge line, various tiers and generations) and Cisco (UCS C-series line, M4 and M5 era specifically). The author does not recommend Hewlett-Packard ProLiant servers due to severe limitations and issues with their storage controller cards.
+Some common recommended vendors, with whom the author has had good experiences, include Dell (PowerEdge line, various tiers and generations) and Cisco (UCS C-series line, M4 and M5 era specifically). The author does not recommend Hewlett-Packard Proliant servers due to severe limitations and issues with their storage controller cards, even though they are otherwise sufficient.
 
 ### IPMI/Lights-out Management
 
-All aforementioned server vendors support some form of IPMI Lights-out Management, e.g. Dell iDRAC, Cisco CIMC, HP iLO, etc. IPMI-over-LAN. Consumer or some low-end Workstation hardware does not normally support IPMI Lights-out Management and is thus unsuitable for a production node.
+All aforementioned server vendors support some form of IPMI Lights-out Management, e.g. Dell iDRAC, Cisco CIMC, HP iLO, etc. with IPMI-over-LAN functionality. Consumer and low-end Workstation hardware does not normally support IPMI Lights-out Management and is thus unsuitable for a production node.
 
 * It is **recommended** for a redundant, production PVC node to feature IPMI Lights-out Management, on a dedicated Ethernet port, with support for IPMI-over-LAN functionality, reachable from or in the [cluster "upstream" network](/deployment/cluster-architecture/#upstream).
 
@@ -46,28 +46,28 @@ Modern CPUs are a must, as generation improvements compound and can make a major
 
 #### Intel
 
-* The **minimum** generation/era for a functional PVC node is "Nehalem/Westemere", i.e. the Xeon L/X/W-3XXX, 2009-2011.
+* The **minimum** generation/era for a functional PVC node is "Nehalem", i.e. the Xeon L/X/W-3XXX, 2009-2011.
 
-* The **recommended** generation/era for a production PVC node is "Haswell/Broadwell", i.e. the Xeon E5-2XXX V3, 2013-2015. Processors older than this will be a significant bottleneck due to the slower DDR3 memory system and lower general IPC per clock, especially affecting the storage subsystem.
+* The **recommended** generation/era for a production PVC node is "Haswell", i.e. the Xeon E5-2XXX V3, 2013-2015. Processors older than this will be a significant bottleneck due to the slower DDR3 memory system and lower general IPC per clock, especially affecting the storage subsystem.
 
 #### AMD
 
-* The **minimum** generation/era for a functional PVC node is "Epyc Naples", i.e. the EPYC 7XX1, 2017. Older AMD processors perform significantly worse than their Intel counterparts of similar vintage and should be avoided completely.
+* The **minimum** generation/era for a functional PVC node is "Naples", i.e. the EPYC 7XX1, 2017. Older AMD processors perform significantly worse than their Intel counterparts of similar vintage and should be avoided completely.
 
-* The **recommended** generation/era for a production PVC node is "Epyc Rome", i.e. the EPYC 7XX2, 2019. The first-generation "Naples" processors feature strange NUMA limitations that can negatively affect performance, which the second-generation "Rome" processors corrected.
+* The **recommended** generation/era for a production PVC node is "Rome", i.e. the EPYC 7XX2, 2019. The first-generation "Naples" processors feature strange NUMA limitations that can negatively affect performance, which the second-generation "Rome" processors corrected.
 
 ### Cores (+ Single/Multi-processor, SMT/Hyperthreading)
 
-PVC requires a non-trivial number of CPU cores for its internal workload in addition to any VMs that it might run. A normal system should allocate 2 CPU cores for the core system, plus an additional 2 cores for every SATA/SAS OSD or 4 cores for every NVMe OSD.
+PVC requires a non-trivial number of CPU cores for its internal workload in addition to any VMs that it might run. A normal system should allocate 2 CPU cores for the core system, plus an additional 2 cores for every SATA/SAS OSD or 4 cores for every NVMe OSD for optimal storage performance.
 
-CPU cores can be significantly overprovisioned, with a 3-1 or even 4-1 ration being acceptable for most workloads; heavily CPU-dependent workloads might lower this calculation, so consider your VM workload carefully. Generally speaking however as long as you have enough cores to cover the system plus the *maximum* number of vCPUs a single VM will be allocated, with a few to spare, this should be sufficient.
+CPU cores can be significantly over-provisioned, with a 3-1 or even 4-1 ratio being acceptable for most workloads; heavily CPU-dependent workloads might lower this calculation, so consider your VM workload carefully. Generally speaking however as long as you have enough cores to cover the system plus the *maximum* number of vCPUs a single VM will be allocated, with a few to spare, this should be sufficient.
 
 * The **minimum** number of CPU cores for a functional PVC node should be 8 CPU cores; any lower and even very light storage and VM workloads will be affected negatively by CPU contention.
 
 * The **recommended** number of CPU cores for a production PVC node can be given by:
 
 ```
-2 + ( [# SATA/SAS OSDs] * 2 ) + ( [# NVMe OSDs] * 4 ) + [# vCPUs of largest expected VM] + 2, round to the nearest CPU core count
+2 + ( [# SATA/SAS OSDs] * 2 ) + ( [# NVMe OSDs] * 4 ) + [# vCPUs of largest expected VM] + 2, round up to the nearest CPU core count
 ```
 
 
@@ -87,15 +87,15 @@ Which to select will depend on the available options from the server vendor you 
 
 SMT/Hyperthreading, the ability of a single CPU core to present itself as 2 (or more) virtual CPU cores, should be considered a **bonus only** and not included in any of the above calculations. Thus, in the above example, two 6-core processors with SMT are *not* a substitute for two 12-core processors. 
 
-Recent CPU vulnerabilities have resulted in recommendations to disable SMT on some processors. If this is required by your security practices, this should be done.
+Recent CPU vulnerabilities have resulted in recommendations to disable SMT on some processors. If this is required by your security practices (e.g. if you will run untrusted guest VMs), this should be done.
 
 ### Clock Speed
 
-Several aspects of the storage cluster are limited by core clock, such that the fastest possible CPU clock is **recommended** within a given core- and power- target.
+Several aspects of the storage cluster are limited by core clock, such that the fastest possible CPU clock is **recommended** within a given generation and core or power target.
 
 * The **minimum** CPU clock speed for a functional PVC node depends on the generation (as newer CPUs perform more calculations at the same clock), but usually anything lower than 2.0GHz will result in substandard performance.
 
-* The **recommended** minimum CPU clock speed for a production PVC node dependson the generation, but should be as fast as possible given the system power constraints and core count.
+* The **recommended** minimum CPU clock speed for a production PVC node depends on the generation, but should be as fast as possible given the system power constraints and core count.
 
 ## Memory
 
@@ -109,16 +109,16 @@ Since RAM generation speed is governed by the chosen CPUs, the following mirror 
 
 ### Quantity
 
-Like CPU cores, PVC requires a non-trivial amount of RAM for its internal workload in addition to any VMS that it might run. A normal system should allocate at least 8GB for the core system, plus an additional 4GB for every OSD.
+Like CPU cores, PVC requires a non-trivial amount of RAM for its internal workload in addition to any VMs that it might run. A normal system should allocate at least 8GB for the core system, plus an additional 4GB for every OSD.
 
-In addition, unlike CPU cores, Memory is not easily overprovisioned. While a PVC node will only use an amount of memory equal to the amount actually used inside the VM, the amount allocated to each VM is used when considering the state of the cluster, since the usage inside VMs can change randomly. Thus, carefully consider your VM workload.
+In addition, unlike CPU cores, Memory is not easily over-provisioned. While a PVC node will only use an amount of memory equal to the amount actually used inside the VM, the amount allocated to each VM is used when considering the state of the cluster, since the usage inside VMs can change randomly. Thus, carefully consider your VM workload.
 
 * The **minimum** amount of RAM for a functional PVC node should be 32 GB; any lower and RAM contention might become a major issue even with a relatively light VM workload.
 
 * The **recommended** amount of RAM for a production PVC node can be given by:
 
 ```
-8 + ( [# OSDs] * 4 ) + ( [# VMs] * [Avg # RAM/VM] ), round to the nearest power of 2
+8 + ( [# OSDs] * 4 ) + ( [# VMs] * [Avg # RAM/VM] ), round up to the nearest common RAM quantity
 ```
 
 ## System Disks
@@ -153,7 +153,7 @@ The PVC system disks should be deployed in mirrored mode, via an internal RAID c
 
 ### Type
 
-Data disks underly the Ceph OSDs which provide VM storage for the cluster. They should be as fast as possible to optimize the storage performance of VMs.
+Data disks underlay the Ceph OSDs which provide VM storage for the cluster. They should be as fast as possible to optimize the storage performance of VMs.
 
 In addition, power loss protection (PLP) and large drive write endurance - normally collectively covered under the label of "datacenter-grade" - are important to avoid potential data loss during power events and premature failure of disks, especially given Ceph's replication resulting in write amplification. For write endurance, a rating of 1 Drive Write Per Day (DWPD) is usually sufficient.
 
@@ -163,17 +163,17 @@ In addition, power loss protection (PLP) and large drive write endurance - norma
 
 ### Size
 
-Data disks should be as large as possible for the storage expected by VMs, plus overhead of approximately 30% (i.e. the cluster should ideally never excede 70% full).
+Data disks should be as large as possible for the storage expected by VMs, plus overhead of approximately 30% (i.e. the cluster should ideally never exceed 70% full).
 
 Since this sizing is based entirely on VM requirements, no minimum or recommended values can reasonably be given.
 
-### Quantity/Redundancy:
+### Quantity/Redundancy
 
-Data disks in the PVC system **must** be added in groupings equal to the pool replication level, across the same number of nodes. For example, in a 3 node cluster, 3 disks, of identical sizes, must be added at the same time.
+Data disks in the PVC system **must** be added in groupings equal to the pool replication level, across the same number of nodes. For example, in a 3 node cluster, 3 disks, of identical sizes, must be added at the same time, 1 to each of the 3 nodes. Large node counts require more careful calculation of the replication split, though 1-disk-per-node expansion across all nodes is generally recommended.
 
-Data disk reundancy is provided by the Ceph pool replication across nodes, and thus, data disks **should**, if at all possible, be passed **directly** into the system without any intervening RAID or other layers. If this is not possible (e.g. on HP SmartArray controllers), disks should be allocated as single-disk RAID-0 volumes in the storage controller.
+Data disk redundancy is provided by the Ceph pool replication across nodes, and thus, data disks **should**, if at all possible, be passed **directly** into the system without any intervening RAID or other layers. If this is not possible (e.g. on HP SmartArray controllers), disks should be allocated as single-disk RAID-0 volumes in the storage controller.
 
-The number of data disks, as mentioned above in the CPU section, directly affects the number of recommended CPU cores, as each disk adds additional computational intensity. It is **recommended** to use fewer, larger disks over more, smaller disks as much as possible. For example, 1 4TB disk would generally be preferable to 4 1TB disks, as it would reduce the CPU overhead by as much as 75%, though this is a trade-off with reliability.
+The number of data disks, as mentioned above in the CPU section, directly affects the number of recommended CPU cores, as each disk adds additional computation. It is **recommended** to use fewer, larger disks over more, smaller disks as much as possible. For example, 1 4TB disk would generally be preferable to 4 1TB disks, as it would reduce the CPU overhead by as much as 75%, though this is a trade-off with reliability, as a single large disk would affect more data when failing than a smaller disk.
 
 ## Networking
 
@@ -207,7 +207,7 @@ As detailed above, LACP (802.3ad) link aggregation is **recommended** for networ
 
 ### vLANs
 
-An optimal PVC deployment extensive use of virtual LANs (vLANs), both for the core networks and to provide bridged client networks. While it is possible to assemble a cluster using only dedicated links, this is highly unusual and it is thus **recommended** to use switches that feature vLAN support.
+An optimal PVC deployment will make extensive use of virtual LANs (vLANs), both for the core networks and to provide bridged client networks. While it is possible to assemble a cluster using only dedicated links, this is highly unusual and it is thus **recommended** to use switches that feature vLAN support.
 
 ### Multiple Switches
 
@@ -229,7 +229,7 @@ Redundant power supplies will ensure that even if a power supply or power feed f
 
 ### Power Feeds
 
-For true power redundancy, **at least 2** power feeds should be used, with a pair of power connections to each node on two different power supplies. This ensures that even in the event of a power failure or maintenance, the cluster remains available.
+For true power redundancy, **at least 2** power feeds should be used, with a pair of power connections, one from each feed to a different power supply on each node. This ensures that even in the event of a power failure or maintenance, the cluster remains available.
 
 ## Other
 
