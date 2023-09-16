@@ -2,9 +2,9 @@
 title: Cluster Architecture
 ---
 
-[TOC]
-
 This document details the general architecture of a PVC cluster, including its main components, how the interoperate, how nodes are laid out, and the networks required by a cluster. This document must be read and understood to properly administrate a PVC cluster.
+
+[TOC]
 
 ## Operating System
 

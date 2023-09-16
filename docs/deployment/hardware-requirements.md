@@ -2,11 +2,11 @@
 title: Hardware Requirements
 ---
 
-[TOC]
-
 PVC has relatively stringent restrictions on the hardware it can run on, in order to provide an optimal experience and production-grade performance, redundancy, and security. This document outlines the **minimum** and **recommended** hardware specifications, of each major device class, for running a production-grade PVC cluster.
 
 Note, however, that your individual needs may be different, and thus your own recommended minimum requirements may be higher, even significantly higher, than those outlined here. One of PVC's benefits is the ability to seamlessly take nodes offline for maintenance, so upgrading hardware in the future is a fairly trivial task, but ensuring you get the right performance from the beginning can be critical to the success of a cluster deployment project.
+
+[TOC]
 
 ## N-1 Redunancy
 

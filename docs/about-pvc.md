@@ -2,6 +2,8 @@
 title: "About PVC"
 ---
 
+This document outlines the basic ideas and inspiration behind PVC as well as some frequently asked questions.
+
 [TOC]
 
 ## Project Motivation
