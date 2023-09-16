@@ -221,7 +221,7 @@ PVC will work equally well regardless of power type (A/C vs D/C, various voltage
 
 ### Power Supplies
 
-Redundant power supplies will ensure that even if a power supply or power feed fails, the PVC node will continue to function. Note that PVC features a monitoring plugin which can alert to degraded degraded power redundancy from most IPMI-capable vendors.
+Redundant power supplies will ensure that even if a power supply or power feed fails, the PVC node will continue to function. Note that PVC features a monitoring plugin which can alert to degraded power redundancy from most IPMI-capable vendors.
 
 * The **minimum** number of power supplies for a functional PVC node is, of course, 1.
 
