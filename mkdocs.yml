@@ -14,7 +14,8 @@ nav:
   - 'Deployment':
     - 'Cluster Architecture': 'deployment/cluster-architecture.md'
     - 'Hardware Requirements': 'deployment/hardware-requirements.md'
-    - 'Fencing & Georedundancy': 'deployment/fencing-and-georedundancy.md'
+    - 'Fencing': 'deployment/fencing.md'
+    - 'Georedundancy': 'deployment/georedundancy.md'
     - 'Getting Started Guide': 'deployment/getting-started.md'
   - 'Manuals':
     - 'PVC CLI': 'manuals/cli.md'
