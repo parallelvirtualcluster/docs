@@ -18,7 +18,7 @@ Fencing can be temporarily disabled by setting the cluster maintenance mode to `
 
 You can view a demonstration of the fencing process in action here:
 
-[![Fencing Demonstration](https://youtu.be/ZnhJ91-5y1Q)](https://youtu.be/ZnhJ91-5y1Q)
+[![Fencing Demonstration](https://img.youtube.com/vi/ZnhJ91-5y1Q/hqdefault.jpg)](https://youtu.be/ZnhJ91-5y1Q)
 
 ## IPMI Configuration
 
