@@ -65,7 +65,7 @@ If all you want is a simple home server solution, or you demand scalability beyo
 
 For a redundant cluster, yes. PVC requires a majority quorum for proper operation at various levels, and the smallest possible majority quorum is 2-of-3; thus 3 nodes is the smallest safe minimum. That said, you can run PVC on a single node for testing/lab purposes without host-level redundancy, should you wish to do so, and it might also be possible to run 2 "main" systems with a 3rd "quorum observer" hosting only the management tools but no VMs; however these options are not officially supported, as PVC is designed primarily for 3+ node operation.
 
-For more details, see the [Cluster Architecture page](/architecture/cluster-architecture).
+For more details, see the [Cluster Architecture page](/architecture/cluster-architecture.md).
 
 #### Does PVC support containers (Docker/Kubernetes/LXC/etc.)?
 

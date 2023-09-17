@@ -22,7 +22,7 @@ Installation of PVC is accomplished by two main components: a [Node installer IS
 
 Just give it physical servers, and it will run your VMs without you having to think about it, all in just an hour or two of setup time.
 
-For more details on the project motivation, please see the [About](/about/) page.
+For more details on the project motivation, please see the [About](/about.md) page.
 
 ## What is it based on?
 
@@ -38,7 +38,7 @@ The core node and API daemons, as well as the CLI API client, are written in Pyt
 
 ## Getting Started
 
-To get started with PVC, read over the [Cluster Architecture](/architecture/cluster-architecture/) pages then see the [Getting Started](/deployment/getting-started/) guide for details on configuring your first cluster.
+To get started with PVC, read over the [Cluster Architecture](/architecture/cluster-architecture.md) pages then see the [Getting Started](/deployment/getting-started.md) guide for details on configuring your first cluster.
 
 
 ## Changelog

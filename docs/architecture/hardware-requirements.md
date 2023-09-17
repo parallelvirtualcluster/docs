@@ -16,7 +16,7 @@ PVC is designed to operate in "N-1" mode, that is, all sizing of the cluster sho
 
 For example, consider 3 nodes each with 16 CPU cores and 128GB of RAM. This totals 48 CPU cores and 384GB of RAM, however we should consider the N-1 number, that is 32 CPU cores and 256GB of RAM, to be the maximum usable quantity of each available across the entire cluster.
 
-Disks are even more limited. As outlined in the [Cluster Storage section of the Cluster Architecture](/architecture/cluster-architecture/#cluster-storage) documentation, a normal pool replication level for reliable redundant operation is 3 copies with 2 minimum copies. Thus, to continue the above 3 node example, if each node features a 2TB data SSD, the total available N-1 storage is 2TB (as 3 x 2TB / 3 = 2TB).
+Disks are even more limited. As outlined in the [Cluster Storage section of the Cluster Architecture](/architecture/cluster-architecture.md#cluster-storage) documentation, a normal pool replication level for reliable redundant operation is 3 copies with 2 minimum copies. Thus, to continue the above 3 node example, if each node features a 2TB data SSD, the total available N-1 storage is 2TB (as 3 x 2TB / 3 = 2TB).
 
 ## Hardware Vendors
 
@@ -28,9 +28,9 @@ Some common recommended vendors, with whom the author has had good experiences, 
 
 All aforementioned server vendors support some form of IPMI Lights-out Management, e.g. Dell iDRAC, Cisco CIMC, HP iLO, etc. with IPMI-over-LAN functionality. Consumer and low-end Workstation hardware does not normally support IPMI Lights-out Management and is thus unsuitable for a production node.
 
-* It is **recommended** for a redundant, production PVC node to feature IPMI Lights-out Management, on a dedicated Ethernet port, with support for IPMI-over-LAN functionality, reachable from or in the [cluster "upstream" network](/architecture/cluster-architecture/#upstream).
+* It is **recommended** for a redundant, production PVC node to feature IPMI Lights-out Management, on a dedicated Ethernet port, with support for IPMI-over-LAN functionality, reachable from or in the [cluster "upstream" network](/architecture/cluster-architecture.md#upstream).
 
-This feature is not strictly required, however it is required for the [PVC fencing system](/architecture/fencing) to function properly, which is required for auto-recovery from node failures. PVC will detect the lack of a reachable IPMI interface at startup and disable fencing and auto-recovery in such a case.
+This feature is not strictly required, however it is required for the [PVC fencing system](/architecture/fencing.md) to function properly, which is required for auto-recovery from node failures. PVC will detect the lack of a reachable IPMI interface at startup and disable fencing and auto-recovery in such a case.
 
 ## CPU
 
