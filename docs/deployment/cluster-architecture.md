@@ -78,7 +78,7 @@ Many PVC daemons, as discussed below, leverage a majority quorum to function. A 
 
 This is an important consideration when deciding the number of coordinators to allocate: a 3-coordinator system can tolerate the loss of a single coordinator without impacting the cluster, but losing 2 would render the cluster inoperable; similarly, a 5-coordinator system can tolerate the loss of 2 coordinators, but losing 3 would render the cluster inoperable. In addition, these coordinators must be located in such a way that a majority can communicate in outage events, in order for the cluster to remain operational. This affects the network and physical design of a cluster and must be carefully considered during deployment; for instance, network switches and links, and power, should be redundant.
 
-For more details on this, see the [Fencing & Georedundancy](/deployment/fencing-and-georedundancy) documentation. This document also covers the node fencing process, which allows automatic recovery from a node failure in certain outage events.
+For more details on this, see the [Fencing](/deployment/fencing) and [Georedundancy](/deployment/georedundancy) documentation. The first also covers the node fencing process, which allows automatic recovery from a node failure in certain outage events.
 
 Hypervisors are not affected by the coordinator quorum: a cluster can lose any number of non-coordinator hypervisors without impacting core services, though compute resources (CPU and memory) must be available on the remaining nodes for VMs to function properly, and any OSDs on these hypervisors, if applicable, would become unavailable, potentially impacting storage availability.
 
@@ -130,7 +130,7 @@ The "upstream" network requires outbound Internet access, as it will be used to 
 
 This network, though it requires Internet access, should not be exposed directly to the Internet or to other untrusted local networks for security reasons. PVC itself makes no attempt to hinder access to nodes from within this network. At a minimum, an upstream firewall should prevent external access to this network, and only trusted hosts or on-cluster VMs should be added to it.
 
-In addition to all other functions, server IPMI interfaces should reside either directly in this network, or in a network directly reachable from this network, to provide fencing and auto-recovery functionality. For more details, see the [Fencing & Georedundancy](/deployment/fencing-and-georedundancy) documentation.
+In addition to all other functions, server IPMI interfaces should reside either directly in this network, or in a network directly reachable from this network, to provide fencing and auto-recovery functionality. For more details, see the [Fencing](/deployment/fencing) documentation.
 
 #### Cluster
 
