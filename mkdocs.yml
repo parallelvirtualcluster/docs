@@ -4,6 +4,7 @@ theme:
   name: readthedocs
   titles_only: yes
   logo: "images/pvc_logo_black_transparent.png"
+  width: "100%"
 markdown_extensions:
   - toc:
       permalink: yes
