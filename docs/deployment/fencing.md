@@ -78,17 +78,17 @@ The conditions in which a node can be successfully fenced are limited, and thus,
 
 The following table covers some common scenarios, and whether fencing and automatic recovery can be exepected to occur.
 
-| Situation | Fence Possible? | Autorecovery Possible? | Notes |
+| Situation | Fence & Autorecovery? | Notes |
 | --------- | --------------- | ---------------------- | ----- |
-| Node OS lockup (load, OOM, etc.) | ✅ | ✅ | A key design situation for the fencing system |
-| Node OS kernel panic | ✅ | ✅ | A key design situation for the fencing system |
-| Node primary network cut | ✅ | ✅ | Only affecting primary links, not IPMI (see below); a key design situation |
-| Node full network cut | ❌ | ❌ | All links are down, e.g. full network failure including IPMI |
-| Node power loss | ❌ | ❌ | Impossible to determine if this is a transient network cut or actual power loss without IPMI |
-| Node hardware failure (CPU, memory, etc.) | ✅ | ✅ | IPMI interface should remain up in these scenarios; a key design situation |
-| Node hardware failure (motherboard) | ✅ | ✅ | If IPMI is **online** after failure |
-| Node hardware failure (motherboard) | ❌ | ❌ | If IPMI is **offline** after failure |
-| Node hardware failure (full chassis) | ❌ | ❌ | Full power loss, etc. if IPMI is offline |
+| Node OS lockup (load, OOM, etc.)  ✅ | A key design situation for the fencing system |
+| Node OS kernel panic | ✅ | A key design situation for the fencing system |
+| Node primary network cut | ✅ | Only affecting primary links, not IPMI (see below); a key design situation |
+| Node full network cut | ❌ | All links are down, e.g. full network failure including IPMI |
+| Node power loss | ❌ | Impossible to determine if this is a transient network cut or actual power loss without IPMI |
+| Node hardware failure (CPU, memory, etc.) | ✅ | IPMI interface should remain up in these scenarios; a key design situation |
+| Node hardware failure (motherboard) | ✅ | If IPMI is **online** after failure |
+| Node hardware failure (motherboard) | ❌ | If IPMI is **offline** after failure |
+| Node hardware failure (full chassis) | ❌ | Full power loss, etc. if IPMI is offline |
 
 Care should be taken to understand these scenarios and which situations can be recovered from automatically, and which require manual human intervention to confirm the situation ("is the node actually physically off?") and manual recovery.
 
