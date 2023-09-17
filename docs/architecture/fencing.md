@@ -82,8 +82,8 @@ The following table covers some common scenarios, and whether fencing and automa
 | --------- | --------------------- | ----- |
 | OS lockup (load, OOM, etc.) | ✅ | A key design situation for the fencing system |
 | OS kernel panic | ✅ | A key design situation for the fencing system |
-| Primary network cut | ✅ | Only affecting primary links, not IPMI (see below); a key design situation |
-| Full network cut | ❌ | All links are down, e.g. full network failure including IPMI |
+| Primary network failure | ✅ | Only affecting primary links, not IPMI (see below); a key design situation |
+| Full network failure | ❌ | All links are down, e.g. full network failure including IPMI |
 | Power loss | ❌ | Impossible to determine if this is a transient network cut or actual power loss without IPMI |
 | Hardware failure (CPU, memory) | ✅ | IPMI interface should remain up in these scenarios; a key design situation |
 | Hardware failure (motherboard) | ✅ | If IPMI is **online** after failure |
