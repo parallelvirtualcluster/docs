@@ -22,7 +22,7 @@ Installation of PVC is accomplished by two main components: a [Node installer IS
 
 Just give it physical servers, and it will run your VMs without you having to think about it, all in just an hour or two of setup time.
 
-For more details on the project motivation, please see the [About](about.md) page.
+For more details on the project motivation, please see the [About PVC](about-pvc.md) page.
 
 ## What is it based on?
 
