@@ -16,6 +16,10 @@ Fencing is enabled by default for all nodes that have the `fence_intervals` conf
 
 Fencing can be temporarily disabled by setting the cluster maintenance mode to `on` and resumed by setting it `off`. This can be useful during maintenance events however the administrator should be careful to `flush` any affected nodes of running VMs first to avoid trouble.
 
+You can view a demonstration of the fencing process in action here:
+
+[![Fencing Demonstration](https://youtu.be/ZnhJ91-5y1Q)](https://youtu.be/ZnhJ91-5y1Q)
+
 ## IPMI Configuration
 
 For fencing to be enabled, several configurations must be correctly set.
