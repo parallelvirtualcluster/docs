@@ -2,7 +2,11 @@
 title: Fencing
 ---
 
-PVC features a fencing system to provide automatic recovery of nodes from certain failure scenarios. This document details the fencing process, limitations, and expectations, as well as how this factors into georedundant designs.
+PVC features a fencing system to provide automatic recovery of nodes from certain failure scenarios. This document details the fencing process, limitations, and expectations.
+
+You can also view a video demonstration of the fencing process in action here:
+
+[![Fencing Demonstration](https://img.youtube.com/vi/ZnhJ91-5y1Q/hqdefault.jpg)](https://youtu.be/ZnhJ91-5y1Q)
 
 [TOC]
 
@@ -15,10 +19,6 @@ Properly configured fencing can thus help ensure the maximum uptime for VMs in t
 Fencing is enabled by default for all nodes that have the `fence_intervals` configuration key set and for which the node's IPMI is reachable and usable via `ipmitool` on the peers. Nodes check their own IPMI at daemon startup to validate this and print a warning if failed; in addition a regular health check monitors the IPMI interface and will degrade the node health if it is not reachable or not responding.
 
 Fencing can be temporarily disabled by setting the cluster maintenance mode to `on` and resumed by setting it `off`. This can be useful during maintenance events however the administrator should be careful to `flush` any affected nodes of running VMs first to avoid trouble.
-
-You can view a demonstration of the fencing process in action here:
-
-[![Fencing Demonstration](https://img.youtube.com/vi/ZnhJ91-5y1Q/hqdefault.jpg)](https://youtu.be/ZnhJ91-5y1Q)
 
 ## IPMI Configuration
 
