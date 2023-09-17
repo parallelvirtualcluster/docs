@@ -12,11 +12,12 @@ markdown_extensions:
 nav:
   - 'Home': 'index.md'
   - 'About PVC': 'about-pvc.md'
+  - 'Architecture':
+    - 'Cluster Architecture': 'architecture/cluster-architecture.md'
+    - 'Hardware Requirements': 'architecture/hardware-requirements.md'
+    - 'Fencing': 'architecture/fencing.md'
+    - 'Georedundancy': 'architecture/georedundancy.md'
   - 'Deployment':
-    - 'Cluster Architecture': 'deployment/cluster-architecture.md'
-    - 'Hardware Requirements': 'deployment/hardware-requirements.md'
-    - 'Fencing': 'deployment/fencing.md'
-    - 'Georedundancy': 'deployment/georedundancy.md'
     - 'Getting Started Guide': 'deployment/getting-started.md'
   - 'Manuals':
     - 'PVC CLI': 'manuals/cli.md'

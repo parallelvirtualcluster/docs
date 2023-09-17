@@ -20,8 +20,8 @@ Fencing can be temporarily disabled by setting the cluster maintenance mode to `
 
 For fencing to be enabled, several configurations must be correctly set.
 
-* The node must have a proper IPMI interface, as detailed in the [Hardware Requirements](/deployment/hardware-requirements/#ipmilights-out-management) documentation.
-* The IPMI interface must be either in the [cluster "upstream" network](/deployment/cluster-architecture/#upstream), or in another network reachable by it. The former is strongly recommended, because the latter is potentially susceptable to network faults in the routing between the networks which might cause fencing to fail in otherwise valid scenarios.
+* The node must have a proper IPMI interface, as detailed in the [Hardware Requirements](/architecture/hardware-requirements/#ipmilights-out-management) documentation.
+* The IPMI interface must be either in the [cluster "upstream" network](/architecture/cluster-architecture/#upstream), or in another network reachable by it. The former is strongly recommended, because the latter is potentially susceptable to network faults in the routing between the networks which might cause fencing to fail in otherwise valid scenarios.
 * The IPMI BMC must be configured with an `Administrator`-level user with IPMI-over-LAN privilieges enabled.
 * The IPMI interface (IP or hostname) and aforementioned user of each node must be configured in the `fencing` -> `ipmi` section of the `pvcnoded.yaml` file of that node.
 
