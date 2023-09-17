@@ -76,9 +76,9 @@ As an alternative to remote fencing, nodes can be configured to kill themselves 
 
 The conditions in which a node can be successfully fenced are limited, and thus, autorecovery is limited only to those situations where a fence can succeed. In short, any situation whereby a node's OS is not responding normally, but its IPMI interface is still up and available, should succeed in a fence; in contrast, those where the IPMI interface is also unavailable will fail.
 
-The following table covers some common scenarios, and whether fencing and automatic recovery can be exepected to occur.
+The following table covers some common scenarios, and whether fencing (and subsequent automatic recovery) can be exepected to occur.
 
-| Situation | Fence & Autorecovery? | Notes |
+| Situation | Fence? | Notes |
 | --------- | --------------------- | ----- |
 | OS lockup (load, OOM, etc.) | ✅ | A key design situation for the fencing system |
 | OS kernel panic | ✅ | A key design situation for the fencing system |
