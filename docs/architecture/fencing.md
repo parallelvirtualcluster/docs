@@ -80,7 +80,7 @@ The following table covers some common scenarios, and whether fencing and automa
 
 | Situation | Fence & Autorecovery? | Notes |
 | --------- | --------------------- | ----- |
-| OS lockup (load, OOM, etc.)  ✅ | A key design situation for the fencing system |
+| OS lockup (load, OOM, etc.) | ✅ | A key design situation for the fencing system |
 | OS kernel panic | ✅ | A key design situation for the fencing system |
 | Primary network cut | ✅ | Only affecting primary links, not IPMI (see below); a key design situation |
 | Full network cut | ❌ | All links are down, e.g. full network failure including IPMI |
