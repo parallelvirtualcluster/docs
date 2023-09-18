@@ -12,7 +12,7 @@ You can also view a video demonstration of the fencing process in action here:
 
 ## Overview
 
-Fencing in PVC provides a mechanism for a cluster's nodes to determine if one of their peers has stopped responding, take action to ensure the failed node is fully powercycled, and then, if successful, automatically bring up affected VMs from the dead node onto others awaiting its return to service.
+Fencing in PVC provides a mechanism for a cluster's nodes to determine if one of their active (`run` state) peers has stopped responding, take action to ensure the failed node is fully powercycled, and then, if successful, automatically bring up affected VMs from the dead node onto others awaiting its return to service.
 
 Properly configured fencing can thus help ensure the maximum uptime for VMs in the case of a faulty node.
 
@@ -39,7 +39,7 @@ The [PVC Ansible framework](../deployment/getting-started.md) will automatically
 
 Node fencing is handled during regular node keepalive events. Keepalives occur every 5 seconds (default `keepalive_interval`), during which each node checks into the cluster by providing the current UNIX epoch timestamp in a configuration key.
 
-At the end of each keepalive event, all nodes check their peers' timestamps and compare them against the current time. If the peers detect that a node has not checked in for 6 intervals (default `fence_intervals`), or 30 seconds by default, one node at random will begin the fencing process as the watching node. First, a timer is started for 6 more `keepalive_intervals` (hardcoded), during which a checkin from the dead node will cancel the fence (a "saving throw").
+At the end of each keepalive event, all nodes check their peers' timestamps and compare them against the current time. If the peers detect that a node in `run` daemon state has not checked in for 6 intervals (default `fence_intervals`), or 30 seconds by default, one node at random will begin the fencing process as the watching node. First, a timer is started for 6 more `keepalive_intervals` (hardcoded), during which a checkin from the dead node will cancel the fence (a "saving throw").
 
 ### Dead Node Fencing
 
