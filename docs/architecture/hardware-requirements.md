@@ -46,9 +46,9 @@ Modern CPUs are a must, as generation improvements compound and can make a major
 
 #### Intel
 
-* The **minimum** generation/era for a functional PVC node is "Nehalem", i.e. the Xeon L/X/W-3XXX, 2009-2011.
+* The **minimum** generation/era for a functional PVC node is "Nehalem", i.e. the Xeon L/X/W-3XXX, 2009.
 
-* The **recommended** generation/era for a production PVC node is "Haswell", i.e. the Xeon E5-2XXX V3, 2013-2015. Processors older than this will be a significant bottleneck due to the slower DDR3 memory system and lower general IPC per clock, especially affecting the storage subsystem.
+* The **recommended** generation/era for a production PVC node is "Haswell", i.e. the Xeon E5-2XXX V3, 2013. Processors older than this will be a significant bottleneck due to the slower DDR3 memory system and lower general IPC per clock, especially affecting the storage subsystem.
 
 #### AMD
 
