@@ -36,9 +36,9 @@ This feature is not strictly required, however it is required for the [PVC fenci
 
 PVC requires a relatively large amount of CPU horsepower. In addition to any CPU required by VMs, the storage subsystem can consume a large amount of CPU power, as can other daemons on the system. Recent CPU vulnerabilities and their mitigations have also severely affected performance, and thus this should be considered carefully.
 
-### Vendor
+### Vendor & Architecture
 
-PVC will work equally well on (modern, see below) Intel- and AMD-based CPUs. Which you select depends primarily on your workload and which feature(s) complement it. The author has used both extensively.
+PVC will work equally well on (modern, see below) Intel- and AMD-based CPUs using the x86_64 architecture (as implemented in IA64 and AMD64, respectively). Which you select depends primarily on availability, workload, and which, if any, additional CPU feature(s) complement it. The author has used both extensively to good results.
 
 ### Era/Generation
 
