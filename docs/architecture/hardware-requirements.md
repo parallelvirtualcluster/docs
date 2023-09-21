@@ -14,9 +14,9 @@ This document details the recommendations for *individual* node hardware choices
 
 PVC is designed to operate in "N-1" mode, that is, all sizing of the cluster should take into account the loss of 1 node after pooling all the available resources.
 
-For example, consider 3 nodes each with 16 CPU cores and 128GB of RAM. This totals 48 CPU cores and 384GB of RAM, however we should consider the N-1 number, that is 32 CPU cores and 256GB of RAM, to be the maximum usable quantity of each available across the entire cluster.
+For example, consider 3 nodes each with 16 CPU cores and 128GB of RAM. This totals 48 CPU cores and 384GB of RAM, however we should consider the N-1 number, in this case 2 nodes, which would be 32 CPU cores and 256GB of RAM, to be the maximum usable quantity of each available across the entire cluster. PVC will warn the administrator when RAM provisioning exceeds the N-1 number.
 
-Disks are even more limited. As outlined in the [Cluster Storage section of the Cluster Architecture](cluster-architecture.md#cluster-storage) documentation, a normal pool replication level for reliable redundant operation is 3 copies with 2 minimum copies. Thus, to continue the above 3 node example, if each node features a 2TB data SSD, the total available N-1 storage is 2TB (as 3 x 2TB / 3 = 2TB).
+Disks are even more limited. As outlined in the [Cluster Storage section of the Cluster Architecture](cluster-architecture.md#cluster-storage) documentation, a normal pool replication level for reliable redundant operation is 3 copies with 2 minimum copies. Thus, to continue the above 3 node example, if each node features a 2TB data SSD, the total available N-1 storage is 2TB (as 3 x 2TB / 3 = 2TB). On larger clusters, this calculation is more complex, so care should be taken to optimize the available number of disks with the pool replication size to ensure efficient utilization.
 
 ## Hardware Vendors
 
