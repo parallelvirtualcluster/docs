@@ -143,7 +143,7 @@ PVC does not require a large amount of space for its system drives. The default 
 
 ### Quantity/Redundancy
 
-The PVC system disks should be deployed in mirrored mode, via an internal RAID controller or dedicated redundant device (e.g. Dell BOSS card). Note that PVC features a monitoring plugin which can alert to degraded RAID arrays of various types (MegaRAID/Dell PERC, HPSA, and Dell BOSS).
+The PVC system disks should be deployed in mirrored mode, via an internal RAID controller or dedicated redundant device (e.g. Dell BOSS card). Note that PVC features a monitoring plugin which can alert to degraded RAID arrays of various types (MegaRAID/Dell PERC, HPSA, and Dell BOSS) when the appropriate software is installed.
 
 * The **minimum** system disk quantity for a functional PVC node is 1.
 
