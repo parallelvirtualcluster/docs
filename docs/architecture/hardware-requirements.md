@@ -22,7 +22,7 @@ Disks are even more limited. As outlined in the [Cluster Storage section of the 
 
 PVC places no limitations of the hardware vendor for nodes; any vendor that produces a system compatible with the rest of these requirements will be suitable.
 
-Some common recommended vendors, with whom the author has had good experiences, include Dell (PowerEdge line, various tiers and generations) and Cisco (UCS C-series line, M4 and M5 era specifically). The author does not recommend Hewlett-Packard Proliant servers due to severe limitations and issues with their storage controller cards, even though they are otherwise sufficient.
+Some common recommended vendors, with whom the author has had good experiences, include Dell (PowerEdge line, various tiers and generations) and Cisco (UCS C-series line, M4 and M5 era specifically). The author does not recommend Hewlett-Packard ProLiant servers due to severe limitations and issues with their storage controller cards, even though they are otherwise sufficient.
 
 ### IPMI/Lights-out Management
 
