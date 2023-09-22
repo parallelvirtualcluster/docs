@@ -12,7 +12,7 @@ You can also view a video demonstration of the fencing process in action here:
 
 ## Overview
 
-Fencing in PVC provides a mechanism for a cluster's nodes to determine if one of their active (`run` state) peers has stopped responding, take action to ensure the failed node is fully powercycled, and then, if successful, automatically bring up affected VMs from the dead node onto others awaiting its return to service.
+Fencing in PVC provides a mechanism for a cluster's nodes to determine if one of their active (`run` state) peers has stopped responding, take action to ensure the failed node is fully power-cycled, and then, if successful, automatically bring up affected VMs from the dead node onto others awaiting its return to service.
 
 Properly configured fencing can thus help ensure the maximum uptime for VMs in the case of a faulty node.
 
@@ -25,8 +25,8 @@ Fencing can be temporarily disabled by setting the cluster maintenance mode to `
 For fencing to be enabled, several configurations must be correctly set.
 
 * The node must have a proper IPMI interface, as detailed in the [Hardware Requirements](hardware-requirements.md#ipmilights-out-management) documentation.
-* The IPMI interface must be either in the [cluster "upstream" network](cluster-architecture.md#upstream), or in another network reachable by it. The former is strongly recommended, because the latter is potentially susceptable to network faults in the routing between the networks which might cause fencing to fail in otherwise valid scenarios.
-* The IPMI BMC must be configured with an `Administrator`-level user with IPMI-over-LAN privilieges enabled.
+* The IPMI interface must be either in the [cluster "upstream" network](cluster-architecture.md#upstream), or in another network reachable by it. The former is strongly recommended, because the latter is potentially susceptible to network faults in the routing between the networks which might cause fencing to fail in otherwise valid scenarios.
+* The IPMI BMC must be configured with an `Administrator`-level user with IPMI-over-LAN privileges enabled.
 * The IPMI interface (IP or hostname) and aforementioned user of each node must be configured in the `fencing` -> `ipmi` section of the `pvcnoded.yaml` file of that node.
 
 PVC will automatically check the reachability of its IPMI and its functionality early during node startup. The functionality can also be tested via the `ipmitool -I lanplus` command from a node.
@@ -39,7 +39,7 @@ The [PVC Ansible framework](../deployment/getting-started.md) will automatically
 
 Node fencing is handled during regular node keepalive events. Keepalives occur every 5 seconds (default `keepalive_interval`), during which each node checks into the cluster by providing the current UNIX epoch timestamp in a configuration key.
 
-At the end of each keepalive event, all nodes check their peers' timestamps and compare them against the current time. If the peers detect that a node in `run` daemon state has not checked in for 6 intervals (default `fence_intervals`), or 30 seconds by default, one node at random will begin the fencing process as the watching node. First, a timer is started for 6 more `keepalive_intervals` (hardcoded), during which a checkin from the dead node will cancel the fence (a "saving throw").
+At the end of each keepalive event, all nodes check their peers' timestamps and compare them against the current time. If the peers detect that a node in `run` daemon state has not checked in for 6 intervals (default `fence_intervals`), or 30 seconds by default, one node at random will begin the fencing process as the watching node. First, a timer is started for 6 more `keepalive_intervals` (hard-coded), during which a check-in from the dead node will cancel the fence (a "saving throw").
 
 ### Dead Node Fencing
 
@@ -58,7 +58,7 @@ With these 6 steps and the 2 saved results of the `chassis power state`, PVC can
 
 Once a dead node has been successfully fenced and at least 1 more `keepalive_interval` has passed, the watching node will begin fencing recovery.
 
-What action is taken during fencing recovery is depdendent on the `successful_fence` configuration key, which can either be `migrate`, which will perform the below steps, or `none` which will perform no recovery action and stop here.
+What action is taken during fencing recovery is dependent on the `successful_fence` configuration key, which can either be `migrate`, which will perform the below steps, or `none` which will perform no recovery action and stop here.
 
 First, the node is put into a special `fencing-flush` domain state, to indicate that it is undergoing a forced flush after fencing. Then, for each VM which was running on the dead node:
 
@@ -78,9 +78,9 @@ As an alternative to remote fencing, nodes can be configured to kill themselves 
 
 ## Valid Fencing Conditions
 
-The conditions in which a node can be successfully fenced are limited, and thus, autorecovery is limited only to those situations where a fence can succeed. In short, any situation whereby a node's OS is not responding normally, but its IPMI interface is still up and available, should succeed in a fence; in contrast, those where the IPMI interface is also unavailable will fail.
+The conditions in which a node can be successfully fenced are limited, and thus, auto-recovery is limited only to those situations where a fence can succeed. In short, any situation whereby a node's OS is not responding normally, but its IPMI interface is still up and available, should succeed in a fence; in contrast, those where the IPMI interface is also unavailable will fail.
 
-The following table covers some common scenarios, and whether fencing (and subsequent automatic recovery) can be exepected to occur.
+The following table covers some common scenarios, and whether fencing (and subsequent automatic recovery) can be expected to occur.
 
 | Situation | Fence? | Notes |
 | --------- | --------------------- | ----- |
@@ -98,4 +98,4 @@ Care should be taken to understand these scenarios and which situations can be r
 
 ## Future Development
 
-Future versions of PVC may add support for additional fencing modes, for instance the ability for a fence to trigger a remote power device (switched PDU, etc.) or to detect more esoteric situations with the node power state via IPMI, as need requires. The author however believes that the current implementation satisfies the vast majority of potential situations for which autorecovery is beneficial and thus such work would not see much benefit, though he is open to changing his mind.
+Future versions of PVC may add support for additional fencing modes, for instance the ability for a fence to trigger a remote power device (switched PDU, etc.) or to detect more esoteric situations with the node power state via IPMI, as need requires. The author however believes that the current implementation satisfies the vast majority of potential situations for which auto-recovery is beneficial and thus such work would not see much benefit, though he is open to changing his mind.
