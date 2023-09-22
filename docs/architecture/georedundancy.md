@@ -40,7 +40,7 @@ Thus, in this design, several normally-possible recovery situations become harde
 
 ## Network Speed
 
-PVC clusters are quite network-intensive, as outlined in the [hardware requirements](hardware-requirements.md##networking) documentation. This can pose problems with multi-site clusters with slower interconnects. At least 10Gbps is recommended between nodes, and this includes nodes in different physical locations. In addition, the traffic here is bursty and dependent on VM workloads, both in terms of storage and VM migration. Thus, the site interconnects must account for the speed required of a PVC cluster in addition to any other traffic.
+PVC clusters are quite network-intensive, as outlined in the [hardware requirements](hardware-requirements.md#networking) documentation. This can pose problems with multi-site clusters with slower interconnects. At least 10Gbps is recommended between nodes, and this includes nodes in different physical locations. In addition, the traffic here is bursty and dependent on VM workloads, both in terms of storage and VM migration. Thus, the site interconnects must account for the speed required of a PVC cluster in addition to any other traffic.
 
 ## Network Latency & Distance
 
