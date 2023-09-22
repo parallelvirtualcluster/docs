@@ -46,7 +46,7 @@ The storage write process for PVC is heavily dependent on network latency. To ex
 
 [![Ceph Write Process](images/pvc-ceph-write-process.png)](images/pvc-ceph-write-process.png)
 
-As illustrated in this diagram, a write will only be accepted by the client once it has been successfully written to at least `min_copies` OSDs, as defined by the pool replication level (usually 2). Thus, the latency of network communications between the client and another node becomes a major factor in storage performance for writes, as the write cannot complete without at least 4x this latency (send, ack, recieve, ack). Significant distances and thus latencies (more than about 3ms) begin to introduce significant performance degredation, and latencies above about 5ms can result in a significant drop in performance.
+As illustrated in this diagram, a write will only be accepted by the client once it has been successfully written to at least `min_copies` OSDs, as defined by the pool replication level (usually 2). Thus, the latency of network communications between the client and another node becomes a major factor in storage performance for writes, as the write cannot complete without at least 4x this latency (send, ack, recieve, ack). Significant physical distances and thus latencies (more than about 3ms) begin to introduce performance degredation, and latencies above about 5-10ms can result in a significant drop in wrie performance.
 
 To combat this, georedundant nodes should be as close as possible, both geographically and physically.
 
