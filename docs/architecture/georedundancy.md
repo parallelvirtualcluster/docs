@@ -10,23 +10,25 @@ This page will outline the important caveats and potential solutions if possible
 
 ## Node Placement & Physical Design
 
-In order to form [a proper quorum](cluster-architecture.md#quorum-and-node-loss), a majority of nodes must be able to communicate for the cluster to function. This precludes several designs:
+In order to form [a proper quorum](cluster-architecture.md#quorum-and-node-loss), a majority of nodes must be able to communicate for the cluster to function.
 
-### 2 Sites
-
-2 site replication is functionally worthless. Assuming 2 nodes at a "primary" site and 1 node at a "secondary" site, while the cluster could tolerate the loss of the secondary site and its single node, said single node would not be able to take over for both nodes should the primary site be down. In such a situation, the single node could not form a quorum with itself and the cluster would be inoperable. If the issue is a network cut, this would potentially be more impactful than allowing all nodes in the cut site to continue to function.
+2 site georedundancy is functionally worthless with a PVC cluster. Assuming 2 nodes at a "primary" site and 1 node at a "secondary" site, while the cluster could tolerate the loss of the secondary site and its single node, said single node would not be able to take over for both nodes should the primary site be down. In such a situation, the single node could not form a quorum with itself and the cluster would be inoperable. If the issue is a network cut, this would potentially be more impactful than allowing all nodes in the cut site to continue to function.
 
 [![2 Site Caveats](images/pvc-georedundancy-2-site.png)](images/pvc-georedundancy-2-site.png)
 
-### 3 Sites
-
-3 site replication would require a full mesh between sites. A configuration without a full mesh, i.e. a single site which functions as an anchor between the other two, would be a point of failure and would render the cluster non-functional if offline.
+In addition, a 3 site configuration configuration without a full mesh or ring, i.e. where a single site which functions as an anchor between the other two, would be a point of failure and would render the cluster non-functional if offline.
 
 [![3 Site Caveats](images/pvc-georedundancy-broken-mesh.png)](images/pvc-georedundancy-broken-mesh.png)
 
-The smallest useful, georedundant, physical design is thus 3 sites in full mesh. The loss of any one site in this scenario will still allow the remain nodes to form quorum and function.
+Thus, the smallest useful, georedundant, physical design is 3 sites in full mesh or ring. The loss of any one site in this scenario will still allow the remain nodes to form quorum and function.
 
 [![3 Site Solution](images/pvc-georedundancy-full-mesh.png)](images/pvc-georedundancy-full-mesh.png)
+
+A larger cluster could theoretically span more sites, however with a maximum of 5 coordinators recommended, this many sites is likely to be overkill for the PVC solution.
+
+### Hypervisors
+
+Since hypervisors are not affected by nor affect the quorum, any number can be placed at any site. Only compute resources would thus be affected should that site go offline.
 
 ## Fencing
 
