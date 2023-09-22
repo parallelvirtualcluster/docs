@@ -42,7 +42,7 @@ PVC clusters are quite network-intensive, as outlined in the [hardware requireme
 
 ## Network Latency & Distance
 
-The storage write process for PVC is heavily dependent on network latency.
+The storage write process for PVC is heavily dependent on network latency. To explain why, one must understand the process behind writes within the Ceph storage subsystem:
 
 [![Ceph Write Process](images/pvc-ceph-write-process.png)](images/pvc-ceph-write-process.png)
 
