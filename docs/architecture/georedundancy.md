@@ -32,11 +32,11 @@ Since hypervisors are not affected by nor affect the quorum, any number can be p
 
 ## Fencing
 
-PVC's [fencing mechanism](fencing.md) relies entirely on network access. First, network access is required for a node to updte its keepalives to the other nodes via Zookeeper. Second, IPMI out-of-band connectivity is required for the remaining nodes to fence a dead node.
+PVC's [fencing mechanism](fencing.md) relies entirely on network access. First, network access is required for a node to update its keepalives to the other nodes via Zookeeper. Second, IPMI out-of-band connectivity is required for the remaining nodes to fence a dead node.
 
 Georedundancy introduces significant complications to this process. First, it makes network cuts more likely, as the cut can occur outside of a single physical location. Second, the nature of the cut means, that without backup connectivity for the IPMI functionality, any fencing attempt would fail, thus preventing automatic recovery of VMs on the cut site.
 
-Thus, in this design, several normally-possible recovert situations become harder. This does not preclude georedundancy in the author's opinion, but is something that must be more carefully considered, especially in network design.
+Thus, in this design, several normally-possible recovery situations become harder. This does not preclude georedundancy in the author's opinion, but is something that must be more carefully considered, especially in network design.
 
 ## Network Speed
 
@@ -48,10 +48,10 @@ The storage write process for PVC is heavily dependent on network latency. To ex
 
 [![Ceph Write Process](images/pvc-ceph-write-process.png)](images/pvc-ceph-write-process.png)
 
-As illustrated in this diagram, a write will only be accepted by the client once it has been successfully written to at least `min_copies` OSDs, as defined by the pool replication level (usually 2). Thus, the latency of network communications between the client and another node becomes a major factor in storage performance for writes, as the write cannot complete without at least 4x this latency (send, ack, recieve, ack). Significant physical distances and thus latencies (more than about 3ms) begin to introduce performance degredation, and latencies above about 5-10ms can result in a significant drop in wrie performance.
+As illustrated in this diagram, a write will only be accepted by the client once it has been successfully written to at least `min_copies` OSDs, as defined by the pool replication level (usually 2). Thus, the latency of network communications between the client and another node becomes a major factor in storage performance for writes, as the write cannot complete without at least 4x this latency (send, ack, receive, ack). Significant physical distances and thus latencies (more than about 3ms) begin to introduce performance degradation, and latencies above about 5-10ms can result in a significant drop in write performance.
 
 To combat this, georedundant nodes should be as close as possible, both geographically and physically.
 
 ## Suggested Scenarios
 
-The author cannot cover every possible option, but georedundancy must be very carefully considered. Ultimately, PVC is designed to ease several very common failure modes (matenance outages, hardware failures, etc.); while rarer ones (fire, flood, meteor strike, etc.) might be possible to mitigate as well, these are not primary considerations in the design of PVC. It is thus up to each cluster administrator to define the correct balance between failure modes, risk, liability, and mitigations (e.g. remote backups) to best account for their particular needs.
+The author cannot cover every possible option, but georedundancy must be very carefully considered. Ultimately, PVC is designed to ease several very common failure modes (maintenance outages, hardware failures, etc.); while rarer ones (fire, flood, meteor strike, etc.) might be possible to mitigate as well, these are not primary considerations in the design of PVC. It is thus up to each cluster administrator to define the correct balance between failure modes, risk, liability, and mitigations (e.g. remote backups) to best account for their particular needs.
