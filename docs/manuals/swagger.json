@@ -6148,6 +6148,13 @@
                         "name": "image_format",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "description": "The size of the image file, if {image_format} is not \"raw\"",
+                        "in": "query",
+                        "name": "file_size",
+                        "required": false,
+                        "type": "integer"
                     }
                 ],
                 "responses": {
