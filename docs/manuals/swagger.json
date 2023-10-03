@@ -5942,7 +5942,7 @@
                         "type": "integer"
                     },
                     {
-                        "description": "The volume size in bytes (or with a metric suffix, i.e. k/M/G/T)",
+                        "description": "The volume size, in bytes (B implied) or with a single-character SI suffix (k/M/G/T)",
                         "in": "query",
                         "name": "size",
                         "required": true,
@@ -6150,7 +6150,7 @@
                         "type": "string"
                     },
                     {
-                        "description": "The size of the image file, if {image_format} is not \"raw\"",
+                        "description": "The size of the image file, in bytes, if {image_format} is not \"raw\"",
                         "in": "query",
                         "name": "file_size",
                         "required": false,
