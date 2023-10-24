@@ -71,17 +71,17 @@ In short, it is a Free Software, scalable, redundant, self-healing, and self-man
 ### Provisioning
 
 * Integrated, highly flexible VM provisioning system
-* Define custom install scripts or use included examples for common OSes
+* Define custom Python 3 install scripts or use included examples for common OSes
 * CloudInit Amazon EC2-compatible CloudInit "userdata" support
 * Define dynamic VM profiles from component templates (system, network, disk), scripts, and userdata
 * OVA VM package support
+* Virtual disk import (raw, VMDK, qcow2, and others) support
 * Volume cloning support (cloning VMs)
-* Virtual disk import (raw, VMDK, qcow2, and others)
 
 ### Other
 
 * Free, Libre and Open Source (FLOSS) software
-* Written in modern Python3
+* Written in modern Python 3
 * Well-maintained and frequently updated
 
 ## Building Blocks
