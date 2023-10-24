@@ -6535,6 +6535,102 @@
                 ]
             }
         },
+        "/api/v1/vm/{vm}/backup": {
+            "delete": {
+                "description": "",
+                "parameters": [
+                    {
+                        "description": "A local filesystem path on the primary coordinator where the backup is stored",
+                        "in": "query",
+                        "name": "target_path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The backup datestring identifier (e.g. 20230102030405)",
+                        "in": "query",
+                        "name": "backup_datestring",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Execution error",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    }
+                },
+                "summary": "Remove a backup of {vm}, including snapshots, from a local primary coordinator filesystem path",
+                "tags": [
+                    "vm"
+                ]
+            },
+            "post": {
+                "description": "",
+                "parameters": [
+                    {
+                        "description": "A local filesystem path on the primary coordinator to store the backup",
+                        "in": "query",
+                        "name": "target_path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "A previous backup datestamp to use as an incremental parent; if unspecified a full backup is taken",
+                        "in": "query",
+                        "name": "incremental_parent",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "default": false,
+                        "description": "Whether or not to retain this backup's volume snapshots to use as a future incremental parent; full backups only",
+                        "in": "query",
+                        "name": "retain_snapshot",
+                        "required": false,
+                        "type": "boolean"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Execution error",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    }
+                },
+                "summary": "Create a backup of {vm} and its volumes to a local primary coordinator filesystem path",
+                "tags": [
+                    "vm"
+                ]
+            }
+        },
         "/api/v1/vm/{vm}/console": {
             "get": {
                 "description": "",
@@ -6862,6 +6958,59 @@
                     }
                 },
                 "summary": "Rename VM {vm}, and all connected disk volumes which include this name, to {new_name}",
+                "tags": [
+                    "vm"
+                ]
+            }
+        },
+        "/api/v1/vm/{vm}/restore": {
+            "post": {
+                "description": "",
+                "parameters": [
+                    {
+                        "description": "A local filesystem path on the primary coordinator where the backup is stored",
+                        "in": "query",
+                        "name": "target_path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The backup datestring identifier (e.g. 20230102030405)",
+                        "in": "query",
+                        "name": "backup_datestring",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "default": true,
+                        "description": "Whether or not to retain the (parent, if incremental) volume snapshot after restore",
+                        "in": "query",
+                        "name": "retain_snapshot",
+                        "required": false,
+                        "type": "boolean"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Execution error",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    }
+                },
+                "summary": "Restore a backup of {vm} and its volumes from a local primary coordinator filesystem path",
                 "tags": [
                     "vm"
                 ]
