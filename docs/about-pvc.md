@@ -24,6 +24,64 @@ PVC aims to bridge the gaps between these 3 categories. Like the larger FLOSS an
 
 In short, it is a Free Software, scalable, redundant, self-healing, and self-managing private cloud solution designed with administrator simplicity in mind. 
 
+## Core Features
+
+### Overall/Nodes
+
+* Host-level redundancy
+* N-1 fault tolerance
+* Cluster- and node-level alerting
+* Stable base operating system (5+ year support)
+* Convenient, holistic view of the cluster (resources, devices, VMs, etc.) via CLI and API
+* Deployment, management, updates, and base OS upgrades via straightforward Ansible playbooks
+* Cluster-level backup and restore
+* Node hot add/remove from service (flush/unflush/restore) for maintenance
+* Automatic fencing of unresponsive node(s) and recovery of affected VMs (conditional)
+* Cluster maintenance state (allows monitoring/alerting pause while performing maintenance)
+* Includes Munin and CheckMK monitoring plugins
+
+### Virtual Machine Management
+
+* Full VM lifecycle management (start/stop/restart/shutdown/disable)
+* Live-migration (zero-downtime move) of VMs between nodes
+* Automatic restarting of failed VMs
+* (For supporting VMs) Serial console logging with interactive follow
+* VNC console with flexible listen directives
+* Simple resource management (vCPU/memory) w/restart
+* Hot attach/detach virtual NICs and block devices
+* Tag support for organization/classification
+* VM hot/online backup creation, management (delete), and quick restore to external storage
+
+### Network Management
+
+* Bridged (vLAN), Managed (VXLAN), and Direct (SR-IOV) VM networks
+* Consistent network view (all nodes are provisioned with all networks) for Bridged and Managed VM networks
+* DHCP, DNS, NTP, and TFTP for Managed VM networks
+* Upstream BGP for route learning for Managed VM networks
+
+### Storage Management
+
+* Distributed & replicated storage backend (Ceph Object Store) with high availability and node-level redundancy
+* Shared storage for VM storage volumes/virtual disks (Ceph RBD)
+* Integrated monitoring and alerting into PVC frontend
+* Zero-cost snapshots
+* Flexible replication conigurations for large or complex clusters
+
+### Provisioning
+
+* Integrated, highly flexible VM provisioning system
+* Define custom install scripts or use included examples for common OSes
+* CloudInit Amazon EC2-compatible CloudInit "userdata" support
+* Define dynamic VM profiles from component templates (system, network, disk), scripts, and userdata.
+* OVA VM image support
+* Volume cloning support (cloning VMs)
+
+### Other
+
+* Free, Libre and Open Source (FLOSS) software
+* Written in modern Python3
+* Well-maintained and frequently updated
+
 ## Building Blocks
 
 PVC itself is a series of software daemons (services) written in Python 3, with the CLI interface also written in Python 3, designed to glue other FLOSS tools together in order to provide a consistent cluster operation and management experience.
