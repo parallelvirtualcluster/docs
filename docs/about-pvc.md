@@ -37,7 +37,8 @@ In short, it is a Free Software, scalable, redundant, self-healing, and self-man
 * Node hot add/remove from service (flush/unflush/restore) for maintenance
 * Automatic fencing of unresponsive node(s) and recovery of affected VMs (conditional)
 * Cluster maintenance state (allows monitoring/alerting pause while performing maintenance)
-* Includes Munin and CheckMK monitoring plugins
+* Included Munin and CheckMK monitoring plugins
+* External bootstrap system for low-touch cluster deployment
 
 ### Virtual Machine Management
 
@@ -47,24 +48,25 @@ In short, it is a Free Software, scalable, redundant, self-healing, and self-man
 * (For supporting VMs) Serial console logging with interactive follow
 * VNC console support with flexible listen directives
 * Simple resource management (vCPU/memory) w/restart
-* Hot attach/detach virtual NICs and block devices
+* Hot attach/detach of virtual NICs and block devices
 * Tag support for organization/classification
-* VM hot/online backup creation, management (delete), and quick restore to external storage
+* VM hot/online backup creation, with incremental image support, management (delete), and quick restore to external storage
 
 ### Network Management
 
-* Bridged (vLAN), Managed (VXLAN), and Direct (SR-IOV) VM networks
-* Consistent network view (all nodes are provisioned with all networks) for Bridged and Managed VM networks
-* DHCP, DNS, NTP, and TFTP for Managed VM networks
+* Bridged (vLAN), Managed (VXLAN, virtual), and Direct (SR-IOV) VM networks
+* Consistent cluster view (all nodes are provisioned with all networks) for Bridged and Managed VM networks
+* DHCP, DNS, NTP, and TFTP support for Managed VM networks
 * Upstream BGP for route learning for Managed VM networks
 
 ### Storage Management
 
-* Distributed & replicated storage backend (Ceph Object Store) with high availability and node-level redundancy
+* Distributed & replicated self-healing storage backend (Ceph Object Store) with high availability and node-level redundancy
 * Shared storage for VM storage volumes/virtual disks (Ceph RBD)
 * Integrated monitoring and alerting into PVC frontend
 * Zero-cost snapshots
-* Flexible replication conigurations for large or complex clusters
+* Flexible pool replication conigurations for large or complex clusters
+* Support for arbitrary data disk sizes (with limits)
 
 ### Provisioning
 
