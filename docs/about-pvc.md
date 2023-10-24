@@ -28,9 +28,8 @@ In short, it is a Free Software, scalable, redundant, self-healing, and self-man
 
 ### Overall/Nodes
 
-* Host-level redundancy
-* N-1 fault tolerance
-* Cluster- and node-level alerting
+* Node-level redundancy & node N-1 fault tolerance
+* Cluster- and node-level monitoring
 * Stable base operating system (5+ year support)
 * Convenient, holistic view of the cluster (resources, devices, VMs, etc.) via CLI and API
 * Deployment, management, updates, and base OS upgrades via straightforward Ansible playbooks
@@ -46,7 +45,7 @@ In short, it is a Free Software, scalable, redundant, self-healing, and self-man
 * Live-migration (zero-downtime move) of VMs between nodes
 * Automatic restarting of failed VMs
 * (For supporting VMs) Serial console logging with interactive follow
-* VNC console with flexible listen directives
+* VNC console support with flexible listen directives
 * Simple resource management (vCPU/memory) w/restart
 * Hot attach/detach virtual NICs and block devices
 * Tag support for organization/classification
@@ -72,9 +71,10 @@ In short, it is a Free Software, scalable, redundant, self-healing, and self-man
 * Integrated, highly flexible VM provisioning system
 * Define custom install scripts or use included examples for common OSes
 * CloudInit Amazon EC2-compatible CloudInit "userdata" support
-* Define dynamic VM profiles from component templates (system, network, disk), scripts, and userdata.
-* OVA VM image support
+* Define dynamic VM profiles from component templates (system, network, disk), scripts, and userdata
+* OVA VM package support
 * Volume cloning support (cloning VMs)
+* Virtual disk import (raw, VMDK, qcow2, and others)
 
 ### Other
 
