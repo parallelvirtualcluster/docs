@@ -2,7 +2,7 @@
 title: "About PVC"
 ---
 
-This document outlines the basic ideas and inspiration behind PVC as well as some frequently asked questions.
+This document outlines the basic ideas and inspiration behind PVC as well as the core feature set, the underlying technology, and some frequently asked questions.
 
 [TOC]
 
