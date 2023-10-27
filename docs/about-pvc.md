@@ -26,19 +26,21 @@ In short, it is a Free Software, scalable, redundant, self-healing, and self-man
 
 ## Core Features
 
+All features are as of the latest version: <a href="https://github.com/parallelvirtualcluster/pvc/releases"><img alt="Release" src="https://img.shields.io/github/release-pre/parallelvirtualcluster/pvc"/></a>
+
 ### Overall/Nodes
 
 * Node-level redundancy & node N-1 fault tolerance
 * Cluster- and node-level monitoring
 * Stable base operating system (5+ year support)
 * Convenient, holistic view of the cluster (resources, devices, VMs, etc.) via CLI and API
-* Deployment, management, updates, and base OS upgrades via straightforward Ansible playbooks
+* Deployment, management, updates, and base OS upgrades via straightforward [Ansible playbooks](https://github.com/parallelvirtualcluster/pvc-ansible) and [a custom installer ISO](https://github.com/parallelvirtualcluster/pvc-installer)
+* External [bootstrap system](https://github.com/parallelvirtualcluster/pvc-bootstrap) for low-touch cluster deployment
 * Cluster-level backup and restore
 * Node hot add/remove from service (flush/unflush/restore) for maintenance
 * Automatic fencing of unresponsive node(s) and recovery of affected VMs (conditional)
 * Cluster maintenance state (allows monitoring/alerting pause while performing maintenance)
 * Included Munin and CheckMK monitoring plugins
-* External bootstrap system for low-touch cluster deployment
 
 ### Virtual Machine Management
 
@@ -51,6 +53,7 @@ In short, it is a Free Software, scalable, redundant, self-healing, and self-man
 * Hot attach/detach of virtual NICs and block devices
 * Tag support for organization/classification
 * VM hot/online backup creation, with incremental image support, management (delete), and quick restore to external storage
+* VM autobackups with self-contained backup rotation and optional automatic mounting of remote storage resources
 
 ### Network Management
 
