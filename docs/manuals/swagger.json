@@ -1715,6 +1715,187 @@
                 ]
             }
         },
+        "/api/v1/faults": {
+            "delete": {
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "properties": {
+                                "message": {
+                                    "description": "A text message",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "summary": "Delete all cluster faults",
+                "tags": [
+                    "faults"
+                ]
+            },
+            "get": {
+                "description": "",
+                "parameters": [
+                    {
+                        "description": "The fault object key to sort results by",
+                        "enum": [
+                            "first_reported",
+                            "last_reported",
+                            "acknowledged_at",
+                            "status",
+                            "health_delta",
+                            "message"
+                        ],
+                        "in": "query",
+                        "name": "sort_key",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "items": {
+                                "id": "fault",
+                                "properties": {
+                                    "acknowledged_at": {
+                                        "description": "The time the fault was acknowledged, or empty if not acknowledged",
+                                        "example": "2023-12-01 17:50:00.000000",
+                                        "type": "date"
+                                    },
+                                    "first_reported": {
+                                        "description": "The first time the fault was reported",
+                                        "example": "2023-12-01 16:47:59.849742",
+                                        "type": "date"
+                                    },
+                                    "health_delta": {
+                                        "description": "The health delta (amount it reduces cluster health from 100%) of the fault",
+                                        "example": 25,
+                                        "type": "integer"
+                                    },
+                                    "id": {
+                                        "description": "The ID of the fault",
+                                        "example": "10ae144b78b4cc5fdf09e2ebbac51235",
+                                        "type": "string"
+                                    },
+                                    "last_reported": {
+                                        "description": "The last time the fault was reported",
+                                        "example": "2023-12-01 17:39:45.188398",
+                                        "type": "date"
+                                    },
+                                    "message": {
+                                        "description": "The textual description of the fault",
+                                        "example": "Node hv1 was at 40% (psur@-10%, psql@-50%) <= 50% health",
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "description": "The current state of the fault, either \"new\" or \"ack\" (acknowledged)",
+                                        "example": "new",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "type": "array"
+                        }
+                    }
+                },
+                "summary": "Return a list of cluster faults",
+                "tags": [
+                    "faults"
+                ]
+            },
+            "put": {
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "properties": {
+                                "message": {
+                                    "description": "A text message",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "summary": "Acknowledge all cluster faults",
+                "tags": [
+                    "faults"
+                ]
+            }
+        },
+        "/api/v1/faults/{fault_id}": {
+            "delete": {
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "properties": {
+                                "message": {
+                                    "description": "A text message",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "summary": "Delete a cluster fault",
+                "tags": [
+                    "faults"
+                ]
+            },
+            "get": {
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/fault",
+                                "id": "fault",
+                                "type": "object"
+                            },
+                            "type": "array"
+                        }
+                    }
+                },
+                "summary": "Return a single cluster fault",
+                "tags": [
+                    "faults"
+                ]
+            },
+            "put": {
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "properties": {
+                                "message": {
+                                    "description": "A text message",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "summary": "Acknowledge a cluster fault",
+                "tags": [
+                    "faults"
+                ]
+            }
+        },
         "/api/v1/initialize": {
             "post": {
                 "description": "<br/>If the 'overwrite' option is not True, the cluster will return 400 if the `/config/primary_node` key is found. If 'overwrite' is True, the existing cluster<br/>data will be erased and new, empty data written in its place.<br/><br/>All node daemons should be stopped before running this command, and the API daemon started manually to avoid undefined behavior.",
@@ -1800,6 +1981,57 @@
                     }
                 },
                 "summary": "Log out of an existing PVC API session",
+                "tags": [
+                    "root"
+                ]
+            }
+        },
+        "/api/v1/metrics": {
+            "get": {
+                "description": "the Ceph cluster metrics as one document.<br/><br/>Endpoint is unauthenticated to allow metrics exfiltration without having to deal<br/>with the Prometheus compatibility later.",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                },
+                "summary": "Return the current PVC cluster status in Prometheus-compatible metrics format and",
+                "tags": [
+                    "root"
+                ]
+            }
+        },
+        "/api/v1/metrics/ceph": {
+            "get": {
+                "description": "<br/>Proxies a metrics request to the current active MGR, since this is dynamic<br/>and can't be controlled by PVC easily.",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                },
+                "summary": "Return the current PVC Ceph Prometheus metrics",
+                "tags": [
+                    "root"
+                ]
+            }
+        },
+        "/api/v1/metrics/pvc": {
+            "get": {
+                "description": "<br/>Endpoint is unauthenticated to allow metrics exfiltration without having to deal<br/>with the Prometheus compatibility later.",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                },
+                "summary": "Return the current PVC cluster status in Prometheus-compatible metrics format",
                 "tags": [
                     "root"
                 ]
@@ -3534,78 +3766,6 @@
                 ]
             }
         },
-        "/api/v1/provisioner/status": {
-            "get": {
-                "description": "",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "properties": {
-                                "active": {
-                                    "description": "Celery app.control.inspect active tasks",
-                                    "type": "object"
-                                },
-                                "reserved": {
-                                    "description": "Celery app.control.inspect reserved tasks",
-                                    "type": "object"
-                                },
-                                "scheduled": {
-                                    "description": "Celery app.control.inspect scheduled tasks",
-                                    "type": "object"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "summary": "View status of provisioner Celery queue",
-                "tags": [
-                    "provisioner"
-                ]
-            }
-        },
-        "/api/v1/provisioner/status/{task_id}": {
-            "get": {
-                "description": "",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "properties": {
-                                "current": {
-                                    "description": "Current steps completed",
-                                    "type": "integer"
-                                },
-                                "state": {
-                                    "description": "Current job state",
-                                    "type": "string"
-                                },
-                                "status": {
-                                    "description": "Status details about job",
-                                    "type": "string"
-                                },
-                                "total": {
-                                    "description": "Total number of steps",
-                                    "type": "integer"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "404": {
-                        "description": "Not found",
-                        "schema": {
-                            "$ref": "#/definitions/Message"
-                        }
-                    }
-                },
-                "summary": "View status of a provisioner Celery worker job {task_id}",
-                "tags": [
-                    "provisioner"
-                ]
-            }
-        },
         "/api/v1/provisioner/template": {
             "get": {
                 "description": "",
@@ -5116,7 +5276,7 @@
                 ]
             },
             "post": {
-                "description": "Note: This task may take up to 30s to complete and return",
+                "description": "Note: This task may take up to 60s to complete and return",
                 "parameters": [
                     {
                         "description": "The PVC node to create the OSD on",
@@ -5140,18 +5300,25 @@
                         "type": "number"
                     },
                     {
-                        "description": "Whether to use an external OSD DB LV device",
-                        "in": "query",
-                        "name": "ext_db",
-                        "required": false,
-                        "type": "boolean"
-                    },
-                    {
-                        "description": "Decimal ratio of total OSD size for the external OSD DB LV device, default 0.05 (5%)",
+                        "description": "If set, creates an OSD DB LV with this decimal ratio of DB to total OSD size (usually 0.05 i.e. 5%); mutually exclusive with ext_db_size",
                         "in": "query",
                         "name": "ext_db_ratio",
                         "required": false,
                         "type": "float"
+                    },
+                    {
+                        "description": "If set, creates an OSD DB LV with this explicit size in human units (e.g. 1024M, 20G); mutually exclusive with ext_db_ratio",
+                        "in": "query",
+                        "name": "ext_db_size",
+                        "required": false,
+                        "type": "float"
+                    },
+                    {
+                        "description": "If set, create this many OSDs on the block device instead of 1; usually 2 or 4 depending on size",
+                        "in": "query",
+                        "name": "osd_count",
+                        "required": false,
+                        "type": "integer"
                     }
                 ],
                 "responses": {
@@ -5239,16 +5406,37 @@
                     {
                         "description": "The block device (e.g. \"/dev/sdb\", \"/dev/disk/by-path/...\", etc.) or detect string (\"detect:NAME:SIZE:ID\") to replace the OSD onto",
                         "in": "query",
-                        "name": "device",
+                        "name": "new_device",
                         "required": true,
                         "type": "string"
                     },
                     {
-                        "description": "The Ceph CRUSH weight for the replaced OSD",
+                        "description": "The block device (e.g. \"/dev/sdb\", \"/dev/disk/by-path/...\", etc.) or detect string (\"detect:NAME:SIZE:ID\") of the original OSD",
+                        "in": "query",
+                        "name": "old_device",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The Ceph CRUSH weight for the replacement OSD",
                         "in": "query",
                         "name": "weight",
-                        "required": true,
+                        "required": false,
                         "type": "number"
+                    },
+                    {
+                        "description": "If set, creates an OSD DB LV for the replcement OSD with this decimal ratio of DB to total OSD size (usually 0.05 i.e. 5%); if unset, use existing ext_db_size",
+                        "in": "query",
+                        "name": "ext_db_ratio",
+                        "required": false,
+                        "type": "float"
+                    },
+                    {
+                        "description": "If set, creates an OSD DB LV for the replacement OSD with this explicit size in human units (e.g. 1024M, 20G); if unset, use existing ext_db_size",
+                        "in": "query",
+                        "name": "ext_db_size",
+                        "required": false,
+                        "type": "float"
                     }
                 ],
                 "responses": {
@@ -6183,6 +6371,78 @@
                 ]
             }
         },
+        "/api/v1/tasks": {
+            "get": {
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "properties": {
+                                "active": {
+                                    "description": "Celery app.control.inspect active tasks",
+                                    "type": "object"
+                                },
+                                "reserved": {
+                                    "description": "Celery app.control.inspect reserved tasks",
+                                    "type": "object"
+                                },
+                                "scheduled": {
+                                    "description": "Celery app.control.inspect scheduled tasks",
+                                    "type": "object"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "summary": "Return a list of active Celery worker tasks",
+                "tags": [
+                    "root"
+                ]
+            }
+        },
+        "/api/v1/tasks/{task_id}": {
+            "get": {
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "properties": {
+                                "current": {
+                                    "description": "Current steps completed",
+                                    "type": "integer"
+                                },
+                                "state": {
+                                    "description": "Current job state",
+                                    "type": "string"
+                                },
+                                "status": {
+                                    "description": "Status details about job",
+                                    "type": "string"
+                                },
+                                "total": {
+                                    "description": "Total number of steps",
+                                    "type": "integer"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    }
+                },
+                "summary": "View status of a Celery worker task {task_id}",
+                "tags": [
+                    "provisioner"
+                ]
+            }
+        },
         "/api/v1/vm": {
             "get": {
                 "description": "",
@@ -6542,7 +6802,7 @@
                     {
                         "description": "A local filesystem path on the primary coordinator where the backup is stored",
                         "in": "query",
-                        "name": "target_path",
+                        "name": "backup_path",
                         "required": true,
                         "type": "string"
                     },
@@ -6585,7 +6845,7 @@
                     {
                         "description": "A local filesystem path on the primary coordinator to store the backup",
                         "in": "query",
-                        "name": "target_path",
+                        "name": "backup_path",
                         "required": true,
                         "type": "string"
                     },
@@ -6729,16 +6989,11 @@
             "post": {
                 "description": "",
                 "responses": {
-                    "200": {
+                    "202": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/Message"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/Message"
+                            "description": "The Celery job ID of the task",
+                            "type": "string"
                         }
                     }
                 },
@@ -6970,7 +7225,7 @@
                     {
                         "description": "A local filesystem path on the primary coordinator where the backup is stored",
                         "in": "query",
-                        "name": "target_path",
+                        "name": "backup_path",
                         "required": true,
                         "type": "string"
                     },
