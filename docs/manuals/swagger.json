@@ -540,6 +540,10 @@
                     },
                     "type": "array"
                 },
+                "interfaces": {
+                    "description": "Details on speed, bytes, and packets per second of each node physical network interface",
+                    "type": "object"
+                },
                 "kernel": {
                     "desription": "The running kernel version from uname",
                     "type": "string"
@@ -2020,7 +2024,7 @@
                 ]
             }
         },
-        "/api/v1/metrics/pvc": {
+        "/api/v1/metrics/health": {
             "get": {
                 "description": "<br/>Endpoint is unauthenticated to allow metrics exfiltration without having to deal<br/>with the Prometheus compatibility later.",
                 "responses": {
@@ -2031,7 +2035,24 @@
                         "description": "Bad request"
                     }
                 },
-                "summary": "Return the current PVC cluster status in Prometheus-compatible metrics format",
+                "summary": "Return the current PVC cluster health status in Prometheus-compatible metrics format",
+                "tags": [
+                    "root"
+                ]
+            }
+        },
+        "/api/v1/metrics/resource": {
+            "get": {
+                "description": "<br/>Endpoint is unauthenticated to allow metrics exfiltration without having to deal<br/>with the Prometheus compatibility later.",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                },
+                "summary": "Return the current PVC cluster resource utilizations in Prometheus-compatible metrics format",
                 "tags": [
                     "root"
                 ]
