@@ -214,6 +214,10 @@
         },
         "VMMetadata": {
             "properties": {
+                "migration_max_downtime": {
+                    "description": "The maximum time in milliseconds that a VM can be down for during a live migration; busy VMs may require a larger max_downtime",
+                    "type": "integer"
+                },
                 "migration_method": {
                     "description": "The preferred migration method (live, shutdown, none)",
                     "type": "string"
@@ -1209,6 +1213,10 @@
                     "description": "Internal provisioner template ID",
                     "type": "integer"
                 },
+                "migration_max_downtime": {
+                    "description": "The maximum time in milliseconds that a VM can be down for during a live migration; busy VMs may require a larger max_downtime",
+                    "type": "integer"
+                },
                 "migration_method": {
                     "description": "The preferred migration method (live, shutdown, none)",
                     "type": "string"
@@ -1416,6 +1424,10 @@
                 "migrated": {
                     "description": "Whether the VM has been migrated, either \"no\" or \"from <last_node>\"",
                     "type": "string"
+                },
+                "migration_max_downtime": {
+                    "description": "The maximum time in milliseconds that a VM can be down for during a live migration; busy VMs may require a larger max_downtime",
+                    "type": "integer"
                 },
                 "migration_method": {
                     "description": "The preferred migration method (live, shutdown, none)",
@@ -4522,6 +4534,13 @@
                         "name": "migration_method",
                         "required": false,
                         "type": "string"
+                    },
+                    {
+                        "description": "The maximum time in milliseconds that a VM can be down for during a live migration; busy VMs may require a larger max_downtime",
+                        "in": "query",
+                        "name": "migration_max_downtime",
+                        "required": false,
+                        "type": "integer"
                     }
                 ],
                 "responses": {
@@ -4652,6 +4671,13 @@
                         "name": "migration_method",
                         "required": false,
                         "type": "string"
+                    },
+                    {
+                        "description": "The maximum time in milliseconds that a VM can be down for during a live migration; busy VMs may require a larger max_downtime",
+                        "in": "query",
+                        "name": "migration_max_downtime",
+                        "required": false,
+                        "type": "integer"
                     }
                 ],
                 "responses": {
@@ -4729,6 +4755,12 @@
                         "in": "query",
                         "name": "migration_method",
                         "type": "string"
+                    },
+                    {
+                        "description": "The maximum time in milliseconds that a VM can be down for during a live migration; busy VMs may require a larger max_downtime",
+                        "in": "query",
+                        "name": "migration_max_downtime",
+                        "type": "integer"
                     }
                 ],
                 "responses": {
@@ -6598,6 +6630,14 @@
                         "type": "string"
                     },
                     {
+                        "default": 300,
+                        "description": "The maximum time in milliseconds that a VM can be down for during a live migration; busy VMs may require a larger max_downtime",
+                        "in": "query",
+                        "name": "migration_max_downtime",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
                         "description": "The user tag(s) of the VM",
                         "in": "query",
                         "items": {
@@ -6755,6 +6795,14 @@
                         "name": "migration_method",
                         "required": false,
                         "type": "string"
+                    },
+                    {
+                        "default": 300,
+                        "description": "The maximum time in milliseconds that a VM can be down for during a live migration; busy VMs may require a larger max_downtime",
+                        "in": "query",
+                        "name": "migration_max_downtime",
+                        "required": false,
+                        "type": "integer"
                     },
                     {
                         "description": "The user tag(s) of the VM",
@@ -7114,6 +7162,14 @@
                         "name": "migration_method",
                         "required": false,
                         "type": "string"
+                    },
+                    {
+                        "default": "none",
+                        "description": "The maximum time in milliseconds that a VM can be down for during a live migration; busy VMs may require a larger max_downtime",
+                        "in": "query",
+                        "name": "migration_max_downtime",
+                        "required": false,
+                        "type": "integer"
                     }
                 ],
                 "responses": {
