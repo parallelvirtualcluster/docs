@@ -1992,7 +1992,7 @@
         },
         "/api/v1/metrics": {
             "get": {
-                "description": "the Ceph cluster metrics as one document.<br/><br/>Endpoint is unauthenticated to allow metrics exfiltration without having to deal<br/>with the Prometheus compatibility later.",
+                "description": "the Ceph cluster metrics as one document.<br/><br/>Endpoint is UNAUTHENTICATED to allow metrics exfiltration without having to deal<br/>with Prometheus compatibility (only basic auth support). Ensure this API endpoint<br/>is only opened to trusted networks that cannot abuse the data provided!",
                 "responses": {
                     "200": {
                         "description": "OK"
@@ -2009,7 +2009,7 @@
         },
         "/api/v1/metrics/ceph": {
             "get": {
-                "description": "<br/>Proxies a metrics request to the current active MGR, since this is dynamic<br/>and can't be controlled by PVC easily.",
+                "description": "<br/>Proxies a metrics request to the current active MGR, since this is dynamic<br/>and can't be controlled by PVC easily.<br/><br/>Endpoint is UNAUTHENTICATED to allow metrics exfiltration without having to deal<br/>with Prometheus compatibility (only basic auth support). Ensure this API endpoint<br/>is only opened to trusted networks that cannot abuse the data provided!",
                 "responses": {
                     "200": {
                         "description": "OK"
@@ -2026,7 +2026,7 @@
         },
         "/api/v1/metrics/health": {
             "get": {
-                "description": "<br/>Endpoint is unauthenticated to allow metrics exfiltration without having to deal<br/>with the Prometheus compatibility later.",
+                "description": "<br/>Endpoint is UNAUTHENTICATED to allow metrics exfiltration without having to deal<br/>with Prometheus compatibility (only basic auth support). Ensure this API endpoint<br/>is only opened to trusted networks that cannot abuse the data provided!",
                 "responses": {
                     "200": {
                         "description": "OK"
@@ -2043,7 +2043,7 @@
         },
         "/api/v1/metrics/resource": {
             "get": {
-                "description": "<br/>Endpoint is unauthenticated to allow metrics exfiltration without having to deal<br/>with the Prometheus compatibility later.",
+                "description": "<br/>Endpoint is UNAUTHENTICATED to allow metrics exfiltration without having to deal<br/>with Prometheus compatibility (only basic auth support). Ensure this API endpoint<br/>is only opened to trusted networks that cannot abuse the data provided!",
                 "responses": {
                     "200": {
                         "description": "OK"
@@ -2053,6 +2053,23 @@
                     }
                 },
                 "summary": "Return the current PVC cluster resource utilizations in Prometheus-compatible metrics format",
+                "tags": [
+                    "root"
+                ]
+            }
+        },
+        "/api/v1/metrics/zookeeper": {
+            "get": {
+                "description": "<br/>Proxies a metrics request to the current primary node, since all coordinators<br/>run an active Zookeeper instance and we want one central location.<br/><br/>Endpoint is UNAUTHENTICATED to allow metrics exfiltration without having to deal<br/>with Prometheus compatibility (only basic auth support). Ensure this API endpoint<br/>is only opened to trusted networks that cannot abuse the data provided!",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                },
+                "summary": "Return the current PVC Zookeeper Prometheus metrics",
                 "tags": [
                     "root"
                 ]
