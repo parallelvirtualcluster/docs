@@ -6205,6 +6205,14 @@
                         "name": "size",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "default": "flase",
+                        "description": "Force action if volume creation would violate 80% full soft cap on the pool",
+                        "in": "query",
+                        "name": "force",
+                        "required": false,
+                        "type": "boolean"
                     }
                 ],
                 "responses": {
@@ -6279,6 +6287,14 @@
                         "name": "size",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "default": "flase",
+                        "description": "Force action if volume creation would violate 80% full soft cap on the pool",
+                        "in": "query",
+                        "name": "force",
+                        "required": false,
+                        "type": "boolean"
                     }
                 ],
                 "responses": {
@@ -6322,6 +6338,14 @@
                         "name": "new_name",
                         "required": false,
                         "type": "string"
+                    },
+                    {
+                        "default": "flase",
+                        "description": "Force action if new volume size would violate 80% full soft cap on the pool",
+                        "in": "query",
+                        "name": "force",
+                        "required": false,
+                        "type": "boolean"
                     }
                 ],
                 "responses": {
@@ -6360,6 +6384,14 @@
                         "name": "new_volume",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "default": "flase",
+                        "description": "Force action if clone volume size would violate 80% full soft cap on the pool",
+                        "in": "query",
+                        "name": "force",
+                        "required": false,
+                        "type": "boolean"
                     }
                 ],
                 "responses": {
