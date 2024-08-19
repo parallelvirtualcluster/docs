@@ -1521,6 +1521,42 @@
                     "description": "The provisioner profile used to create the VM",
                     "type": "string"
                 },
+                "snapshots": {
+                    "description": "The snapshot(s) of the VM",
+                    "items": {
+                        "id": "VMSnapshot",
+                        "properties": {
+                            "age": {
+                                "description": "Human-readable age of the snapshot in the largest viable unit (seconds, minutes, hours, days)",
+                                "type": "string"
+                            },
+                            "name": {
+                                "description": "The name of the snapshot",
+                                "type": "string"
+                            },
+                            "rbd_snapshots": {
+                                "items": {
+                                    "description": "A list of RBD volume snapshots belonging to this VM snapshot, in '<pool>/<volume>@<snapshot>' format",
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            },
+                            "timestamp": {
+                                "descrpition": "Unix timestamp of the snapshot",
+                                "type": "string"
+                            },
+                            "xml_diff_lines": {
+                                "items": {
+                                    "description": "A list of strings representing the lines of an (n=1) unified diff between the current VM XML specification and the snapshot VM XML specification",
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
                 "state": {
                     "description": "The current state of the VM",
                     "type": "string"
@@ -1878,7 +1914,6 @@
                         "schema": {
                             "items": {
                                 "$ref": "#/definitions/fault",
-                                "id": "fault",
                                 "type": "object"
                             },
                             "type": "array"
@@ -4016,6 +4051,13 @@
                         "name": "vni",
                         "required": false,
                         "type": "integer"
+                    },
+                    {
+                        "description": "Bypass checks to permit duplicate VNIs for niche usecases",
+                        "in": "query",
+                        "name": "permit_duplicate",
+                        "required": false,
+                        "type": "boolean"
                     }
                 ],
                 "responses": {
@@ -4083,6 +4125,15 @@
             },
             "post": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Bypass checks to permit duplicate VNIs for niche usecases",
+                        "in": "query",
+                        "name": "permit_duplicate",
+                        "required": false,
+                        "type": "boolean"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -6085,6 +6136,58 @@
                 ]
             }
         },
+        "/api/v1/storage/ceph/snapshot/{pool}/{volume}/{snapshot}/rollback": {
+            "post": {
+                "description": "<br/>WARNING: This action cannot be done on an active RBD volume. All IO MUST be stopped first.",
+                "parameters": [
+                    {
+                        "description": "The name of the snapshot",
+                        "in": "query",
+                        "name": "snapshot",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The name of the volume",
+                        "in": "query",
+                        "name": "volume",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The name of the pool",
+                        "in": "query",
+                        "name": "pool",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    }
+                },
+                "summary": "Roll back an RBD volume {volume} in pool {pool} to snapshot {snapshot}",
+                "tags": [
+                    "storage / ceph"
+                ]
+            }
+        },
         "/api/v1/storage/ceph/status": {
             "get": {
                 "description": "",
@@ -7392,6 +7495,156 @@
                     }
                 },
                 "summary": "Restore a backup of {vm} and its volumes from a local primary coordinator filesystem path",
+                "tags": [
+                    "vm"
+                ]
+            }
+        },
+        "/api/v1/vm/{vm}/snapshot": {
+            "delete": {
+                "description": "",
+                "parameters": [
+                    {
+                        "description": "The name of the snapshot to remove",
+                        "in": "query",
+                        "name": "snapshot_name",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Execution error",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    }
+                },
+                "summary": "Remove a snapshot of a VM's disks and configuration",
+                "tags": [
+                    "vm"
+                ]
+            },
+            "post": {
+                "description": "",
+                "parameters": [
+                    {
+                        "description": "A custom name for the snapshot instead of autogeneration by date",
+                        "in": "query",
+                        "name": "snapshot_name",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Execution error",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    }
+                },
+                "summary": "Take a snapshot of a VM's disks and configuration",
+                "tags": [
+                    "vm"
+                ]
+            }
+        },
+        "/api/v1/vm/{vm}/snapshot/export": {
+            "post": {
+                "description": "",
+                "parameters": [
+                    {
+                        "description": "The name of the snapshot to roll back to",
+                        "in": "query",
+                        "name": "snapshot_name",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Execution error",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    }
+                },
+                "summary": "Roll back to a snapshot of a VM's disks and configuration",
+                "tags": [
+                    "vm"
+                ]
+            }
+        },
+        "/api/v1/vm/{vm}/snapshot/rollback": {
+            "post": {
+                "description": "",
+                "parameters": [
+                    {
+                        "description": "The name of the snapshot to roll back to",
+                        "in": "query",
+                        "name": "snapshot_name",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Execution error",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    }
+                },
+                "summary": "Roll back to a snapshot of a VM's disks and configuration",
                 "tags": [
                     "vm"
                 ]
