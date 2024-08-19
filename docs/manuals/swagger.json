@@ -335,6 +335,46 @@
             },
             "type": "object"
         },
+        "fault": {
+            "properties": {
+                "acknowledged_at": {
+                    "description": "The time the fault was acknowledged, or empty if not acknowledged",
+                    "example": "2023-12-01 17:50:00.000000",
+                    "type": "date"
+                },
+                "first_reported": {
+                    "description": "The first time the fault was reported",
+                    "example": "2023-12-01 16:47:59.849742",
+                    "type": "date"
+                },
+                "health_delta": {
+                    "description": "The health delta (amount it reduces cluster health from 100%) of the fault",
+                    "example": 25,
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "The ID of the fault",
+                    "example": "10ae144b78b4cc5fdf09e2ebbac51235",
+                    "type": "string"
+                },
+                "last_reported": {
+                    "description": "The last time the fault was reported",
+                    "example": "2023-12-01 17:39:45.188398",
+                    "type": "date"
+                },
+                "message": {
+                    "description": "The textual description of the fault",
+                    "example": "Node hv1 was at 40% (psur@-10%, psql@-50%) <= 50% health",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "The current state of the fault, either \"new\" or \"ack\" (acknowledged)",
+                    "example": "new",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
         "lease": {
             "properties": {
                 "hostname": {
@@ -1813,45 +1853,7 @@
                         "description": "OK",
                         "schema": {
                             "items": {
-                                "id": "fault",
-                                "properties": {
-                                    "acknowledged_at": {
-                                        "description": "The time the fault was acknowledged, or empty if not acknowledged",
-                                        "example": "2023-12-01 17:50:00.000000",
-                                        "type": "date"
-                                    },
-                                    "first_reported": {
-                                        "description": "The first time the fault was reported",
-                                        "example": "2023-12-01 16:47:59.849742",
-                                        "type": "date"
-                                    },
-                                    "health_delta": {
-                                        "description": "The health delta (amount it reduces cluster health from 100%) of the fault",
-                                        "example": 25,
-                                        "type": "integer"
-                                    },
-                                    "id": {
-                                        "description": "The ID of the fault",
-                                        "example": "10ae144b78b4cc5fdf09e2ebbac51235",
-                                        "type": "string"
-                                    },
-                                    "last_reported": {
-                                        "description": "The last time the fault was reported",
-                                        "example": "2023-12-01 17:39:45.188398",
-                                        "type": "date"
-                                    },
-                                    "message": {
-                                        "description": "The textual description of the fault",
-                                        "example": "Node hv1 was at 40% (psur@-10%, psql@-50%) <= 50% health",
-                                        "type": "string"
-                                    },
-                                    "status": {
-                                        "description": "The current state of the fault, either \"new\" or \"ack\" (acknowledged)",
-                                        "example": "new",
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object"
+                                "$ref": "#/definitions/fault"
                             },
                             "type": "array"
                         }
@@ -1913,8 +1915,7 @@
                         "description": "OK",
                         "schema": {
                             "items": {
-                                "$ref": "#/definitions/fault",
-                                "type": "object"
+                                "$ref": "#/definitions/fault"
                             },
                             "type": "array"
                         }
