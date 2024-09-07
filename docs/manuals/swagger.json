@@ -108,6 +108,86 @@
                     "example": "0.9.61",
                     "type": "string"
                 },
+                "resources": {
+                    "properties": {
+                        "disk": {
+                            "properties": {
+                                "free": {
+                                    "description": "The total free size of all OSDs in KB",
+                                    "type": "integer"
+                                },
+                                "total": {
+                                    "description": "The total size of all OSDs in KB",
+                                    "type": "integer"
+                                },
+                                "used": {
+                                    "description": "The total used size of all OSDs in KB",
+                                    "type": "integer"
+                                },
+                                "utilization": {
+                                    "description": "The disk utilization percentage (average) of the cluster",
+                                    "type": "float"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "memory": {
+                            "properties": {
+                                "allocated": {
+                                    "description": "The total amount of RAM allocated to running domains in MB",
+                                    "type": "integer"
+                                },
+                                "free": {
+                                    "description": "The total free RAM (all nodes) in MB",
+                                    "type": "integer"
+                                },
+                                "provisioned": {
+                                    "description": "The total amount of RAM provisioned to all domains (regardless of state) in MB",
+                                    "type": "integer"
+                                },
+                                "total": {
+                                    "description": "The total amount of RAM (all nodes) in MB",
+                                    "type": "integer"
+                                },
+                                "used": {
+                                    "description": "The total used RAM (all nodes) in MB",
+                                    "type": "integer"
+                                },
+                                "utilization": {
+                                    "description": "The memory utilization percentage (average) of the cluster",
+                                    "type": "float"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "vcpu": {
+                            "properties": {
+                                "allocated": {
+                                    "description": "The total number of vCPUs allocated to running domains",
+                                    "type": "integer"
+                                },
+                                "load": {
+                                    "description": "The current 5-minute CPU load (all nodes summed)",
+                                    "type": "float"
+                                },
+                                "provisioned": {
+                                    "description": "The total number of vCPUs provisioned to all domains (regardless of state)",
+                                    "type": "integer"
+                                },
+                                "total": {
+                                    "description": "The total number of real CPU cores (all nodes)",
+                                    "type": "integer"
+                                },
+                                "utilization": {
+                                    "description": "The CPU utilization percentage (average) of the cluster",
+                                    "type": "float"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "type": "object"
+                },
                 "snapshots": {
                     "description": "The total number of snapshots in the storage cluster",
                     "type": "integer"
@@ -6554,6 +6634,35 @@
                     }
                 },
                 "summary": "Clone Ceph volume {volume} in pool {pool}",
+                "tags": [
+                    "storage / ceph"
+                ]
+            }
+        },
+        "/api/v1/storage/ceph/volume/{pool}/{volume}/scan": {
+            "post": {
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    }
+                },
+                "summary": "Scan a Ceph volume {volume} in pool {pool} for stats (after import)",
                 "tags": [
                     "storage / ceph"
                 ]
