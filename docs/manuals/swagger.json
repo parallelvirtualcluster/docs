@@ -10,6 +10,24 @@
             },
             "type": "object"
         },
+        "CeleryTask": {
+            "description": "The Celery job information of the task",
+            "properties": {
+                "run_on": {
+                    "description": "The worker daemon instance assigned to run the task",
+                    "type": "string"
+                },
+                "task_id": {
+                    "description": "The internal Celery job ID of the task",
+                    "type": "string"
+                },
+                "task_name": {
+                    "description": "The internal Celery job task name",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
         "Cluster Data": {
             "type": "object"
         },
@@ -3154,8 +3172,7 @@
                     "202": {
                         "description": "Accepted",
                         "schema": {
-                            "description": "The Celery job ID of the task",
-                            "type": "string"
+                            "$ref": "#/definitions/CeleryTask"
                         }
                     },
                     "400": {
@@ -5308,8 +5325,7 @@
                     "202": {
                         "description": "Accepted",
                         "schema": {
-                            "description": "The Celery job ID of the task",
-                            "type": "string"
+                            "$ref": "#/definitions/CeleryTask"
                         }
                     },
                     "400": {
@@ -5446,8 +5462,7 @@
                     "202": {
                         "description": "Accepted",
                         "schema": {
-                            "description": "The Celery job ID of the task",
-                            "type": "string"
+                            "$ref": "#/definitions/CeleryTask"
                         }
                     },
                     "400": {
@@ -5486,8 +5501,7 @@
                     "202": {
                         "description": "Accepted",
                         "schema": {
-                            "description": "The Celery job ID of the task",
-                            "type": "string"
+                            "$ref": "#/definitions/CeleryTask"
                         }
                     },
                     "400": {
@@ -5566,8 +5580,7 @@
                     "202": {
                         "description": "Accepted",
                         "schema": {
-                            "description": "The Celery job ID of the task",
-                            "type": "string"
+                            "$ref": "#/definitions/CeleryTask"
                         }
                     },
                     "400": {
@@ -5597,8 +5610,7 @@
                     "202": {
                         "description": "Accepted",
                         "schema": {
-                            "description": "The Celery job ID of the task",
-                            "type": "string"
+                            "$ref": "#/definitions/CeleryTask"
                         }
                     },
                     "400": {
@@ -5684,8 +5696,7 @@
                     "202": {
                         "description": "Accepted",
                         "schema": {
-                            "description": "The Celery job ID of the task",
-                            "type": "string"
+                            "$ref": "#/definitions/CeleryTask"
                         }
                     },
                     "400": {
@@ -6873,8 +6884,7 @@
                     "202": {
                         "description": "Accepted",
                         "schema": {
-                            "description": "The Celery job ID of the task",
-                            "type": "string"
+                            "$ref": "#/definitions/CeleryTask"
                         }
                     },
                     "400": {
@@ -7237,8 +7247,7 @@
                     "202": {
                         "description": "Accepted",
                         "schema": {
-                            "description": "The Celery job ID of the task",
-                            "type": "string"
+                            "$ref": "#/definitions/CeleryTask"
                         }
                     },
                     "400": {
@@ -7268,8 +7277,7 @@
                     "202": {
                         "description": "Accepted",
                         "schema": {
-                            "description": "The Celery job ID of the task",
-                            "type": "string"
+                            "$ref": "#/definitions/CeleryTask"
                         }
                     },
                     "400": {
@@ -7292,8 +7300,7 @@
                     "202": {
                         "description": "Accepted",
                         "schema": {
-                            "description": "The Celery job ID of the task",
-                            "type": "string"
+                            "$ref": "#/definitions/CeleryTask"
                         }
                     }
                 },
@@ -7595,8 +7602,7 @@
                     "202": {
                         "description": "Accepted",
                         "schema": {
-                            "description": "The Celery job ID of the task",
-                            "type": "string"
+                            "$ref": "#/definitions/CeleryTask"
                         }
                     },
                     "400": {
@@ -7632,8 +7638,7 @@
                     "202": {
                         "description": "Accepted",
                         "schema": {
-                            "description": "The Celery job ID of the task",
-                            "type": "string"
+                            "$ref": "#/definitions/CeleryTask"
                         }
                     },
                     "400": {
@@ -7685,8 +7690,7 @@
                     "202": {
                         "description": "Accepted",
                         "schema": {
-                            "description": "The Celery job ID of the task",
-                            "type": "string"
+                            "$ref": "#/definitions/CeleryTask"
                         }
                     },
                     "400": {
@@ -7739,8 +7743,7 @@
                     "202": {
                         "description": "Accepted",
                         "schema": {
-                            "description": "The Celery job ID of the task",
-                            "type": "string"
+                            "$ref": "#/definitions/CeleryTask"
                         }
                     },
                     "400": {
@@ -8010,8 +8013,7 @@
                     "202": {
                         "description": "Accepted",
                         "schema": {
-                            "description": "The Celery job ID of the task",
-                            "type": "string"
+                            "$ref": "#/definitions/CeleryTask"
                         }
                     },
                     "400": {
@@ -8086,8 +8088,7 @@
                     "202": {
                         "description": "Accepted",
                         "schema": {
-                            "description": "The Celery job ID of the task",
-                            "type": "string"
+                            "$ref": "#/definitions/CeleryTask"
                         }
                     },
                     "400": {
