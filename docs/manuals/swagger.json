@@ -1185,131 +1185,7 @@
         "storagebenchmark": {
             "properties": {
                 "benchmark_result": {
-                    "description": "A format 0 test result",
-                    "properties": {
-                        "test_name": {
-                            "properties": {
-                                "bandwidth": {
-                                    "properties": {
-                                        "max": {
-                                            "description": "The maximum bandwidth (KiB/s) measurement",
-                                            "type": "string (integer)"
-                                        },
-                                        "mean": {
-                                            "description": "The mean bandwidth (KiB/s) measurement",
-                                            "type": "string (float)"
-                                        },
-                                        "min": {
-                                            "description": "The minimum bandwidth (KiB/s) measurement",
-                                            "type": "string (integer)"
-                                        },
-                                        "numsamples": {
-                                            "description": "The number of samples taken during the test",
-                                            "type": "string (integer)"
-                                        },
-                                        "stdev": {
-                                            "description": "The standard deviation of bandwidth",
-                                            "type": "string (float)"
-                                        }
-                                    },
-                                    "type": "object"
-                                },
-                                "cpu": {
-                                    "properties": {
-                                        "ctxsw": {
-                                            "description": "The number of context switches during the test",
-                                            "type": "string (integer)"
-                                        },
-                                        "majfault": {
-                                            "description": "The number of major page faults during the test",
-                                            "type": "string (integer)"
-                                        },
-                                        "minfault": {
-                                            "description": "The number of minor page faults during the test",
-                                            "type": "string (integer)"
-                                        },
-                                        "system": {
-                                            "description": "The percentage of test time spent in system (kernel) space",
-                                            "type": "string (float percentage)"
-                                        },
-                                        "user": {
-                                            "description": "The percentage of test time spent in user space",
-                                            "type": "string (float percentage)"
-                                        }
-                                    },
-                                    "type": "object"
-                                },
-                                "iops": {
-                                    "properties": {
-                                        "max": {
-                                            "description": "The maximum IOPS measurement",
-                                            "type": "string (integer)"
-                                        },
-                                        "mean": {
-                                            "description": "The mean IOPS measurement",
-                                            "type": "string (float)"
-                                        },
-                                        "min": {
-                                            "description": "The minimum IOPS measurement",
-                                            "type": "string (integer)"
-                                        },
-                                        "numsamples": {
-                                            "description": "The number of samples taken during the test",
-                                            "type": "string (integer)"
-                                        },
-                                        "stdev": {
-                                            "description": "The standard deviation of IOPS",
-                                            "type": "string (float)"
-                                        }
-                                    },
-                                    "type": "object"
-                                },
-                                "latency": {
-                                    "properties": {
-                                        "max": {
-                                            "description": "The maximum latency measurement",
-                                            "type": "string (integer)"
-                                        },
-                                        "mean": {
-                                            "description": "The mean latency measurement",
-                                            "type": "string (float)"
-                                        },
-                                        "min": {
-                                            "description": "The minimum latency measurement",
-                                            "type": "string (integer)"
-                                        },
-                                        "stdev": {
-                                            "description": "The standard deviation of latency",
-                                            "type": "string (float)"
-                                        }
-                                    },
-                                    "type": "object"
-                                },
-                                "overall": {
-                                    "properties": {
-                                        "bandwidth": {
-                                            "description": "The average bandwidth (KiB/s)",
-                                            "type": "string (integer)"
-                                        },
-                                        "iops": {
-                                            "description": "The average IOPS",
-                                            "type": "string (integer)"
-                                        },
-                                        "iosize": {
-                                            "description": "The total size of the benchmark data",
-                                            "type": "string (integer)"
-                                        },
-                                        "runtime": {
-                                            "description": "The total test time in milliseconds",
-                                            "type": "string (integer)"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
+                    "description": "A benchmark test result; format not documented due to complexity",
                     "type": "object"
                 },
                 "id": {
@@ -3275,16 +3151,11 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "202": {
+                        "description": "Accepted",
                         "schema": {
-                            "properties": {
-                                "task_id": {
-                                    "description": "Task ID for the provisioner Celery worker",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
+                            "description": "The Celery job ID of the task",
+                            "type": "string"
                         }
                     },
                     "400": {
@@ -5424,14 +5295,27 @@
                         "name": "pool",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "description": "An optional override name for the job",
+                        "in": "query",
+                        "name": "name",
+                        "required": false,
+                        "type": "string"
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "202": {
+                        "description": "Accepted",
                         "schema": {
-                            "description": "The Celery job ID of the benchmark (unused elsewhere)",
+                            "description": "The Celery job ID of the task",
                             "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
                         }
                     }
                 },
@@ -5559,10 +5443,11 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "202": {
+                        "description": "Accepted",
                         "schema": {
-                            "$ref": "#/definitions/Message"
+                            "description": "The Celery job ID of the task",
+                            "type": "string"
                         }
                     },
                     "400": {
@@ -5586,7 +5471,7 @@
                         "description": "Force removal even if some step(s) fail",
                         "in": "query",
                         "name": "force",
-                        "required": "flase",
+                        "required": false,
                         "type": "boolean"
                     },
                     {
@@ -5598,10 +5483,11 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "202": {
+                        "description": "Accepted",
                         "schema": {
-                            "$ref": "#/definitions/Message"
+                            "description": "The Celery job ID of the task",
+                            "type": "string"
                         }
                     },
                     "400": {
@@ -5677,10 +5563,11 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "202": {
+                        "description": "Accepted",
                         "schema": {
-                            "$ref": "#/definitions/Message"
+                            "description": "The Celery job ID of the task",
+                            "type": "string"
                         }
                     },
                     "400": {
@@ -5707,10 +5594,11 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "202": {
+                        "description": "Accepted",
                         "schema": {
-                            "$ref": "#/definitions/Message"
+                            "description": "The Celery job ID of the task",
+                            "type": "string"
                         }
                     },
                     "400": {
@@ -5793,10 +5681,11 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "202": {
+                        "description": "Accepted",
                         "schema": {
-                            "$ref": "#/definitions/Message"
+                            "description": "The Celery job ID of the task",
+                            "type": "string"
                         }
                     },
                     "400": {
@@ -6426,7 +6315,7 @@
                         "type": "string"
                     },
                     {
-                        "default": "flase",
+                        "default": false,
                         "description": "Force action if volume creation would violate 80% full soft cap on the pool",
                         "in": "query",
                         "name": "force",
@@ -6508,7 +6397,7 @@
                         "type": "string"
                     },
                     {
-                        "default": "flase",
+                        "default": false,
                         "description": "Force action if volume creation would violate 80% full soft cap on the pool",
                         "in": "query",
                         "name": "force",
@@ -6547,7 +6436,7 @@
                     {
                         "description": "The new volume size in bytes (or with a metric suffix, i.e. k/M/G/T); must be greater than the previous size (shrinking not supported)",
                         "in": "query",
-                        "name": "size",
+                        "name": "new_size",
                         "required": false,
                         "type": "string"
                     },
@@ -6559,7 +6448,7 @@
                         "type": "string"
                     },
                     {
-                        "default": "flase",
+                        "default": false,
                         "description": "Force action if new volume size would violate 80% full soft cap on the pool",
                         "in": "query",
                         "name": "force",
@@ -6605,7 +6494,7 @@
                         "type": "string"
                     },
                     {
-                        "default": "flase",
+                        "default": false,
                         "description": "Force action if clone volume size would violate 80% full soft cap on the pool",
                         "in": "query",
                         "name": "force",
@@ -6981,16 +6870,11 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "202": {
+                        "description": "Accepted",
                         "schema": {
-                            "properties": {
-                                "task_id": {
-                                    "description": "Task ID for the provisioner Celery worker",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
+                            "description": "The Celery job ID of the task",
+                            "type": "string"
                         }
                     },
                     "400": {
@@ -7350,10 +7234,11 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "202": {
+                        "description": "Accepted",
                         "schema": {
-                            "$ref": "#/definitions/Message"
+                            "description": "The Celery job ID of the task",
+                            "type": "string"
                         }
                     },
                     "400": {
@@ -7380,10 +7265,11 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "202": {
+                        "description": "Accepted",
                         "schema": {
-                            "$ref": "#/definitions/Message"
+                            "description": "The Celery job ID of the task",
+                            "type": "string"
                         }
                     },
                     "400": {
@@ -7404,7 +7290,7 @@
                 "description": "",
                 "responses": {
                     "202": {
-                        "description": "OK",
+                        "description": "Accepted",
                         "schema": {
                             "description": "The Celery job ID of the task",
                             "type": "string"
@@ -7706,10 +7592,11 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "202": {
+                        "description": "Accepted",
                         "schema": {
-                            "$ref": "#/definitions/Message"
+                            "description": "The Celery job ID of the task",
+                            "type": "string"
                         }
                     },
                     "400": {
@@ -7742,10 +7629,11 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "202": {
+                        "description": "Accepted",
                         "schema": {
-                            "$ref": "#/definitions/Message"
+                            "description": "The Celery job ID of the task",
+                            "type": "string"
                         }
                     },
                     "400": {
@@ -7790,14 +7678,15 @@
                         "in": "query",
                         "name": "incremental_parent",
                         "required": false,
-                        "type": "boolean"
+                        "type": "string"
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "202": {
+                        "description": "Accepted",
                         "schema": {
-                            "$ref": "#/definitions/Message"
+                            "description": "The Celery job ID of the task",
+                            "type": "string"
                         }
                     },
                     "400": {
@@ -7847,10 +7736,11 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "202": {
+                        "description": "Accepted",
                         "schema": {
-                            "$ref": "#/definitions/Message"
+                            "description": "The Celery job ID of the task",
+                            "type": "string"
                         }
                     },
                     "400": {
@@ -7872,14 +7762,28 @@
                 ]
             }
         },
-        "/api/v1/vm/{vm}/snapshot/rollback": {
-            "post": {
-                "description": "",
+        "/api/v1/vm/{vm}/snapshot/receive/block": {
+            "patch": {
+                "description": "<br/>NOTICE: This is an API-internal endpoint used by /vm/<vm>/snapshot/send; it should never be called by a client.",
                 "parameters": [
                     {
-                        "description": "The name of the snapshot to roll back to",
+                        "description": "The name of the destination Ceph RBD data pool",
                         "in": "query",
-                        "name": "snapshot_name",
+                        "name": "pool",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The name of the destination Ceph RBD volume",
+                        "in": "query",
+                        "name": "volume",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The name of the destination Ceph RBD volume snapshot",
+                        "in": "query",
+                        "name": "snapshot",
                         "required": true,
                         "type": "string"
                     }
@@ -7904,7 +7808,302 @@
                         }
                     }
                 },
+                "summary": "Create the block snapshot at snapshot of volume",
+                "tags": [
+                    "vm"
+                ]
+            },
+            "post": {
+                "description": "<br/>NOTICE: This is an API-internal endpoint used by /vm/<vm>/snapshot/send; it should never be called by a client.",
+                "parameters": [
+                    {
+                        "description": "The name of the destination Ceph RBD data pool",
+                        "in": "query",
+                        "name": "pool",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The name of the destination Ceph RBD volume",
+                        "in": "query",
+                        "name": "volume",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The name of the destination Ceph RBD volume snapshot",
+                        "in": "query",
+                        "name": "snapshot",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The size in bytes of the Ceph RBD volume",
+                        "in": "query",
+                        "name": "size",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Execution error",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    }
+                },
+                "summary": "Receive a full snapshot of a single RBD volume from another PVC cluster",
+                "tags": [
+                    "vm"
+                ]
+            },
+            "put": {
+                "description": "<br/>NOTICE: This is an API-internal endpoint used by /vm/<vm>/snapshot/send; it should never be called by a client.",
+                "parameters": [
+                    {
+                        "description": "The name of the destination Ceph RBD data pool",
+                        "in": "query",
+                        "name": "pool",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The name of the destination Ceph RBD volume",
+                        "in": "query",
+                        "name": "volume",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The name of the destination Ceph RBD volume snapshot",
+                        "in": "query",
+                        "name": "snapshot",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The name of the destination Ceph RBD volume snapshot parent",
+                        "in": "query",
+                        "name": "source_snapshot",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Execution error",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    }
+                },
+                "summary": "Receive a single diff element from a snapshot of a single RBD volume from another PVC cluster",
+                "tags": [
+                    "vm"
+                ]
+            }
+        },
+        "/api/v1/vm/{vm}/snapshot/receive/config": {
+            "post": {
+                "description": "<br/>NOTICE: This is an API-internal endpoint used by /vm/<vm>/snapshot/send; it should never be called by a client.",
+                "parameters": [
+                    {
+                        "description": "The name of the destination Ceph RBD data pool",
+                        "in": "query",
+                        "name": "pool",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The name of the destination Ceph RBD volume",
+                        "in": "query",
+                        "name": "volume",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The name of the destination Ceph RBD volume snapshot",
+                        "in": "query",
+                        "name": "snapshot",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The size in bytes of the Ceph RBD volume",
+                        "in": "query",
+                        "name": "size",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "description": "The name of the destination Ceph RBD volume snapshot parent for incremental transfers",
+                        "in": "query",
+                        "name": "source_snapshot",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "400": {
+                        "description": "Execution error",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    }
+                },
+                "summary": "Receive a snapshot of a VM configuration from another PVC cluster",
+                "tags": [
+                    "vm"
+                ]
+            }
+        },
+        "/api/v1/vm/{vm}/snapshot/rollback": {
+            "post": {
+                "description": "",
+                "parameters": [
+                    {
+                        "description": "The name of the snapshot to roll back to",
+                        "in": "query",
+                        "name": "snapshot_name",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Accepted",
+                        "schema": {
+                            "description": "The Celery job ID of the task",
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Execution error",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    }
+                },
                 "summary": "Roll back to a snapshot of a VM's disks and configuration",
+                "tags": [
+                    "vm"
+                ]
+            }
+        },
+        "/api/v1/vm/{vm}/snapshot/send": {
+            "post": {
+                "description": "",
+                "parameters": [
+                    {
+                        "description": "The name of the snapshot to export (must exist)",
+                        "in": "query",
+                        "name": "snapshot_name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The base API URI of the destination PVC cluster (with prefix if applicable)",
+                        "in": "query",
+                        "name": "destination_api_uri",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The API authentication key of the destination PVC cluster",
+                        "in": "query",
+                        "name": "destination_api_key",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "default": true,
+                        "description": "Whether or not to validate SSL certificates for an SSL-enabled destination API",
+                        "in": "query",
+                        "name": "destination_api_verify_ssl",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "description": "A snapshot name to generate an incremental diff from; incremental send only if unset",
+                        "in": "query",
+                        "name": "incremental_parent",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "default": "source storage pool name",
+                        "description": "The remote cluster storage pool to create RBD volumes in, if different from the source storage pool",
+                        "in": "query",
+                        "name": "destination_storage_pool",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Accepted",
+                        "schema": {
+                            "description": "The Celery job ID of the task",
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Execution error",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    }
+                },
+                "summary": "Send a snapshot of a VM's disks and configuration to another PVC cluster",
                 "tags": [
                     "vm"
                 ]

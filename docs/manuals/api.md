@@ -4,7 +4,7 @@ The PVC API is a standalone client application for PVC. It interfaces directly w
 
 The API is built using Flask and is packaged in the Debian package `pvc-client-api`. The API depends on the common client functions of the `pvc-client-common` package as does the CLI client.
 
-Details of the API interface can be found in [the manual](/manuals/api).
+The full API endpoint and schema documentation [can be found here](/en/latest/manuals/api-reference.html).
 
 # PVC HTTP API manual
 
@@ -349,7 +349,3 @@ The Ceph monitor port. Should always be `6789`.
 * *required*
 
 The Libvirt storage secret UUID for the Ceph cluster.
-
-## API Endpoint Documentation
-
-The full API endpoint and schema documentation [can be found here](/manuals/api-reference.html).
