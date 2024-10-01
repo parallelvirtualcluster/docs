@@ -6852,7 +6852,7 @@
                         }
                     }
                 },
-                "summary": "Create a new virtual machine",
+                "summary": "Define/create a new virtual machine",
                 "tags": [
                     "vm"
                 ]
@@ -6959,7 +6959,7 @@
                 ]
             },
             "post": {
-                "description": "Note: The name {vm} is ignored; only the \"name\" value from the Libvirt XML is used<br/>This endpoint is identical to \"POST /api/v1/vm\"",
+                "description": "<br/>Note: The name {vm} is ignored; only the \"name\" value from the Libvirt XML is used<br/><br/>This endpoint is identical to \"POST /api/v1/vm\"",
                 "parameters": [
                     {
                         "description": "The raw Libvirt XML definition of the VM",
@@ -7061,7 +7061,7 @@
                         }
                     }
                 },
-                "summary": "Create new {vm}",
+                "summary": "Define/create a new virtual machine",
                 "tags": [
                     "vm"
                 ]
