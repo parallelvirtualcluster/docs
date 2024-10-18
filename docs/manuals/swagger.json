@@ -7419,6 +7419,135 @@
                 ]
             }
         },
+        "/api/v1/vm/{vm}/mirror/create": {
+            "post": {
+                "description": "<br/>This method handles both the creation of a new VM snapshot, as well as sending that snapshot to a remote cluster, creating or updating a VM mirror. It will also automatically handle full vs. incremental block sends if possible based on the available snapshots on both sides.",
+                "parameters": [
+                    {
+                        "description": "The base API URI of the destination PVC cluster (with prefix if applicable)",
+                        "in": "query",
+                        "name": "destination_api_uri",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The API authentication key of the destination PVC cluster",
+                        "in": "query",
+                        "name": "destination_api_key",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "default": true,
+                        "description": "Whether or not to validate SSL certificates for an SSL-enabled destination API",
+                        "in": "query",
+                        "name": "destination_api_verify_ssl",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "default": "source storage pool name",
+                        "description": "The remote cluster storage pool to create RBD volumes in, if different from the source storage pool",
+                        "in": "query",
+                        "name": "destination_storage_pool",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Accepted",
+                        "schema": {
+                            "$ref": "#/definitions/CeleryTask"
+                        }
+                    },
+                    "400": {
+                        "description": "Execution error",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    }
+                },
+                "summary": "Create (or update) a snapshot mirror of a VM to a remote cluster",
+                "tags": [
+                    "vm"
+                ]
+            }
+        },
+        "/api/v1/vm/{vm}/mirror/promote": {
+            "post": {
+                "description": "<br/>This method handles shutting down the VM on this cluster, creating a new VM snapshot, sending that snapshot to a remote cluster, then starting up the VM on the remote cluster. It will also automatically handle full vs. incremental block sends if possible based on the available snapshots on both sides.<br/><br/>NOTE: This method may be used alone to perform a one-shot cross-cluster move; creating the mirror first is not required, though doing so will improve performance by allowing an incremental block send.",
+                "parameters": [
+                    {
+                        "description": "The base API URI of the destination PVC cluster (with prefix if applicable)",
+                        "in": "query",
+                        "name": "destination_api_uri",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "The API authentication key of the destination PVC cluster",
+                        "in": "query",
+                        "name": "destination_api_key",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "default": true,
+                        "description": "Whether or not to validate SSL certificates for an SSL-enabled destination API",
+                        "in": "query",
+                        "name": "destination_api_verify_ssl",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "default": "source storage pool name",
+                        "description": "The remote cluster storage pool to create RBD volumes in, if different from the source storage pool",
+                        "in": "query",
+                        "name": "destination_storage_pool",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "default": false,
+                        "description": "Remove the VM on the source cluster once promoted (performs a full move between clusters)",
+                        "in": "query",
+                        "name": "remove_on_source",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Accepted",
+                        "schema": {
+                            "$ref": "#/definitions/CeleryTask"
+                        }
+                    },
+                    "400": {
+                        "description": "Execution error",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    }
+                },
+                "summary": "Promote a snapshot mirror of a VM on a remote cluster, flipping \"mirror\" state, and optionally removing the source VM on this cluster.",
+                "tags": [
+                    "vm"
+                ]
+            }
+        },
         "/api/v1/vm/{vm}/node": {
             "get": {
                 "description": "",
@@ -8150,7 +8279,7 @@
                         "type": "string"
                     },
                     {
-                        "description": "Whether to force stop instead of shutdown VM during disable",
+                        "description": "For \"disable\", force stop instead of shutdown and/or force mirror state; for \"start\" or \"stop\", force mirror state.",
                         "in": "query",
                         "name": "force",
                         "type": "boolean"
