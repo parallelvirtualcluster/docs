@@ -53,7 +53,7 @@
                 },
                 "maintenance": {
                     "description": "Whether the cluster is in maintenance mode or not (string boolean)",
-                    "example": true,
+                    "example": "true",
                     "type": "string"
                 },
                 "networks": {
@@ -144,7 +144,7 @@
                                 },
                                 "utilization": {
                                     "description": "The disk utilization percentage (average) of the cluster",
-                                    "type": "float"
+                                    "type": "number"
                                 }
                             },
                             "type": "object"
@@ -173,7 +173,7 @@
                                 },
                                 "utilization": {
                                     "description": "The memory utilization percentage (average) of the cluster",
-                                    "type": "float"
+                                    "type": "number"
                                 }
                             },
                             "type": "object"
@@ -186,7 +186,7 @@
                                 },
                                 "load": {
                                     "description": "The current 5-minute CPU load (all nodes summed)",
-                                    "type": "float"
+                                    "type": "number"
                                 },
                                 "provisioned": {
                                     "description": "The total number of vCPUs provisioned to all domains (regardless of state)",
@@ -198,7 +198,7 @@
                                 },
                                 "utilization": {
                                     "description": "The CPU utilization percentage (average) of the cluster",
-                                    "type": "float"
+                                    "type": "number"
                                 }
                             },
                             "type": "object"
@@ -372,23 +372,6 @@
             },
             "type": "object"
         },
-        "VMTags": {
-            "properties": {
-                "name": {
-                    "description": "The name of the VM",
-                    "type": "string"
-                },
-                "tags": {
-                    "description": "The tag(s) of the VM",
-                    "items": {
-                        "id": "VMTag",
-                        "type": "object"
-                    },
-                    "type": "array"
-                }
-            },
-            "type": "object"
-        },
         "acl": {
             "properties": {
                 "description": {
@@ -438,12 +421,12 @@
                 "acknowledged_at": {
                     "description": "The time the fault was acknowledged, or empty if not acknowledged",
                     "example": "2023-12-01 17:50:00.000000",
-                    "type": "date"
+                    "type": "string"
                 },
                 "first_reported": {
                     "description": "The first time the fault was reported",
                     "example": "2023-12-01 16:47:59.849742",
-                    "type": "date"
+                    "type": "string"
                 },
                 "health_delta": {
                     "description": "The health delta (amount it reduces cluster health from 100%) of the fault",
@@ -458,7 +441,7 @@
                 "last_reported": {
                     "description": "The last time the fault was reported",
                     "example": "2023-12-01 17:39:45.188398",
-                    "type": "date"
+                    "type": "string"
                 },
                 "message": {
                     "description": "The textual description of the fault",
@@ -687,7 +670,7 @@
                     "type": "object"
                 },
                 "kernel": {
-                    "desription": "The running kernel version from uname",
+                    "description": "The running kernel version from uname",
                     "type": "string"
                 },
                 "load": {
@@ -764,7 +747,7 @@
                 },
                 "id": {
                     "description": "The Ceph ID of the OSD",
-                    "type": "string (containing integer)"
+                    "type": "string"
                 },
                 "stats": {
                     "properties": {
@@ -773,8 +756,8 @@
                             "type": "string"
                         },
                         "in": {
-                            "description": "Whether OSD is in \"in\" state",
-                            "type": "boolean integer"
+                            "description": "Whether OSD is in \"in\" state, as boolean integer",
+                            "type": "integer"
                         },
                         "kb": {
                             "description": "Size of the OSD in KB",
@@ -809,8 +792,8 @@
                             "type": "string"
                         },
                         "up": {
-                            "description": "Whether OSD is in \"up\" state",
-                            "type": "boolean integer"
+                            "description": "Whether OSD is in \"up\" state, as boolean integer",
+                            "type": "integer"
                         },
                         "used": {
                             "description": "The used space on the OSD in human-readable format",
@@ -858,7 +841,6 @@
                 },
                 "volumes": {
                     "items": {
-                        "id": "ova_volume",
                         "properties": {
                             "disk_id": {
                                 "description": "Disk identifier",
@@ -883,7 +865,7 @@
                         },
                         "type": "object"
                     },
-                    "type": "list"
+                    "type": "array"
                 }
             },
             "type": "object"
@@ -1063,7 +1045,7 @@
                         "description": "The PHY name of a VF of this PF",
                         "type": "string"
                     },
-                    "type": "list"
+                    "type": "array"
                 }
             },
             "type": "object"
@@ -1071,7 +1053,6 @@
         "sriov_vf": {
             "properties": {
                 "config": {
-                    "id": "sriov_vf_config",
                     "properties": {
                         "link_state": {
                             "description": "The current SR-IOV VF link state (either enabled, disabled, or auto)",
@@ -1125,7 +1106,6 @@
                     "type": "string"
                 },
                 "usage": {
-                    "id": "sriov_vf_usage",
                     "properties": {
                         "domain": {
                             "description": "The UUID of the domain the SR-IOV VF is currently used by",
@@ -1208,7 +1188,7 @@
                 },
                 "id": {
                     "description": "The database ID of the test result",
-                    "type": "string (containing integer)"
+                    "type": "string"
                 },
                 "job": {
                     "description": "The job name (an ISO date) of the test result",
@@ -1298,7 +1278,7 @@
                     "type": "string"
                 },
                 "console": {
-                    "descritpion": "The serial console type of the VM",
+                    "description": "The serial console type of the VM",
                     "type": "string"
                 },
                 "controllers": {
@@ -1538,7 +1518,6 @@
                 "snapshots": {
                     "description": "The snapshot(s) of the VM",
                     "items": {
-                        "id": "VMSnapshot",
                         "properties": {
                             "age": {
                                 "description": "Human-readable age of the snapshot in the largest viable unit (seconds, minutes, hours, days)",
@@ -1556,7 +1535,7 @@
                                 "type": "array"
                             },
                             "timestamp": {
-                                "descrpition": "Unix timestamp of the snapshot",
+                                "description": "Unix timestamp of the snapshot",
                                 "type": "string"
                             },
                             "xml_diff_lines": {
@@ -1578,7 +1557,6 @@
                 "tags": {
                     "description": "The tag(s) of the VM",
                     "items": {
-                        "id": "VMTag",
                         "properties": {
                             "name": {
                                 "description": "The name of the tag",
@@ -1863,6 +1841,15 @@
         "/api/v1/faults/{fault_id}": {
             "delete": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "fault_id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1884,6 +1871,15 @@
             },
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "fault_id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1902,6 +1898,15 @@
             },
             "put": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "fault_id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1931,7 +1936,7 @@
                         "in": "query",
                         "name": "overwrite",
                         "required": false,
-                        "type": "bool"
+                        "type": "boolean"
                     },
                     {
                         "description": "A confirmation string to ensure that the API consumer really means it",
@@ -2237,6 +2242,15 @@
         "/api/v1/network/{vni}": {
             "delete": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vni",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -2264,6 +2278,15 @@
             },
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vni",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -2286,6 +2309,13 @@
             "post": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vni",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "The description of the network",
                         "in": "query",
@@ -2388,6 +2418,13 @@
                 "description": "Note: A network's type cannot be changed; the network must be removed and recreated as the new type",
                 "parameters": [
                     {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vni",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
                         "description": "The description of the network",
                         "in": "query",
                         "name": "description",
@@ -2485,6 +2522,13 @@
                 "description": "",
                 "parameters": [
                     {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vni",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
                         "description": "A description search limit; fuzzy by default, use ^/$ to force exact matches",
                         "in": "query",
                         "name": "limit",
@@ -2530,6 +2574,13 @@
             "post": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vni",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "A whitespace-free description/name for the ACL",
                         "in": "query",
@@ -2585,6 +2636,22 @@
         "/api/v1/network/{vni}/acl/{description}": {
             "delete": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vni",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "description",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -2606,6 +2673,22 @@
             },
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vni",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "description",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -2634,6 +2717,20 @@
             "post": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vni",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "description",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "The direction of the ACL; defaults to \"in\" if unspecified",
                         "enum": [
@@ -2684,6 +2781,13 @@
                 "description": "",
                 "parameters": [
                     {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vni",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
                         "description": "A MAC address search limit; fuzzy by default, use ^/$ to force exact matches",
                         "in": "query",
                         "name": "limit",
@@ -2730,6 +2834,13 @@
             "post": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vni",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "A MAC address for the lease",
                         "in": "query",
@@ -2781,6 +2892,22 @@
         "/api/v1/network/{vni}/lease/{mac}": {
             "delete": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vni",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "mac",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -2802,6 +2929,22 @@
             },
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vni",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "mac",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -2833,6 +2976,20 @@
             "post": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vni",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "mac",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "A MAC address for the lease",
                         "in": "query",
@@ -2934,6 +3091,15 @@
         "/api/v1/node/{node}": {
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "node",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -2957,6 +3123,15 @@
         "/api/v1/node/{node}/coordinator-state": {
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "node",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -2979,6 +3154,13 @@
             "post": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "node",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "The new coordinator state of the node",
                         "enum": [
@@ -3014,6 +3196,15 @@
         "/api/v1/node/{node}/daemon-state": {
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "node",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -3037,6 +3228,15 @@
         "/api/v1/node/{node}/domain-state": {
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "node",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -3059,6 +3259,13 @@
             "post": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "node",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "The new domain state of the node",
                         "enum": [
@@ -3101,6 +3308,13 @@
             "get": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "node",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "The number of lines to retrieve",
                         "in": "query",
@@ -3207,7 +3421,7 @@
                             "items": {
                                 "$ref": "#/definitions/ova"
                             },
-                            "type": "list"
+                            "type": "array"
                         }
                     }
                 },
@@ -3264,6 +3478,15 @@
         "/api/v1/provisioner/ova/{ova}": {
             "delete": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "ova",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -3285,6 +3508,15 @@
             },
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "ova",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -3307,6 +3539,13 @@
             "post": {
                 "description": "<br/>The API client is responsible for determining and setting the ova_size value, as this value cannot be determined dynamically before the upload proceeds.",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "ova",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "Storage pool name",
                         "in": "query",
@@ -3361,7 +3600,7 @@
                             "items": {
                                 "$ref": "#/definitions/profile"
                             },
-                            "type": "list"
+                            "type": "array"
                         }
                     }
                 },
@@ -3463,6 +3702,15 @@
         "/api/v1/provisioner/profile/{profile}": {
             "delete": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "profile",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -3484,6 +3732,15 @@
             },
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "profile",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -3506,6 +3763,13 @@
             "post": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "profile",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "Profile type",
                         "enum": [
@@ -3589,6 +3853,13 @@
                 "description": "",
                 "parameters": [
                     {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "profile",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
                         "description": "Script name",
                         "in": "query",
                         "name": "script",
@@ -3669,7 +3940,7 @@
                             "items": {
                                 "$ref": "#/definitions/script"
                             },
-                            "type": "list"
+                            "type": "array"
                         }
                     }
                 },
@@ -3719,6 +3990,15 @@
         "/api/v1/provisioner/script/{script}": {
             "delete": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "script",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -3740,6 +4020,15 @@
             },
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "script",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -3762,6 +4051,13 @@
             "post": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "script",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "Raw Python script document",
                         "in": "query",
@@ -3792,6 +4088,13 @@
             "put": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "script",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "Raw Python script document",
                         "in": "query",
@@ -3865,7 +4168,7 @@
                             "items": {
                                 "$ref": "#/definitions/network-template"
                             },
-                            "type": "list"
+                            "type": "array"
                         }
                     }
                 },
@@ -3915,6 +4218,15 @@
         "/api/v1/provisioner/template/network/{template}": {
             "delete": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "template",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -3936,6 +4248,15 @@
             },
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "template",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -3958,6 +4279,13 @@
             "post": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "template",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "MAC address template",
                         "in": "query",
@@ -3989,6 +4317,15 @@
         "/api/v1/provisioner/template/network/{template}/net": {
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "template",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -3996,7 +4333,7 @@
                             "items": {
                                 "$ref": "#/definitions/network-template-net"
                             },
-                            "type": "list"
+                            "type": "array"
                         }
                     },
                     "404": {
@@ -4014,6 +4351,13 @@
             "post": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "template",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "PVC network VNI",
                         "in": "query",
@@ -4052,6 +4396,22 @@
         "/api/v1/provisioner/template/network/{template}/net/{vni}": {
             "delete": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "template",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vni",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -4073,6 +4433,22 @@
             },
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "template",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vni",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -4095,6 +4471,20 @@
             "post": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "template",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vni",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "Bypass checks to permit duplicate VNIs for niche usecases",
                         "in": "query",
@@ -4142,7 +4532,7 @@
                             "items": {
                                 "$ref": "#/definitions/storage-template"
                             },
-                            "type": "list"
+                            "type": "array"
                         }
                     }
                 },
@@ -4185,6 +4575,15 @@
         "/api/v1/provisioner/template/storage/{template}": {
             "delete": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "template",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -4206,6 +4605,15 @@
             },
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "template",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -4227,6 +4635,15 @@
             },
             "post": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "template",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -4250,6 +4667,15 @@
         "/api/v1/provisioner/template/storage/{template}/disk": {
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "template",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -4257,7 +4683,7 @@
                             "items": {
                                 "$ref": "#/definitions/storage-template-disk"
                             },
-                            "type": "list"
+                            "type": "array"
                         }
                     },
                     "404": {
@@ -4275,6 +4701,13 @@
             "post": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "template",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "Disk identifier in \"sdX\"/\"vdX\" format (e.g. \"sda\", \"vdb\", etc.)",
                         "in": "query",
@@ -4348,6 +4781,22 @@
         "/api/v1/provisioner/template/storage/{template}/disk/{disk_id}": {
             "delete": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "template",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "disk_id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -4369,6 +4818,22 @@
             },
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "template",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "disk_id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -4391,6 +4856,20 @@
             "post": {
                 "description": "Alternative to \"POST /provisioner/template/storage/<template>/disk?disk_id=<disk_id>\"",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "template",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "disk_id",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "ceph storage pool for disk",
                         "in": "query",
@@ -4473,7 +4952,7 @@
                             "items": {
                                 "$ref": "#/definitions/system-template"
                             },
-                            "type": "list"
+                            "type": "array"
                         }
                     }
                 },
@@ -4586,6 +5065,15 @@
         "/api/v1/provisioner/template/system/{template}": {
             "delete": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "template",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -4607,6 +5095,15 @@
             },
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "template",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -4629,6 +5126,13 @@
             "post": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "template",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "vCPU count for VM",
                         "in": "query",
@@ -4722,6 +5226,13 @@
             "put": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "template",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "vCPU count for VM",
                         "in": "query",
@@ -4822,7 +5333,7 @@
                             "items": {
                                 "$ref": "#/definitions/userdata"
                             },
-                            "type": "list"
+                            "type": "array"
                         }
                     }
                 },
@@ -4872,6 +5383,15 @@
         "/api/v1/provisioner/userdata/{userdata}": {
             "delete": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "userdata",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -4893,6 +5413,15 @@
             },
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "userdata",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -4915,6 +5444,13 @@
             "post": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "userdata",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "Raw userdata configuration document",
                         "in": "query",
@@ -4945,6 +5481,13 @@
             "put": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "userdata",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "Raw userdata configuration document",
                         "in": "query",
@@ -5038,6 +5581,15 @@
         "/api/v1/sriov/pf/{node}": {
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "node",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -5072,6 +5624,15 @@
         "/api/v1/sriov/vf/{node}": {
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "node",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -5089,6 +5650,22 @@
         "/api/v1/sriov/vf/{node}/{vf}": {
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "node",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vf",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -5111,6 +5688,20 @@
             "put": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "node",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vf",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "The vLAN ID for vLAN tagging (0 is disabled)",
                         "in": "query",
@@ -5441,14 +6032,14 @@
                         "in": "query",
                         "name": "ext_db_ratio",
                         "required": false,
-                        "type": "float"
+                        "type": "number"
                     },
                     {
                         "description": "If set, creates an OSD DB LV with this explicit size in human units (e.g. 1024M, 20G); mutually exclusive with ext_db_ratio",
                         "in": "query",
                         "name": "ext_db_size",
                         "required": false,
-                        "type": "float"
+                        "type": "number"
                     },
                     {
                         "description": "If set, create this many OSDs on the block device instead of 1; usually 2 or 4 depending on size",
@@ -5482,6 +6073,13 @@
             "delete": {
                 "description": "Note: This task may take up to 30s to complete and return<br/>Warning: This operation may have unintended consequences for the storage cluster; ensure the cluster can support removing the OSD before proceeding",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "osdid",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "Force removal even if some step(s) fail",
                         "in": "query",
@@ -5524,6 +6122,15 @@
             },
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "osdid",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -5540,6 +6147,13 @@
             "post": {
                 "description": "Note: This task may take up to 30s to complete and return",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "osdid",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "The block device (e.g. \"/dev/sdb\", \"/dev/disk/by-path/...\", etc.) or detect string (\"detect:NAME:SIZE:ID\") to replace the OSD onto",
                         "in": "query",
@@ -5566,14 +6180,14 @@
                         "in": "query",
                         "name": "ext_db_ratio",
                         "required": false,
-                        "type": "float"
+                        "type": "number"
                     },
                     {
                         "description": "If set, creates an OSD DB LV for the replacement OSD with this explicit size in human units (e.g. 1024M, 20G); if unset, use existing ext_db_size",
                         "in": "query",
                         "name": "ext_db_size",
                         "required": false,
-                        "type": "float"
+                        "type": "number"
                     }
                 ],
                 "responses": {
@@ -5598,6 +6212,13 @@
             "put": {
                 "description": "Note: This task may take up to 30s to complete and return",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "osdid",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "The block device (e.g. \"/dev/sdb\", \"/dev/disk/by-path/...\", etc.) or detect string (\"detect:NAME:SIZE:ID\") that the OSD should be using",
                         "in": "query",
@@ -5629,6 +6250,15 @@
         "/api/v1/storage/ceph/osd/{osdid}/state": {
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "osdid",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -5651,6 +6281,13 @@
             "post": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "osdid",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "Set the OSD to this state",
                         "in": "query",
@@ -5768,7 +6405,8 @@
                         "description": "The device tier for the pool (hdd, ssd, nvme, or default)",
                         "in": "query",
                         "name": "tier",
-                        "required": false
+                        "required": false,
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -5795,6 +6433,13 @@
             "delete": {
                 "description": "Note: This task may take up to 30s to complete and return",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "pool",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "A confirmation string to ensure that the API consumer really means it",
                         "in": "query",
@@ -5830,6 +6475,15 @@
             },
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "pool",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -5853,6 +6507,13 @@
                 "description": "",
                 "parameters": [
                     {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "pool",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
                         "description": "The number of placement groups (PGs) for the pool",
                         "in": "query",
                         "name": "pgs",
@@ -5870,7 +6531,8 @@
                         "description": "The device tier for the pool (hdd, ssd, nvme, or default)",
                         "in": "query",
                         "name": "tier",
-                        "required": false
+                        "required": false,
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -5901,6 +6563,13 @@
             "put": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "pool",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "The new number of placement groups (PGs) for the pool",
                         "in": "query",
@@ -6025,6 +6694,29 @@
         "/api/v1/storage/ceph/snapshot/{pool}/{volume}/{snapshot}": {
             "delete": {
                 "description": "Note: This task may take up to 30s to complete and return depending on the size of the snapshot",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "pool",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "volume",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "snapshot",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -6046,6 +6738,29 @@
             },
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "pool",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "volume",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "snapshot",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -6069,25 +6784,25 @@
                 "description": "",
                 "parameters": [
                     {
-                        "description": "The name of the snapshot",
-                        "in": "query",
-                        "name": "snapshot",
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "pool",
                         "required": true,
                         "type": "string"
                     },
                     {
-                        "description": "The name of the volume",
-                        "in": "query",
+                        "description": "Path parameter",
+                        "in": "path",
                         "name": "volume",
                         "required": true,
                         "type": "string"
                     },
                     {
-                        "description": "The name of the pool",
-                        "in": "query",
-                        "name": "pool",
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "snapshot",
                         "required": true,
-                        "type": "integer"
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -6118,6 +6833,27 @@
             "put": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "pool",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "volume",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "snapshot",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "The new snaoshot name",
                         "in": "query",
@@ -6157,25 +6893,25 @@
                 "description": "<br/>WARNING: This action cannot be done on an active RBD volume. All IO MUST be stopped first.",
                 "parameters": [
                     {
-                        "description": "The name of the snapshot",
-                        "in": "query",
-                        "name": "snapshot",
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "pool",
                         "required": true,
                         "type": "string"
                     },
                     {
-                        "description": "The name of the volume",
-                        "in": "query",
+                        "description": "Path parameter",
+                        "in": "path",
                         "name": "volume",
                         "required": true,
                         "type": "string"
                     },
                     {
-                        "description": "The name of the pool",
-                        "in": "query",
-                        "name": "pool",
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "snapshot",
                         "required": true,
-                        "type": "integer"
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -6357,6 +7093,22 @@
         "/api/v1/storage/ceph/volume/{pool}/{volume}": {
             "delete": {
                 "description": "Note: This task may take up to 30s to complete and return depending on the size of the volume",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "pool",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "volume",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -6378,6 +7130,22 @@
             },
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "pool",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "volume",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -6400,6 +7168,20 @@
             "post": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "pool",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "volume",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "The volume size in bytes (or with a metric suffix, i.e. k/M/G/T)",
                         "in": "query",
@@ -6444,6 +7226,20 @@
             "put": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "pool",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "volume",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "The new volume size in bytes (or with a metric suffix, i.e. k/M/G/T); must be greater than the previous size (shrinking not supported)",
                         "in": "query",
@@ -6498,6 +7294,20 @@
                 "description": "",
                 "parameters": [
                     {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "pool",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "volume",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
                         "description": "The name of the new cloned volume",
                         "in": "query",
                         "name": "new_volume",
@@ -6542,6 +7352,22 @@
         "/api/v1/storage/ceph/volume/{pool}/{volume}/scan": {
             "post": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "pool",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "volume",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -6572,6 +7398,20 @@
             "post": {
                 "description": "<br/>The body must be a form body containing a file that is the binary contents of the image.",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "pool",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "volume",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "The type of source image file",
                         "enum": [
@@ -6655,6 +7495,15 @@
         "/api/v1/tasks/{task_id}": {
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "task_id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -6774,7 +7623,6 @@
                         "type": "string"
                     },
                     {
-                        "default": "none",
                         "description": "The selector used to determine candidate nodes during migration; see 'target_selector' in the node daemon configuration reference",
                         "enum": [
                             "mem",
@@ -6797,7 +7645,6 @@
                         "type": "boolean"
                     },
                     {
-                        "default": "none",
                         "description": "The preferred migration method (live, shutdown, none)",
                         "enum": [
                             "live",
@@ -6863,21 +7710,19 @@
                 "description": "",
                 "parameters": [
                     {
+                        "description": "A list of email addresses to send failure and report emails to, comma-separated",
+                        "in": "query",
+                        "name": "email_recipients",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "default": false,
                         "description": "If set and true, triggers a full autobackup regardless of schedule",
                         "in": "query",
                         "name": "force_full",
                         "required": false,
                         "type": "boolean"
-                    },
-                    {
-                        "description": "A list of email addresses to send failure and report emails to",
-                        "in": "query",
-                        "items": {
-                            "example": "user@domain.tld",
-                            "type": "string"
-                        },
-                        "name": "email_recipients",
-                        "type": "array"
                     }
                 ],
                 "responses": {
@@ -6904,6 +7749,13 @@
             "delete": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "default": false,
                         "description": "Whether to automatically delete all VM disk volumes",
@@ -6939,6 +7791,15 @@
             },
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -6962,6 +7823,13 @@
                 "description": "<br/>Note: The name {vm} is ignored; only the \"name\" value from the Libvirt XML is used<br/><br/>This endpoint is identical to \"POST /api/v1/vm\"",
                 "parameters": [
                     {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
                         "description": "The raw Libvirt XML definition of the VM",
                         "in": "query",
                         "name": "xml",
@@ -6983,7 +7851,6 @@
                         "type": "string"
                     },
                     {
-                        "default": "none",
                         "description": "The selector used to determine candidate nodes during migration; see 'target_selector' in the node daemon configuration reference",
                         "enum": [
                             "mem",
@@ -7006,7 +7873,6 @@
                         "type": "boolean"
                     },
                     {
-                        "default": "none",
                         "description": "The preferred migration method (live, shutdown, none)",
                         "enum": [
                             "live",
@@ -7070,6 +7936,13 @@
                 "description": "",
                 "parameters": [
                     {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
                         "description": "The raw Libvirt XML definition of the VM",
                         "in": "query",
                         "name": "xml",
@@ -7107,6 +7980,13 @@
             "delete": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "A local filesystem path on the primary coordinator where the backup is stored",
                         "in": "query",
@@ -7150,6 +8030,13 @@
             "post": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "A local filesystem path on the primary coordinator to store the backup",
                         "in": "query",
@@ -7204,6 +8091,13 @@
                 "description": "",
                 "parameters": [
                     {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
                         "description": "The number of lines to retrieve",
                         "in": "query",
                         "name": "lines",
@@ -7236,6 +8130,13 @@
                 "description": "",
                 "parameters": [
                     {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
                         "description": "The raw Libvirt XML definition of the device to detach",
                         "in": "query",
                         "name": "xml",
@@ -7265,6 +8166,13 @@
             "post": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "The raw Libvirt XML definition of the device to attach",
                         "in": "query",
@@ -7296,6 +8204,15 @@
         "/api/v1/vm/{vm}/locks": {
             "post": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "202": {
                         "description": "Accepted",
@@ -7313,6 +8230,15 @@
         "/api/v1/vm/{vm}/meta": {
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -7335,6 +8261,13 @@
             "post": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "The CSV list of node(s) the VM is permitted to be assigned to; should include \"node\" and any other valid target nodes; this limit will be used for autoselection on definition and migration",
                         "in": "query",
@@ -7372,7 +8305,6 @@
                         "type": "string"
                     },
                     {
-                        "default": "none",
                         "description": "The preferred migration method (live, shutdown, none)",
                         "enum": [
                             "live",
@@ -7385,7 +8317,6 @@
                         "type": "string"
                     },
                     {
-                        "default": "none",
                         "description": "The maximum time in milliseconds that a VM can be down for during a live migration; busy VMs may require a larger max_downtime",
                         "in": "query",
                         "name": "migration_max_downtime",
@@ -7423,6 +8354,13 @@
             "post": {
                 "description": "<br/>This method handles both the creation of a new VM snapshot, as well as sending that snapshot to a remote cluster, creating or updating a VM mirror. It will also automatically handle full vs. incremental block sends if possible based on the available snapshots on both sides.",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "The base API URI of the destination PVC cluster (with prefix if applicable)",
                         "in": "query",
@@ -7485,6 +8423,13 @@
                 "description": "<br/>This method handles shutting down the VM on this cluster, creating a new VM snapshot, sending that snapshot to a remote cluster, then starting up the VM on the remote cluster. It will also automatically handle full vs. incremental block sends if possible based on the available snapshots on both sides.<br/><br/>NOTE: This method may be used alone to perform a one-shot cross-cluster move; creating the mirror first is not required, though doing so will improve performance by allowing an incremental block send.",
                 "parameters": [
                     {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
                         "description": "The base API URI of the destination PVC cluster (with prefix if applicable)",
                         "in": "query",
                         "name": "destination_api_uri",
@@ -7519,7 +8464,8 @@
                         "description": "Remove the VM on the source cluster once promoted (performs a full move between clusters)",
                         "in": "query",
                         "name": "remove_on_source",
-                        "required": false
+                        "required": false,
+                        "type": "boolean"
                     }
                 ],
                 "responses": {
@@ -7551,6 +8497,15 @@
         "/api/v1/vm/{vm}/node": {
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -7573,6 +8528,13 @@
             "post": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "The action to take to change nodes",
                         "enum": [
@@ -7635,6 +8597,13 @@
                 "description": "",
                 "parameters": [
                     {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
                         "description": "The new name of the VM",
                         "in": "query",
                         "name": "new_name",
@@ -7666,6 +8635,13 @@
             "post": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "A local filesystem path on the primary coordinator where the backup is stored",
                         "in": "query",
@@ -7720,6 +8696,13 @@
                 "description": "",
                 "parameters": [
                     {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
                         "description": "The name of the snapshot to remove",
                         "in": "query",
                         "name": "snapshot_name",
@@ -7755,6 +8738,13 @@
             "post": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "A custom name for the snapshot instead of autogeneration by date",
                         "in": "query",
@@ -7794,6 +8784,13 @@
                 "description": "",
                 "parameters": [
                     {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
                         "description": "The name of the snapshot to export (must exist)",
                         "in": "query",
                         "name": "snapshot_name",
@@ -7805,7 +8802,7 @@
                         "in": "query",
                         "name": "export_path",
                         "required": true,
-                        "type": "string (path)"
+                        "type": "string"
                     },
                     {
                         "description": "A snapshot name to generate an incremental diff from",
@@ -7846,6 +8843,13 @@
                 "description": "",
                 "parameters": [
                     {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
                         "description": "The name of the snapshot to roll back to",
                         "in": "query",
                         "name": "snapshot_name",
@@ -7857,7 +8861,7 @@
                         "in": "query",
                         "name": "import_path",
                         "required": true,
-                        "type": "string (path)"
+                        "type": "string"
                     },
                     {
                         "default": true,
@@ -7898,6 +8902,13 @@
             "patch": {
                 "description": "<br/>NOTICE: This is an API-internal endpoint used by /vm/<vm>/snapshot/send; it should never be called by a client.",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "The name of the destination Ceph RBD data pool",
                         "in": "query",
@@ -7948,6 +8959,13 @@
             "post": {
                 "description": "<br/>NOTICE: This is an API-internal endpoint used by /vm/<vm>/snapshot/send; it should never be called by a client.",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "The name of the destination Ceph RBD data pool",
                         "in": "query",
@@ -8005,6 +9023,13 @@
             "put": {
                 "description": "<br/>NOTICE: This is an API-internal endpoint used by /vm/<vm>/snapshot/send; it should never be called by a client.",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "The name of the destination Ceph RBD data pool",
                         "in": "query",
@@ -8064,6 +9089,13 @@
             "post": {
                 "description": "<br/>NOTICE: This is an API-internal endpoint used by /vm/<vm>/snapshot/send; it should never be called by a client.",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "The name of the destination Ceph RBD data pool",
                         "in": "query",
@@ -8131,6 +9163,13 @@
                 "description": "",
                 "parameters": [
                     {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
                         "description": "The name of the snapshot to roll back to",
                         "in": "query",
                         "name": "snapshot_name",
@@ -8168,6 +9207,13 @@
             "post": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "The name of the snapshot to export (must exist)",
                         "in": "query",
@@ -8242,6 +9288,15 @@
         "/api/v1/vm/{vm}/state": {
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -8264,6 +9319,13 @@
             "post": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "The new state of the VM",
                         "enum": [
@@ -8314,11 +9376,47 @@
         "/api/v1/vm/{vm}/tags": {
             "get": {
                 "description": "",
+                "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/VMTags"
+                            "properties": {
+                                "name": {
+                                    "description": "The name of the VM",
+                                    "type": "string"
+                                },
+                                "tags": {
+                                    "description": "The tag(s) of the VM",
+                                    "items": {
+                                        "properties": {
+                                            "name": {
+                                                "description": "The name of the tag",
+                                                "type": "string"
+                                            },
+                                            "protected": {
+                                                "description": "Whether the tag is protected or not",
+                                                "type": "boolean"
+                                            },
+                                            "type": {
+                                                "description": "The type of the tag (user, system)",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "type": "array"
+                                }
+                            },
+                            "type": "object"
                         }
                     },
                     "404": {
@@ -8336,6 +9434,13 @@
             "post": {
                 "description": "",
                 "parameters": [
+                    {
+                        "description": "Path parameter",
+                        "in": "path",
+                        "name": "vm",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "description": "The action to perform with the tag",
                         "enum": [
