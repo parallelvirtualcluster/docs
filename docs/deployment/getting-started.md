@@ -66,10 +66,20 @@ You will also need a switch to connect the nodes, capable of vLAN trunks passing
 
     ```
     $ sudo mkdir -p /etc/apt/keyrings
+    ```
+    ```
     $ wget -O- https://repo.parallelvirtualcluster.org/debian/pvc.pub | sudo gpg --dearmor --output /etc/apt/keyrings/pvc.gpg
+    ```
+    ```
     $ CODENAME="$( awk -F'=' '/^VERSION_CODENAME=/{ print $NF }' /etc/os-release )"
+    ```
+    ```
     $ echo "deb [signed-by=/etc/apt/keyrings/pvc.gpg] https://repo.parallelvirtualcluster.org/debian/ ${CODENAME} pvc" | sudo tee /etc/apt/sources.list.d/pvc.list
+    ```
+    ```
     $ sudo apt update
+    ```
+    ```
     $ sudo apt install pvc-client-cli
     ```
 
@@ -79,7 +89,6 @@ You will also need a switch to connect the nodes, capable of vLAN trunks passing
 
 0. In your local repository, edit the `hosts` file and add a new cluster. How you do so is technically up to you, but for those without advanced Ansible experience, the following format is simplest:
 
-    ```
     [cluster1]
     hv1.cluster1.mydomain.tld
     hv2.cluster1.mydomain.tld
@@ -89,7 +98,6 @@ You will also need a switch to connect the nodes, capable of vLAN trunks passing
     hv1.cluster2.mydomain.tld
     hv2.cluster2.mydomain.tld
     hv3.cluster2.mydomain.tld
-    ```
 
     Note that the hostnames given here must be the actual reachable FQDNs of the hypervisor nodes; if they do not resolve in DNS, you can use the `ansible_host=` per-entry variable to set the IP address in the "upstream" network for each node.
 
@@ -107,7 +115,6 @@ The `default` version of this file is well-commented, and should hopefully provi
 
 ❕ **NOTE** Pay close attention to any "Use X to generate" comments; these are recommendations to use the program "X" to generate a value that must be filled.
 
-    ```
     ---
     # The name of the Ansible cluster group, used to set file paths and determine hosts in the cluster
     # This should match the lowest-level group in the Ansible `hosts` file that defines this cluster
@@ -318,7 +325,6 @@ The `default` version of this file is well-commented, and should hopefully provi
         subnet: 10.0.1.0              # The CIDR subnet address without the netmask; this should be an UNROUTED network (no gateway)
         netmask: 24                   # The CIDR netmask
         floating_ip: 10.0.1.254       # The floating IP used by the cluster primary coordinator; should be a high IP that won't conflict with any node IDs
-    ```
 
 ### `pvc.yml`
 
@@ -332,7 +338,6 @@ The `default` version of this file is well-commented, and should hopefully provi
 
 Of special note is the `pvc_nodes` section. This must contain a listing of all nodes in the cluster. For most clusters, start only with the 3 (or 5 if a large cluster is planned) coordinator nodes, and add the remainder in later.
 
-    ```
     ---
     # Logging configuration (uncomment to override defaults)
     # These default options are generally best for most clusters; override these if you want more granular
@@ -656,7 +661,6 @@ Of special note is the `pvc_nodes` section. This must contain a listing of all n
     pvc_storage_netmask: "{{ networks['storage']['netmask'] }}"
     pvc_storage_subnet: "{{ networks['storage']['subnet'] }}"
     pvc_storage_floatingip: "{{ networks['storage']['floating_ip'] }}"
-    ```
 
 ## Part Three: Prepare the Installer ISO and install the node base OS
 
@@ -672,13 +676,13 @@ Of special note is the `pvc_nodes` section. This must contain a listing of all n
 
 0. Mount the generated ISO onto your nodes. This can be accomplished in several ways, depending on what your server supports; choose the one that makes the most sense for your environment.
 
-     a. Virtual media in the iDRAC or similar out-of-band management system's console interface.
+    a. Virtual media in the iDRAC or similar out-of-band management system's console interface.
 
-     a. Virtual media in the iDRAC or similar out-of-band management system over HTTP, NFS, or similar.
+    a. Virtual media in the iDRAC or similar out-of-band management system over HTTP, NFS, or similar.
 
-     a. Writing the ISO to a USB flash drive (or several).
+    a. Writing the ISO to a USB flash drive (or several).
 
-     a. Writing the ISO to a CD-ROM or DVD-ROM (or several).
+    a. Writing the ISO to a CD-ROM or DVD-ROM (or several).
 
 0. If you have not already done so, prepare you system disks as a (hardware) RAID-1, so it is ready to be installed to. Note that PVC does not support software RAID (`mdraid` or similar).
 
@@ -692,7 +696,7 @@ Of special note is the `pvc_nodes` section. This must contain a listing of all n
 
     c. For networking, during this initial state we only need a single interface to get basic connectivity and prepare for Ansible. Generally speaking, setup and bootstrapping is easier if you have a dedicated "setup" NIC in a network directly reachable by your management host (`upstream` or another network), then allow the `pvc-ansible` system to configure the "main" interfaces from there. If this is not possible, you can configure both a bond and a vLAN on top during the installer to pre-configure your `upstream` interface. You can use either DHCP (if you are using a dedicated "setup" network) or a static IP (if you are directly configuring the `upstream` network now).
 
-    ❕ **NOTE** The installer won't proceed until networking is up. If you need to stop and troubleshoot, you can launch another virtual console using Ctrl+Alt+F2 or similar, cancel the installer script, and interrogate the installer environment in more detail.
+        ❕ **NOTE** The installer won't proceed until networking is up. If you need to stop and troubleshoot, you can launch another virtual console using Ctrl+Alt+F2 or similar, cancel the installer script, and interrogate the installer environment in more detail.
 
     d. For the Debian configuration, you can choose a specific mirror if you wish, but otherwise the defaults are recommended. If you require any additional packages for the system to boot (e.g. firmware, drivers, etc.), ensure you list them in the additional packages step.
 
@@ -722,6 +726,8 @@ Of special note is the `pvc_nodes` section. This must contain a listing of all n
 
     ```
     $ pvc connection add -a <upstream_floating_ip> -d "My first PVC cluster" cluster1
+    ```
+    ```
     $ pvc -c mycluster node list
     ```
 
@@ -747,11 +753,22 @@ Of special note is the `pvc_nodes` section. This must contain a listing of all n
 
     ```
     $ pvc storage osd add --weight 1.0 pvchv1 /dev/sdb
+    ```
+    ```
     $ pvc storage osd add --weight 1.0 pvchv2 /dev/sdb
+    ```
+    ```
     $ pvc storage osd add --weight 1.0 pvchv3 /dev/sdb
+    ```
+    ```
     $ pvc storage osd add --weight 1.0 pvchv1 /dev/sdc
+    ```
+    ```
     $ pvc storage osd add --weight 1.0 pvchv2 /dev/sdc
+    ```
+    ```
     $ pvc storage osd add --weight 1.0 pvchv3 /dev/sdc
+    ```
 
     ❕ **NOTE** On the CLI, the `--weight` argument is optional, and defaults to `1.0`. In the API, it must be specified explicitly, but the CLI sets a default value. OSD weights determine the relative amount of data which can fit onto each OSD. Under normal circumstances, you would want all OSDs to be of identical size, and hence all should have the same weight. If your OSDs are instead different sizes, the weight should be proportional to the size, e.g. `1.0` for a 100GB disk, `2.0` for a 200GB disk, etc. For more details, see the [Cluster Architecture](/cluster-architecture) and Ceph documentation.
 
