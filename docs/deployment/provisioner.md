@@ -1,6 +1,6 @@
 # PVC Provisioner Guide
 
-The PVC provisioner is a subsection of the main PVC system, designed to aid administrators in quickly deploying virtual machines (mostly major Linux flavours) according to defined templates and profiles, leveraging CloudInit and customizable provisioning scripts.
+The PVC provisioner is a subsection of the main PVC system, designed to aid administrators in quickly deploying virtual machines (mostly major Linux flavours) according to defined templates and profiles, leveraging CloudInit and customizable provisioning scripts, or by deploying OVA images.
 
 - [PVC Provisioner Manual](#pvc-provisioner-manual)
   * [Overview](#overview)
