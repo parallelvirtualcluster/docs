@@ -874,4 +874,4 @@ If you want to add additional non-coordinator nodes, you can do so now. Run thro
 
 ## Next steps
 
-For the next steps, see the [Provisioner manual](/manuals/provisioner) for details on how to use the PVC provisioner to create new Virtual Machines, as well as the [CLI manual](/manuals/cli) and [API manual](/manuals/api) for details on day-to-day usage of PVC.
+For the next steps, see the [Provisioner Guide](/deployment/provisioner) for details on how to use the PVC provisioner to create new Virtual Machines, as well as the [CLI manual](/manuals/cli) and [API manual](/manuals/api) for details on day-to-day usage of PVC.

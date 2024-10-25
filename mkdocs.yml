@@ -19,11 +19,11 @@ nav:
     - 'Georedundancy': 'architecture/georedundancy.md'
   - 'Deployment':
     - 'Getting Started Guide': 'deployment/getting-started.md'
+    - 'Provisioner Guide': 'deployment/provisioner.md'
   - 'Manuals':
     - 'PVC CLI': 'manuals/cli.md'
     - 'PVC HTTP API': 'manuals/api.md'
     - 'PVC Node Daemon': 'manuals/daemon.md'
-    - 'PVC Provisioner': 'manuals/provisioner.md'
     - 'PVC Node Health Plugins': 'manuals/health-plugins.md'
   - 'API':
     - 'API Reference': 'manuals/api-reference.html'

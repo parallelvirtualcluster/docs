@@ -92,7 +92,7 @@ The Zookeeper database runs on the coordinator nodes, and requires a majority qu
 
 ### Patroni/PostgreSQL
 
-PVC uses the Patroni PostgreSQL cluster manager to store relational data for use by the [Provisioner subsystem](../manuals/provisioner.md) and managed network DNS aggregation.
+PVC uses the Patroni PostgreSQL cluster manager to store relational data for use by the [Provisioner subsystem](../deployment/provisioner) and managed network DNS aggregation.
 
 The Patroni system runs on the coordinator nodes, with the primary coordinator taking on the "leader" role (read-write) and all others taking on the "follower" role (read-only). Patroni leverages Zookeeper to handle state, and is thus dependent on Zookeeper to function.
 
@@ -158,7 +158,7 @@ PVC can provide services to clients in this network via the DNSMasq subsystem, i
 
 **NOTE:** Be aware of the potential for "tromboning" when routing between managed networks. All traffic to and from a managed network will flow out the primary coordinator. Thus, if there is a large amount of inter-network traffic between two managed networks, all this traffic will traverse the primary coordinator, introducing a potential bottleneck. To avoid this, keep the amount of inter-network routing between managed networks or between managed networks and the outside world to a minimum.
 
-One major purpose of managed networks is to provide a bootstrapping mechanism for new VMs deployed using the [PVC provisioner](../manuals/provisioner.md) with CloudInit metadata services (see that documentation for details). Such deployments will require at least one managed network to provide access to the CloudInit metadata system.
+One major purpose of managed networks is to provide a bootstrapping mechanism for new VMs deployed using the [PVC provisioner](../deployment/provisioner) with CloudInit metadata services (see that documentation for details). Such deployments will require at least one managed network to provide access to the CloudInit metadata system.
 
 #### Bridged
 
