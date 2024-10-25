@@ -67,18 +67,23 @@ You will also need a switch to connect the nodes, capable of vLAN trunks passing
     ```
     $ sudo mkdir -p /etc/apt/keyrings
     ```
+
     ```
     $ wget -O- https://repo.parallelvirtualcluster.org/debian/pvc.pub | sudo gpg --dearmor --output /etc/apt/keyrings/pvc.gpg
     ```
+
     ```
     $ CODENAME="$( awk -F'=' '/^VERSION_CODENAME=/{ print $NF }' /etc/os-release )"
     ```
+
     ```
     $ echo "deb [signed-by=/etc/apt/keyrings/pvc.gpg] https://repo.parallelvirtualcluster.org/debian/ ${CODENAME} pvc" | sudo tee /etc/apt/sources.list.d/pvc.list
     ```
+
     ```
     $ sudo apt update
     ```
+
     ```
     $ sudo apt install pvc-client-cli
     ```
@@ -89,6 +94,7 @@ You will also need a switch to connect the nodes, capable of vLAN trunks passing
 
 0. In your local repository, edit the `hosts` file and add a new cluster. How you do so is technically up to you, but for those without advanced Ansible experience, the following format is simplest:
 
+    ---
     [cluster1]
     hv1.cluster1.mydomain.tld
     hv2.cluster1.mydomain.tld
@@ -727,6 +733,7 @@ Of special note is the `pvc_nodes` section. This must contain a listing of all n
     ```
     $ pvc connection add -a <upstream_floating_ip> -d "My first PVC cluster" cluster1
     ```
+
     ```
     $ pvc -c mycluster node list
     ```
@@ -754,18 +761,23 @@ Of special note is the `pvc_nodes` section. This must contain a listing of all n
     ```
     $ pvc storage osd add --weight 1.0 pvchv1 /dev/sdb
     ```
+
     ```
     $ pvc storage osd add --weight 1.0 pvchv2 /dev/sdb
     ```
+
     ```
     $ pvc storage osd add --weight 1.0 pvchv3 /dev/sdb
     ```
+
     ```
     $ pvc storage osd add --weight 1.0 pvchv1 /dev/sdc
     ```
+
     ```
     $ pvc storage osd add --weight 1.0 pvchv2 /dev/sdc
     ```
+
     ```
     $ pvc storage osd add --weight 1.0 pvchv3 /dev/sdc
     ```
@@ -813,15 +825,15 @@ Of special note is the `pvc_nodes` section. This must contain a listing of all n
 
     * To create a managed (EVPN VXLAN) network `10000` with subnet `10.100.0.0/24`,  gateway `.1` and DHCP from `.100` to `.199`, run the command as follows:
 
-    ```
-    $ pvc network add 10000 --type managed --description my-managed-network --domain myhosts.local --ipnet 10.100.0.0/24 --gateway 10.100.0.1 --dhcp --dhcp-start 10.100.0.100 --dhcp-end 10.100.0.199
-    ```
+        ```
+        $ pvc network add 10000 --type managed --description my-managed-network --domain myhosts.local --ipnet 10.100.0.0/24 --gateway 10.100.0.1 --dhcp --dhcp-start 10.100.0.100 --dhcp-end 10.100.0.199
+        ```
 
-    To create a bridged (switch-configured, tagged VLAN, with no PVC management of IPs) network `200`, run the command as follows:
+    * To create a bridged (switch-configured, tagged VLAN, with no PVC management of IPs) network `200`, run the command as follows:
 
-    ```
-    $ pvc network add 200 --type bridged --description my-bridged-network
-    ```
+        ```
+        $ pvc network add 200 --type bridged --description my-bridged-network
+        ```
 
     ❕ **NOTE** Network descriptions cannot contain spaces or special characters; keep them short, sweet, and dash or underscore delimited.
 
