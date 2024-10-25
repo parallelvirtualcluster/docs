@@ -214,87 +214,86 @@ As mentioned above, the `VMBuilderScript` instance includes several instance var
 
 * `self.vm_data`: A full dictionary representation of the data provided by the PVC provisioner about the VM. Includes many useful details for crafting the VM configuration and setting up disks and networks. An example, in JSON format:
 
-   ```
-   {
-     "ceph_monitor_list": [
-       "hv1.pvcstorage.tld",
-       "hv2.pvcstorage.tld",
-       "hv3.pvcstorage.tld"
-     ],
-     "ceph_monitor_port": "6789",
-     "ceph_monitor_secret": "96721723-8650-4a72-b8f6-a93cd1a20f0c",
-     "mac_template": null,
-     "networks": [
-       {
-         "eth_bridge": "vmbr1001",
-         "id": 72,
-         "network_template": 69,
-         "vni": "1001"
-       },
-       {
-         "eth_bridge": "vmbr101",
-         "id": 73,
-         "network_template": 69,
-         "vni": "101"
-       }
-     ],
-     "script": [contents of this file]
-     "script_arguments": {
-       "deb_mirror": "http://ftp.debian.org/debian",
-       "deb_release": "bullseye"
-     },
-     "system_architecture": "x86_64",
-     "system_details": {
-       "id": 78,
-       "migration_method": "live",
-       "name": "small",
-       "node_autostart": false,
-       "node_limit": null,
-       "node_selector": null,
-       "ova": null,
-       "serial": true,
-       "vcpu_count": 2,
-       "vnc": false,
-       "vnc_bind": null,
-       "vram_mb": 2048
-     },
-     "volumes": [
-       {
-         "disk_id": "sda",
-         "disk_size_gb": 4,
-         "filesystem": "ext4",
-         "filesystem_args": "-L=root",
-         "id": 9,
-         "mountpoint": "/",
-         "pool": "vms",
-         "source_volume": null,
-         "storage_template": 67
-       },
-       {
-         "disk_id": "sdb",
-         "disk_size_gb": 4,
-         "filesystem": "ext4",
-         "filesystem_args": "-L=var",
-         "id": 10,
-         "mountpoint": "/var",
-         "pool": "vms",
-         "source_volume": null,
-         "storage_template": 67
-       },
-       {
-         "disk_id": "sdc",
-         "disk_size_gb": 4,
-         "filesystem": "ext4",
-         "filesystem_args": "-L=log",
-         "id": 11,
-         "mountpoint": "/var/log",
-         "pool": "vms",
-         "source_volume": null,
-         "storage_template": 67
-       }
-     ]
-   }
-   ```
+        {
+          "ceph_monitor_list": [
+            "hv1.pvcstorage.tld",
+            "hv2.pvcstorage.tld",
+            "hv3.pvcstorage.tld"
+          ],
+          "ceph_monitor_port": "6789",
+          "ceph_monitor_secret": "96721723-8650-4a72-b8f6-a93cd1a20f0c",
+          "mac_template": null,
+          "networks": [
+            {
+              "eth_bridge": "vmbr1001",
+              "id": 72,
+              "network_template": 69,
+              "vni": "1001"
+            },
+            {
+              "eth_bridge": "vmbr101",
+              "id": 73,
+              "network_template": 69,
+              "vni": "101"
+            }
+          ],
+          "script": [contents of this file]
+          "script_arguments": {
+            "deb_mirror": "http://ftp.debian.org/debian",
+            "deb_release": "bullseye"
+          },
+          "system_architecture": "x86_64",
+          "system_details": {
+            "id": 78,
+            "migration_method": "live",
+            "name": "small",
+            "node_autostart": false,
+            "node_limit": null,
+            "node_selector": null,
+            "ova": null,
+            "serial": true,
+            "vcpu_count": 2,
+            "vnc": false,
+            "vnc_bind": null,
+            "vram_mb": 2048
+          },
+          "volumes": [
+            {
+              "disk_id": "sda",
+              "disk_size_gb": 4,
+              "filesystem": "ext4",
+              "filesystem_args": "-L=root",
+              "id": 9,
+              "mountpoint": "/",
+              "pool": "vms",
+              "source_volume": null,
+              "storage_template": 67
+            },
+            {
+              "disk_id": "sdb",
+              "disk_size_gb": 4,
+              "filesystem": "ext4",
+              "filesystem_args": "-L=var",
+              "id": 10,
+              "mountpoint": "/var",
+              "pool": "vms",
+              "source_volume": null,
+              "storage_template": 67
+            },
+            {
+              "disk_id": "sdc",
+              "disk_size_gb": 4,
+              "filesystem": "ext4",
+              "filesystem_args": "-L=log",
+              "id": 11,
+              "mountpoint": "/var/log",
+              "pool": "vms",
+              "source_volume": null,
+              "storage_template": 67
+            }
+          ]
+        }
+
 
 Since the `VMBuilderScript` runs within its own context but within the PVC Provisioner/API system, it is possible to use many helper libraries from the PVC system itself, including both the built-in daemon libraries (used by the API itself) and several explicit provisioning script helpers. The following are commonly-used (in the examples) imports that can be leveraged:
 
