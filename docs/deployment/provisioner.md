@@ -1,8 +1,6 @@
-# PVC Provisioner Manual
+# PVC Provisioner Guide
 
-The PVC provisioner is a subsection of the main PVC API. It interfaces directly with the Zookeeper database using the common client functions, and with the Patroni PostgreSQL database to store details. The provisioner also interfaces directly with the Ceph storage cluster, for mapping volumes, creating filesystems, and installing guests.
-
-Details of the Provisioner API interface can be found in [the API manual](/manuals/api).
+The PVC provisioner is a subsection of the main PVC system, designed to aid administrators in quickly deploying virtual machines (mostly major Linux flavours) according to defined templates and profiles, leveraging CloudInit and customizable provisioning scripts.
 
 - [PVC Provisioner Manual](#pvc-provisioner-manual)
   * [Overview](#overview)
@@ -19,15 +17,13 @@ Details of the Provisioner API interface can be found in [the API manual](/manua
 
 ## Overview
 
-The purpose of the Provisioner API is to provide a convenient way for administrators to automate the creation of new virtual machines on the PVC cluster.
+The purpose of the Provisioner is to provide a convenient way for administrators to automate the creation of new virtual machines on the PVC cluster.
 
 The Provisioner allows the administrator to construct descriptions of VMs, called profiles, which include system resource specifications, network interfaces, disks, cloud-init userdata, and installation scripts. These profiles are highly modular, allowing the administrator to specify arbitrary combinations of the mentioned VM features with which to build new VMs.
 
 The provisioner supports creating VMs based off of installation scripts, by cloning existing volumes, and by uploading OVA image templates to the cluster.
 
-Examples in the following sections use the CLI exclusively for demonstration purposes. For details of the underlying API calls, please see the [API interface reference](/manuals/api-reference.html).
-
-Use of the PVC Provisioner is not required. Administrators can always perform their own installation tasks, and the provisioner is not specially integrated, calling various other API commands as though they were run from the CLI or API.
+Use of the PVC Provisioner is not required. Administrators can always perform their own installation tasks, and the provisioner is not specially integrated, calling various other commands as though they were run from the CLI or API.
 
 # PVC Provisioner concepts
 
