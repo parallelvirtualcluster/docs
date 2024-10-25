@@ -34,7 +34,7 @@ You will also need a switch to connect the nodes, capable of vLAN trunks passing
 
 ### Node Physical Setup
 
-0. Connect your physical nodes to power and networking according to your cluster design worksheet. While you don't need to connect everything now (e.g. only 1 NIC in a bond or one power cable), you must be able to bring up the cluster as you would in production during the initial deployment.
+0. Connect your physical nodes to power and networking. While you don't need to connect everything now (e.g. only 1 NIC in a bond or one power cable), you must be able to bring up the cluster as you would in production during the initial deployment.
 
 0. Ensure your systems start up and are running the latest available vendor firmware. While stock firmware is usually OK, this can be the source of elusive bugs later and is easiest to do early on.
 
@@ -54,7 +54,7 @@ You will also need a switch to connect the nodes, capable of vLAN trunks passing
 
     b. It must have at least 10GB of free space to hold temporary files during later steps, though the overall steady-state utilization of the PVC management framework is very small (<1GB).
 
-    c. It must have network access to the PVC cluster, both during bootstrap as well as afterwards. Ideally, it will be in the "upstream" network defined in your worksheet, but an external management host is fine. At the very least, ports 22 (SSH) and 7370 (HTTP API) must be permitted inbound to the cluster from the management host; any other traffic can be tunnelled over SSH if required.
+    c. It must have network access to the PVC cluster, both during bootstrap as well as afterwards. Ideally, it will be in the "upstream" network defined below, but an external management host is fine. At the very least, ports 22 (SSH) and 7370 (HTTP API) must be permitted inbound to the cluster from the management host; any other traffic can be tunnelled over SSH if required.
 
     d. It must have [Ansible](https://www.ansible.com) installed.
 
