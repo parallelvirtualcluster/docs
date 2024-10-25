@@ -50,7 +50,7 @@ You will also need a switch to connect the nodes, capable of vLAN trunks passing
 
     The management host must meet the following requirements:
 
-    a. It must be running a recent version of some flavour of Debian GNU/Linux with access to BASH and Python 3. This should ideally be Debian itself (version 11 or newer) but could also be a derivative like Ubuntu. The Windows Subsystem for Linux may work, but has not been tested by the author. Non-Debian Linux, or MacOS, may be functional but the deployment of dependencies will be manual.
+    a. It must be running a recent version of some flavour of Debian GNU/Linux with access to BASH and Python 3. This should ideally be Debian itself (version 12 "Bookworm" or newer) but could also be a derivative like Ubuntu. The Windows Subsystem for Linux may work, but has not been tested by the author. Non-Debian Linux, or MacOS, may be functional but the deployment of dependencies will be manual.
 
     b. It must have at least 10GB of free space to hold temporary files during later steps, though the overall steady-state utilization of the PVC management framework is very small (<1GB).
 
