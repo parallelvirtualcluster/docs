@@ -95,15 +95,18 @@ You will also need a switch to connect the nodes, capable of vLAN trunks passing
 0. In your local repository, edit the `hosts` file and add a new cluster. How you do so is technically up to you, but for those without advanced Ansible experience, the following format is simplest:
 
     ---
+    # First cluster
     [cluster1]
     hv1.cluster1.mydomain.tld
     hv2.cluster1.mydomain.tld
     hv3.cluster1.mydomain.tld
 
+    # Second cluster
     [cluster2]
     hv1.cluster2.mydomain.tld
     hv2.cluster2.mydomain.tld
     hv3.cluster2.mydomain.tld
+
 
     ❕ **NOTE** The hostnames given here must be the actual reachable FQDNs of the hypervisor nodes in the "upstream" network; if they do not resolve in DNS, you can use the `ansible_host=` per-entry variable to set the IP address in the "upstream" network for each node.
 
