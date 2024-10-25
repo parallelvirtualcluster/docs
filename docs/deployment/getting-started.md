@@ -105,7 +105,7 @@ You will also need a switch to connect the nodes, capable of vLAN trunks passing
     hv2.cluster2.mydomain.tld
     hv3.cluster2.mydomain.tld
 
-    Note that the hostnames given here must be the actual reachable FQDNs of the hypervisor nodes; if they do not resolve in DNS, you can use the `ansible_host=` per-entry variable to set the IP address in the "upstream" network for each node.
+    ❕ **NOTE** The hostnames given here must be the actual reachable FQDNs of the hypervisor nodes in the "upstream" network; if they do not resolve in DNS, you can use the `ansible_host=` per-entry variable to set the IP address in the "upstream" network for each node.
 
 0. In your local repository, enter the `group_vars` directory, and create a new directory for the cluster which matches the title (inside `[`/`]` square brackets) in the above `hosts` file. For example, `cluster1`.
 
@@ -700,7 +700,7 @@ Of special note is the `pvc_nodes` section. This must contain a listing of all n
 
     b. For disks, all options presented are supported, though the defaults are recommended.
 
-    c. For networking, during this initial state we only need a single interface to get basic connectivity and prepare for Ansible. Generally speaking, setup and bootstrapping is easier if you have a dedicated "setup" NIC in a network directly reachable by your management host (`upstream` or another network), then allow the `pvc-ansible` system to configure the "main" interfaces from there. If this is not possible, you can configure both a bond and a vLAN on top during the installer to pre-configure your `upstream` interface. You can use either DHCP (if you are using a dedicated "setup" network) or a static IP (if you are directly configuring the `upstream` network now).
+    c. For networking, during this initial state we only need a single interface to get basic connectivity and prepare for Ansible. Generally speaking, setup and bootstrapping is easier if you have a dedicated "setup" NIC in a network directly reachable by your management host ("upstream" or another network), then allow the `pvc-ansible` system to configure the "main" interfaces from there. If this is not possible, you can configure both a bond and a vLAN on top during the installer to pre-configure your "upstream" interface. You can use either DHCP (if you are using a dedicated "setup" network) or a static IP (if you are directly configuring the "upstream" network now).
 
         ❕ **NOTE** The installer won't proceed until networking is up. If you need to stop and troubleshoot, you can launch another virtual console using Ctrl+Alt+F2 or similar, cancel the installer script, and interrogate the installer environment in more detail.
 
