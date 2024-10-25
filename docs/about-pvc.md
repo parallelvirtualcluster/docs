@@ -52,8 +52,9 @@ All features are as of the latest version: <a href="https://github.com/parallelv
 * Simple resource management (vCPU/memory) w/restart
 * Hot attach/detach of virtual NICs and block devices
 * Tag support for organization/classification
-* VM hot/online backup creation, with incremental image support, management (delete), and quick restore to external storage
+* VM hot/online snapshot creation (disks + configuration), with incremental image support, management (delete), and restore
 * VM autobackups with self-contained backup rotation and optional automatic mounting of remote storage resources
+* VM snapshot shipping to external clusters (mirroring) and mirror promotion
 
 ### Network Management
 
