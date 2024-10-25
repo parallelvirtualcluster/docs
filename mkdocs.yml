@@ -25,5 +25,5 @@ nav:
     - 'PVC Node Daemon': 'manuals/daemon.md'
     - 'PVC Provisioner': 'manuals/provisioner.md'
     - 'PVC Node Health Plugins': 'manuals/health-plugins.md'
-  - 'API Reference'
-    - 'PVC HTTP API': 'manuals/api-reference.html'
+  - 'API':
+    - 'API Reference': 'manuals/api-reference.html'
