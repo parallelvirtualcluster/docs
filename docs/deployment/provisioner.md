@@ -308,7 +308,7 @@ Since the `VMBuilderScript` runs within its own context but within the PVC Provi
 
 For safety reasons, the script runs in a modified chroot environment on the hypervisor. It will have full access to the entire / (root partition) of the hypervisor, but read-only. In addition it has read-write access to /dev, /sys, /run, and a fresh /tmp to write to; use /tmp/target (as convention) as the destination for any mounting of volumes and installation. Thus it is not possible to do things like `apt-get install`ing additional programs within a script; any such requirements must be set up before running the script (e.g. via `pvc-ansible`).
 
-**WARNING**: Of course, despite this "safety" mechanism, it is VERY IMPORTANT to be cognizant that this script runs AS ROOT ON THE HYPERVISOR SYSTEM with FULL ACCESS to the cluster. You should NEVER allow arbitrary, untrusted users the ability to add or modify provisioning scripts. It is trivially easy to write scripts which will do destructive things - for example writing to arbitrary /dev objects, running arbitrary root-level commands, or importing PVC library functions to delete VMs, RBD volumes, or pools. Thus, ensure you vett and understand every script on the system, audit them regularly for both intentional and accidental malicious activity, and of course (to reiterate), do not allow untrusted script creation!
+⚠️ **WARNING** Of course, despite this "safety" mechanism, it is **very important** to be cognizant that this script runs **as root on the hypervisor system** with **full access to the cluster**. You should **never** allow arbitrary, untrusted users the ability to add or modify provisioning scripts. It is trivially easy to write scripts which will do destructive things - for example writing to arbitrary `/dev` objects, running arbitrary root-level commands, or importing PVC library functions to delete VMs, RBD volumes, or pools. Thus, ensure you vett and understand every script on the system, audit them regularly for both intentional and accidental malicious activity, and of course (to reiterate), do not allow untrusted script creation!
 
 ## Profiles
 
@@ -393,11 +393,9 @@ Using cluster "local" - Host: "10.0.0.1:7370"  Scheme: "http"  Prefix: "/api/v1"
 Task ID: 39639f8c-4866-49de-8c51-4179edec0194
 ```
 
-**NOTE**: A VM that is set to do so will be defined on the cluster early in the provisioning process, before creating disks or executing the provisioning script, with the special status `provision`. Once completed, if the VM is not set to start automatically, the state will remain `provision`, with the VM not running, until its state is explicitly changed with the client (or via autostart when its node returns to `ready` state).
+❕ **NOTE** A VM that is set to do so will be defined on the cluster early in the provisioning process, before creating disks or executing the provisioning script, with the special status `provision`. Once completed, if the VM is not set to start automatically, the state will remain `provision`, with the VM not running, until its state is explicitly changed with the client (or via autostart when its node returns to `ready` state).
 
-**NOTE**: Provisioning jobs are tied to the node that spawned them. If the primary node changes, provisioning jobs will continue to run against that node until they are completed, interrupted, or fail, but the active API (now on the new primary node) will not have access to any status data from these jobs, until the primary node status is returned to the original host. The CLI will warn the administrator of this if there are active jobs while running `node primary` or `node secondary` commands.
-
-**NOTE**: Provisioning jobs cannot be cancelled, either before they start or during execution. The administrator should always let an invalid job either complete or fail out automatically, then remove the erroneous VM with the `vm remove` command.
+❕ **NOTE** Provisioning jobs cannot be cancelled, either before they start or during execution. The administrator should always let an invalid job either complete or fail out automatically, then remove the erroneous VM with the `vm remove` command.
 
 # Deploying VMs from OVA images
 
@@ -433,4 +431,4 @@ During import, PVC splits the OVA into its constituent parts, including any disk
 
 Because of this, OVA profiles do not include storage templates like other PVC profiles. A storage template can still be added to such a profile, and the block devices will be added after the main block devices. However, this is generally not recommended; it is far better to modify the OVA to add additional volume(s) before uploading it instead.
 
-**WARNING**: Never adjust the sizes of the OVA VMDK-formatted storage volumes (named `ova_<NAME>_sdX`) or remove them without removing the OVA itself in the provisioner; doing so will prevent the deployment of the OVA, specifically the conversion of the images to raw format at deploy time, and render the OVA profile useless.
+⚠️ **WARNING** Never adjust the sizes of the OVA VMDK-formatted storage volumes (named `ova_<NAME>_sdX`) or remove them without removing the OVA itself in the provisioner; doing so will prevent the deployment of the OVA, specifically the conversion of the images to raw format at deploy time, and render the OVA profile useless.
