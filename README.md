@@ -24,36 +24,7 @@ Installation of PVC is accomplished by two main components: a [Node installer IS
 Just give it physical servers, and it will run your VMs without you having to think about it, all in just an hour or two of setup time.
 
 
-## What is it based on?
+## Documentation
 
-The core node and API daemons, as well as the CLI API client, are written in Python 3 and are fully Free Software (GNU GPL v3). In addition to these, PVC makes use of the following software tools to provide a holistic hyperconverged infrastructure solution:
+This repository contains the MKdocs configuration for the https://docs.parallelvirtualcluster.org ReadTheDocs page.
 
-  * Debian GNU/Linux as the base OS.
-  * Linux KVM, QEMU, and Libvirt for VM management.
-  * Linux `ip`, FRRouting, NFTables, DNSMasq, and PowerDNS for network management.
-  * Ceph for storage management.
-  * Apache Zookeeper for the primary cluster state database.
-  * Patroni PostgreSQL manager for the secondary relation databases (DNS aggregation, Provisioner configuration).
-
-
-## Getting Started
-
-To get started with PVC, please see the [About](https://docs.parallelvirtualcluster.org/en/latest/about/) page for general information about the project, and the [Getting Started](https://docs.parallelvirtualcluster.org/en/latest/getting-started/) page for details on configuring your first cluster.
-
-
-## Changelog
-
-View the changelog in [CHANGELOG.md](CHANGELOG.md).
-
-
-## Screenshots
-
-While PVC's API and internals aren't very screenshot-worthy, here is some example output of the CLI tool.
-
-<p><img alt="Node listing" src="docs/images/pvc-nodes.png"/><br/><i>Listing the nodes in a cluster</i></p>
-
-<p><img alt="Network listing" src="docs/images/pvc-networks.png"/><br/><i>Listing the networks in a cluster, showing 3 bridged and 1 IPv4-only managed networks</i></p>
-
-<p><img alt="VM listing and migration" src="docs/images/pvc-migration.png"/><br/><i>Listing a limited set of VMs and migrating one with status updates</i></p>
-
-<p><img alt="Node logs" src="docs/images/pvc-nodelog.png"/><br/><i>Viewing the logs of a node (keepalives and VM [un]migration)</i></p>
