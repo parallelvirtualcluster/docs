@@ -1,10 +1,11 @@
 <p align="center">
-<img alt="Logo banner" src="images/pvc_logo_black.png"/>
+<img alt="Logo banner" src="https://docs.parallelvirtualcluster.org/en/latest/images/pvc_logo_black.png"/>
 <br/><br/>
+<a href="https://www.parallelvirtualcluster.org"><img alt="Website" src="https://img.shields.io/badge/visit-website-blue"/></a>
+<a href="https://github.com/parallelvirtualcluster/pvc/releases"><img alt="Latest Release" src="https://img.shields.io/github/release-pre/parallelvirtualcluster/pvc"/></a>
+<a href="https://docs.parallelvirtualcluster.org/en/latest/?badge=latest"><img alt="Documentation Status" src="https://readthedocs.org/projects/parallelvirtualcluster/badge/?version=latest"/></a>
 <a href="https://github.com/parallelvirtualcluster/pvc"><img alt="License" src="https://img.shields.io/github/license/parallelvirtualcluster/pvc"/></a>
 <a href="https://github.com/psf/black"><img alt="Code style: Black" src="https://img.shields.io/badge/code%20style-black-000000.svg"/></a>
-<a href="https://github.com/parallelvirtualcluster/pvc/releases"><img alt="Release" src="https://img.shields.io/github/release-pre/parallelvirtualcluster/pvc"/></a>
-<a href="https://docs.parallelvirtualcluster.org/en/latest/?badge=latest"><img alt="Documentation Status" src="https://readthedocs.org/projects/parallelvirtualcluster/badge/?version=latest"/></a>
 </p>
 
 ## What is PVC?
@@ -23,13 +24,15 @@ Installation of PVC is accomplished by two main components: a [Node installer IS
 
 Just give it physical servers, and it will run your VMs without you having to think about it, all in just an hour or two of setup time.
 
+More information about PVC, its motivations, the hardware requirements, and setting up and managing a cluster [can be found over at our docs page](https://docs.parallelvirtualcluster.org).
+
 ## Getting Started
 
 To get started with PVC, please see the [About](https://docs.parallelvirtualcluster.org/en/latest/about-pvc/) page for general information about the project, and the [Getting Started](https://docs.parallelvirtualcluster.org/en/latest/deployment/getting-started/) page for details on configuring your first cluster.
 
 ## Changelog
 
-View the changelog in [CHANGELOG.md](CHANGELOG.md). **Please note that any breaking changes are announced here; ensure you read the changelog before upgrading!**
+View the changelog in [CHANGELOG.md](https://github.com/parallelvirtualcluster/pvc/blob/master/README.md). **Please note that any breaking changes are announced here; ensure you read the changelog before upgrading!**
 
 ## Screenshots
 
