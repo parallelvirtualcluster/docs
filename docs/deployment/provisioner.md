@@ -393,9 +393,9 @@ Using cluster "local" - Host: "10.0.0.1:7370"  Scheme: "http"  Prefix: "/api/v1"
 Task ID: 39639f8c-4866-49de-8c51-4179edec0194
 ```
 
-❕ **NOTE** A VM that is set to do so will be defined on the cluster early in the provisioning process, before creating disks or executing the provisioning script, with the special status `provision`. Once completed, if the VM is not set to start automatically, the state will remain `provision`, with the VM not running, until its state is explicitly changed with the client (or via autostart when its node returns to `ready` state).
+📝 **NOTE** A VM that is set to do so will be defined on the cluster early in the provisioning process, before creating disks or executing the provisioning script, with the special status `provision`. Once completed, if the VM is not set to start automatically, the state will remain `provision`, with the VM not running, until its state is explicitly changed with the client (or via autostart when its node returns to `ready` state).
 
-❕ **NOTE** Provisioning jobs cannot be cancelled, either before they start or during execution. The administrator should always let an invalid job either complete or fail out automatically, then remove the erroneous VM with the `vm remove` command.
+📝 **NOTE** Provisioning jobs cannot be cancelled, either before they start or during execution. The administrator should always let an invalid job either complete or fail out automatically, then remove the erroneous VM with the `vm remove` command.
 
 # Deploying VMs from OVA images
 

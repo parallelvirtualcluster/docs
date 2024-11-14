@@ -4,7 +4,7 @@ For more information about what PVC is and what it's for, please see the [about 
 
 One of PVC's design goals is administrator simplicity. Thus, it is relatively easy to get a cluster up and running in about 2 hours with only a few configuration steps, a set of nodes (with physical or remote vKVM access), and the provided tooling. This guide will walk you through setting up a simple 3-node PVC cluster from scratch, ending with a fully-usable cluster ready to provision virtual machines.
 
-❕ **NOTE** All domains, IP addresses, etc. used in this guide are **examples**. Be sure to modify the commands and configurations to suit your specific systems and needs.
+📝 **NOTE** All domains, IP addresses, etc. used in this guide are **examples**. Be sure to modify the commands and configurations to suit your specific systems and needs.
 
 ## Part One: Cluster Design, Node Procurement & Setup, and Management Host Configuration
 
@@ -24,13 +24,15 @@ To set up a PVC cluster, you must pick several networks and vLANs to use in late
 
 Within each of these networks, pick an RFC1918 subnet for use by the cluster. The easiest configuration is to use a `/24` RFC1918 network for each, with the gateway at the top of the subnet (i.e. `.254`). PVC will assign nodes IPs sequentially by default, with `hv1` at `.1`, `hv2` at `.2`, etc. For example, if using `10.100.0.0/24` for the "upstream" network and `10.100.1.0/24` for the "cluster" network, `hv1` would be assigned `10.100.0.1` and `10.100.1.1`, `hv2` would be assigned `10.100.0.2` and `10.100.1.2`, etc.
 
+⚠️ **WARNING** The internal RFC1918 networks cannot be changed once the cluster is provisioned! Ensure you pick good networks to start.
+
 You will also need a switch to connect the nodes, capable of vLAN trunks passing these networks into the various nodes.
 
 ### Node Procurement
 
 0. Select your physical nodes. Some examples are outlined in the Cluster Architecture documentation linked above. For purposes of this guide, we will be using a set of 3 Dell PowerEdge R430 servers.
 
-    ❕ **NOTE** This example selection sets some definitions below. For instance, we will refer to the "iDRAC" rather than using any other term for the integrated lights-out management/IPMI system, for clarity and consistency going forward. Adjust this to your cluster accordingly.
+    📝 **NOTE** This example selection sets some definitions below. For instance, we will refer to the "iDRAC" rather than using any other term for the integrated lights-out management/IPMI system, for clarity and consistency going forward. Adjust this to your cluster accordingly.
 
 ### Node Physical Setup
 
@@ -42,7 +44,7 @@ You will also need a switch to connect the nodes, capable of vLAN trunks passing
 
 0. Ensure that all data OSD disks are set to "non-RAID" mode, i.e. direct host pass-through. These disks should be exposed directly to the operating system unmolested.
 
-    ❕ **NOTE** Some RAID controllers, for instance HP "Smart" Array controllers, do not permit direct pass-through. While we do not recommend using such systems for PVC, you can work around this by creating single-disk RAID-0 volumes, though be aware that doing so will result in missing SMART data for the disks and potential instability. As outlined in the architecture documentation, avoid such systems if at all possible!
+    📝 **NOTE** Some RAID controllers, for instance HP "Smart" Array controllers, do not permit direct pass-through. While we do not recommend using such systems for PVC, you can work around this by creating single-disk RAID-0 volumes, though be aware that doing so will result in missing SMART data for the disks and potential instability. As outlined in the architecture documentation, avoid such systems if at all possible!
 
 ### Management Host Configuration
 
@@ -88,7 +90,7 @@ You will also need a switch to connect the nodes, capable of vLAN trunks passing
     $ sudo apt install pvc-client-cli
     ```
 
-    ❕ **NOTE** Valid `CODENAME` values for the above commands are: `bookworm`. Ubuntu codenames are not supported; use the latest Debian codename instead.
+    📝 **NOTE** Valid `CODENAME` values for the above commands are: `bookworm`. Ubuntu codenames are not supported; use the latest Debian codename instead.
 
 ## Part Two: Prepare your Ansible variables
 
@@ -107,13 +109,13 @@ You will also need a switch to connect the nodes, capable of vLAN trunks passing
         hv3.cluster2.mydomain.tld  
 
 
-    ❕ **NOTE** The hostnames given here must be the actual reachable FQDNs of the hypervisor nodes in the "upstream" network; if they do not resolve in DNS, you can use the `ansible_host=` per-entry variable to set the IP address in the "upstream" network for each node.
+    📝 **NOTE** The hostnames given here must be the actual reachable FQDNs of the hypervisor nodes in the "upstream" network; if they do not resolve in DNS, you can use the `ansible_host=` per-entry variable to set the IP address in the "upstream" network for each node.
 
 0. In your local repository, enter the `group_vars` directory, and create a new directory for the cluster which matches the title (inside `[`/`]` square brackets) in the above `hosts` file. For example, `cluster1`.
 
 0. Copy the contents of the `default/` directory into the new directory. This will provide a convenient, well-documented reference for setting the various values below.
 
-     ❕ **NOTE** We will assume for this guide that you intend to use all PVC features, and will thus explain all features. While it is possible to exclude some, that is beyond the scope of this walk-through. If you wish to skip a particular feature (for example, CPU tuning or VM autobackups), simply skip that section.
+     📝 **NOTE** We will assume for this guide that you intend to use all PVC features, and will thus explain all features. While it is possible to exclude some, that is beyond the scope of this walk-through. If you wish to skip a particular feature (for example, CPU tuning or VM autobackups), simply skip that section.
 
 ### `base.yml`
 
@@ -121,7 +123,7 @@ The `base.yml` file defines variables used both by the `base` role, and cluster-
 
 The `default` version of this file is well-commented, and should hopefully provide a good explanation of each option. The entire file is mirrored here for posterity:
 
-❕ **NOTE** Pay close attention to any "Use X to generate" comments; these are recommendations to use the program "X" to generate a value that must be filled.
+📝 **NOTE** Pay close attention to any "Use X to generate" comments; these are recommendations to use the program "X" to generate a value that must be filled.
 
     ---
     # The name of the Ansible cluster group, used to set file paths and determine hosts in the cluster
@@ -340,9 +342,9 @@ The `pvc.yml` file defines variables used by the `pvc` role to create individual
 
 The `default` version of this file is well-commented, and should hopefully provide a good explanation of each option. The entire file is mirrored here for posterity:
 
-❕ **NOTE** A large number of options in this file are commented out; you only need to uncomment these if you wish to change the specified default value.
+📝 **NOTE** A large number of options in this file are commented out; you only need to uncomment these if you wish to change the specified default value.
 
-❕ **NOTE** Pay close attention to any "Use X to generate" comments; these are recommendations to use the program "X" to generate a value that must be filled.
+📝 **NOTE** Pay close attention to any "Use X to generate" comments; these are recommendations to use the program "X" to generate a value that must be filled.
 
 Of special note is the `pvc_nodes` section. This must contain a listing of all nodes in the cluster. For most clusters, start only with the 3 (or 5 if a large cluster is planned) coordinator nodes, and add the remainder in later.
 
@@ -680,7 +682,7 @@ Of special note is the `pvc_nodes` section. This must contain a listing of all n
 
     ❔ **Why?** *Why not provide a pre-built ISO?* Debian can change frequently, both in terms of releases used for the live installer (we've gone through 3 since first creating PVC) and also just normal security updates. Plus the live ISO is relatively large (about 700MB), so distributing that would be a burden. Generating these on-demand, using the latest version of the script, is the best method to ensure it's up-to-date and ready for your system.
 
-    ❕ **NOTE** The output file will be dated, for example `pvc-installer_2024-09-05_amd64.iso`.
+    📝 **NOTE** The output file will be dated, for example `pvc-installer_2024-09-05_amd64.iso`.
 
 0. Mount the generated ISO onto your nodes. This can be accomplished in several ways, depending on what your server supports; choose the one that makes the most sense for your environment.
 
@@ -704,7 +706,7 @@ Of special note is the `pvc_nodes` section. This must contain a listing of all n
 
     c. For networking, during this initial state we only need a single interface to get basic connectivity and prepare for Ansible. Generally speaking, setup and bootstrapping is easier if you have a dedicated "setup" NIC in a network directly reachable by your management host ("upstream" or another network), then allow the `pvc-ansible` system to configure the "main" interfaces from there. If this is not possible, you can configure both a bond and a vLAN on top during the installer to pre-configure your "upstream" interface. You can use either DHCP (if you are using a dedicated "setup" network) or a static IP (if you are directly configuring the "upstream" network now).
 
-        ❕ **NOTE** The installer won't proceed until networking is up. If you need to stop and troubleshoot, you can launch another virtual console using Ctrl+Alt+F2 or similar, cancel the installer script, and interrogate the installer environment in more detail.
+        📝 **NOTE** The installer won't proceed until networking is up. If you need to stop and troubleshoot, you can launch another virtual console using Ctrl+Alt+F2 or similar, cancel the installer script, and interrogate the installer environment in more detail.
 
     d. For the Debian configuration, you can choose a specific mirror if you wish, but otherwise the defaults are recommended. If you require any additional packages for the system to boot (e.g. firmware, drivers, etc.), ensure you list them in the additional packages step.
 
@@ -746,7 +748,7 @@ Of special note is the `pvc_nodes` section. This must contain a listing of all n
     $ export PVC_CLUSTER="cluster1"
     ```
 
-    ❕ **NOTE** It is fully possible to administer the cluster from the nodes themselves via SSH should you so choose, to avoid requiring the PVC client on your local machine.
+    📝 **NOTE** It is fully possible to administer the cluster from the nodes themselves via SSH should you so choose, to avoid requiring the PVC client on your local machine.
 
 ## Part Five - Configuring the Ceph storage cluster
 
@@ -784,9 +786,9 @@ Of special note is the `pvc_nodes` section. This must contain a listing of all n
     $ pvc storage osd add --weight 1.0 pvchv3 /dev/sdc
     ```
 
-    ❕ **NOTE** On the CLI, the `--weight` argument is optional, and defaults to `1.0`. In the API, it must be specified explicitly, but the CLI sets a default value. OSD weights determine the relative amount of data which can fit onto each OSD. Under normal circumstances, you would want all OSDs to be of identical size, and hence all should have the same weight. If your OSDs are instead different sizes, the weight should be proportional to the size, e.g. `1.0` for a 100GB disk, `2.0` for a 200GB disk, etc. For more details, see the [Cluster Architecture](/cluster-architecture) and Ceph documentation.
+    📝 **NOTE** On the CLI, the `--weight` argument is optional, and defaults to `1.0`. In the API, it must be specified explicitly, but the CLI sets a default value. OSD weights determine the relative amount of data which can fit onto each OSD. Under normal circumstances, you would want all OSDs to be of identical size, and hence all should have the same weight. If your OSDs are instead different sizes, the weight should be proportional to the size, e.g. `1.0` for a 100GB disk, `2.0` for a 200GB disk, etc. For more details, see the [Cluster Architecture](/cluster-architecture) and Ceph documentation.
 
-    ❕ **NOTE** You can add OSDs in any order you wish, for instance you can add the first OSD to each node and then add the second to each node, or you can add all nodes' OSDs together at once like the example. This ordering does not affect the cluster in any way.
+    📝 **NOTE** You can add OSDs in any order you wish, for instance you can add the first OSD to each node and then add the second to each node, or you can add all nodes' OSDs together at once like the example. This ordering does not affect the cluster in any way.
 
 0. Verify that the OSDs were successfully added and are functional (`up` and `in`):
 
@@ -800,7 +802,7 @@ Of special note is the `pvc_nodes` section. This must contain a listing of all n
     $ pvc storage pool add <name> <placement_groups>
     ```
 
-    ❕ **NOTE** Ceph placement groups are a complex topic; as a general rule it's easier to grow than shrink, so start small and grow as your cluster grows. The following are some good starting numbers for 3-node clusters, though the Ceph documentation and the [Ceph placement group calculator](https://ceph.com/pgcalc/) are advisable for anything more complex. There is a trade-off between CPU usage and the number of total PGs for all pools in the cluster, with more PGs meaning more CPU usage.  
+    📝 **NOTE** Ceph placement groups are a complex topic; as a general rule it's easier to grow than shrink, so start small and grow as your cluster grows. The following are some good starting numbers for 3-node clusters, though the Ceph documentation and the [Ceph placement group calculator](https://ceph.com/pgcalc/) are advisable for anything more complex. There is a trade-off between CPU usage and the number of total PGs for all pools in the cluster, with more PGs meaning more CPU usage.  
 
     * 3-6 OSDs total: 64 PGs (1 pool) or 32 PGs (2 or more pools, each)  
     * 9+ OSDs total: 128 PGs (1 pool) or 64 PGs (2 or more pools, each)  
@@ -811,7 +813,7 @@ Of special note is the `pvc_nodes` section. This must contain a listing of all n
     $ pvc storage pool add vms 128
     ```
 
-    ❕ **NOTE** As detailed in the [cluster architecture documentation](/cluster-architecture), you can also set a custom replica configuration for each pool if the default of 3 replica copies with 2 minimum copies is not acceptable. See `pvc storage pool add -h` or that document for full details.
+    📝 **NOTE** As detailed in the [cluster architecture documentation](/cluster-architecture), you can also set a custom replica configuration for each pool if the default of 3 replica copies with 2 minimum copies is not acceptable. See `pvc storage pool add -h` or that document for full details.
 
 0. Verify that the pool was successfully added:
 
@@ -837,9 +839,9 @@ Of special note is the `pvc_nodes` section. This must contain a listing of all n
         $ pvc network add 200 --type bridged --description my-bridged-network
         ```
 
-    ❕ **NOTE** Network descriptions cannot contain spaces or special characters; keep them short, sweet, and dash or underscore delimited.
+    📝 **NOTE** Network descriptions cannot contain spaces or special characters; keep them short, sweet, and dash or underscore delimited.
 
-    ❕ **NOTE** At least one `managed` network with DHCP support will be required to use the PVC provisioner functionality.
+    📝 **NOTE** At least one `managed` network with DHCP support will be required to use the PVC provisioner functionality.
 
 0. Verify that the network(s) were successfully added:
 

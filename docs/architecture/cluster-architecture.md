@@ -156,7 +156,7 @@ Managed client networks leverage the EBGP VXLAN subsystem to provide virtual lay
 
 PVC can provide services to clients in this network via the DNSMasq subsystem, including IPv4 and IPv6 routing, firewalling, DHCP, DNS, and NTP. An upstream router must be configured to accept and return traffic from these network(s), either via BGP or static routing, if outside access is required.
 
-**NOTE:** Be aware of the potential for "tromboning" when routing between managed networks. All traffic to and from a managed network will flow out the primary coordinator. Thus, if there is a large amount of inter-network traffic between two managed networks, all this traffic will traverse the primary coordinator, introducing a potential bottleneck. To avoid this, keep the amount of inter-network routing between managed networks or between managed networks and the outside world to a minimum.
+📝 **NOTE** Be aware of the potential for "tromboning" when routing between managed networks. All traffic to and from a managed network will flow out the primary coordinator. Thus, if there is a large amount of inter-network traffic between two managed networks, all this traffic will traverse the primary coordinator, introducing a potential bottleneck. To avoid this, keep the amount of inter-network routing between managed networks or between managed networks and the outside world to a minimum.
 
 One major purpose of managed networks is to provide a bootstrapping mechanism for new VMs deployed using the [PVC provisioner](../deployment/provisioner) with CloudInit metadata services (see that documentation for details). Such deployments will require at least one managed network to provide access to the CloudInit metadata system.
 
@@ -174,13 +174,13 @@ SR-IOV provides two mechanisms for directly passing underlying network devices i
 
 SR-IOV networks require static configuration of the hypervisor nodes, both to define the PFs and to define how many VFs can be created on each PF. These options are defined with the `sriov_device` and `vfcount` options in the `pvcnoded.yaml` configuration file.
 
-**NOTE:** Changing the PF or VF configuration cannot be done dynamically, and requires a restart of the `pvcnoded` daemon.
+📝 **NOTE** Changing the PF or VF configuration cannot be done dynamically, and requires a restart of the `pvcnoded` daemon.
 
-**NOTE:** Some SR-IOV NICs, specifically Intel NICs, cannot have the `vfcount` modified during runtime after being set. The node must be rebooted for changes to be applied.
+📝 **NOTE** Some SR-IOV NICs, specifically Intel NICs, cannot have the `vfcount` modified during runtime after being set. The node must be rebooted for changes to be applied.
 
 Once one or more PFs are configured, VFs can then be created on individual nodes via the PVC API, which can then be mapped to VMs in a 1-to-1 relationship.
 
-**NOTE:** The administrator must be careful to ensure the allocated VFs and PFs are identical between all nodes, otherwise migration of VMs between nodes can result in incorrect network assignments.
+📝 **NOTE** The administrator must be careful to ensure the allocated VFs and PFs are identical between all nodes, otherwise migration of VMs between nodes can result in incorrect network assignments.
 
 Once VFs are created, they may be attached to VMs using one of the two strategies mentioned above. Each strategy has trade-offs, so careful consideration is required:
 
