@@ -1520,7 +1520,7 @@
                     "items": {
                         "properties": {
                             "age": {
-                                "description": "Human-readable age of the snapshot in the largest viable unit (seconds, minutes, hours, days)",
+                                "description": "Age of the snapshot in seconds",
                                 "type": "string"
                             },
                             "name": {
@@ -7740,6 +7740,46 @@
                     }
                 },
                 "summary": "Trigger a cluster autobackup job",
+                "tags": [
+                    "provisioner"
+                ]
+            }
+        },
+        "/api/v1/vm/automirror": {
+            "post": {
+                "description": "",
+                "parameters": [
+                    {
+                        "description": "A list of email addresses to send failure and report emails to, comma-separated",
+                        "in": "query",
+                        "name": "email_recipients",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "default": false,
+                        "description": "If set and true, only sends a report email to email_recipients when there is an error with at least one mirror",
+                        "in": "query",
+                        "name": "email_errors_only",
+                        "required": false,
+                        "type": "boolean"
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Accepted",
+                        "schema": {
+                            "$ref": "#/definitions/CeleryTask"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    }
+                },
+                "summary": "Trigger a cluster automirror job",
                 "tags": [
                     "provisioner"
                 ]
