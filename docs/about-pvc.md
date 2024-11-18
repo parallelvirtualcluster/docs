@@ -55,6 +55,7 @@ All features are as of the latest version: <a href="https://github.com/parallelv
 * VM hot/online snapshot creation (disks + configuration), with incremental image support, management (delete), and restore
 * VM autobackups with self-contained backup rotation and optional automatic mounting of remote storage resources
 * VM snapshot shipping to external clusters (mirroring) and mirror promotion
+* VM automirrors with self-contained snapshot rotation for regular creation of mirrors
 
 ### Network Management
 
