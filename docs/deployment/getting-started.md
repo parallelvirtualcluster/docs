@@ -50,15 +50,15 @@ Select your physical nodes. Some examples are outlined in the Cluster Architectu
 
 0. Prepare a management host for your PVC cluster(s). The management host can be nearly anything from your local workstation or laptop, to a dedicated machine, to a VM in another virtualization cluster; you can even move it into the PVC cluster later if you so choose. The purpose of the management host is to provision and maintain the cluster with `pvc-ansible` and perform tasks against it without connecting directly to the hypervisors.
 
-   The management host must meet the following requirements:
+    The management host must meet the following requirements:
 
-   a. It must be running a recent version of some flavour of Debian GNU/Linux with access to BASH and Python 3. This should ideally be Debian itself (version 12 "Bookworm" or newer) but could also be a derivative like Ubuntu. The Windows Subsystem for Linux may work, but has not been tested by the author. Non-Debian Linux, or MacOS, may be functional but the deployment of dependencies will be manual.
+    a. It must be running a recent version of some flavour of Debian GNU/Linux with access to BASH and Python 3. This should ideally be Debian itself (version 12 "Bookworm" or newer) but could also be a derivative like Ubuntu. The Windows Subsystem for Linux may work, but has not been tested by the author. Non-Debian Linux, or MacOS, may be functional but the deployment of dependencies will be manual.
 
-   b. It must have at least 10GB of free space to hold temporary files during later steps, though the overall steady-state utilization of the PVC management framework is very small (<1GB).
+    b. It must have at least 10GB of free space to hold temporary files during later steps, though the overall steady-state utilization of the PVC management framework is very small (<1GB).
 
-   c. It must have network access to the PVC cluster, both during bootstrap as well as afterwards. Ideally, it will be in the "upstream" network defined below, but an external management host is fine. At the very least, ports 22 (SSH) and 7370 (HTTP API) must be permitted inbound to the cluster from the management host; any other traffic can be tunnelled over SSH if required.
+    c. It must have network access to the PVC cluster, both during bootstrap as well as afterwards. Ideally, it will be in the "upstream" network defined below, but an external management host is fine. At the very least, ports 22 (SSH) and 7370 (HTTP API) must be permitted inbound to the cluster from the management host; any other traffic can be tunnelled over SSH if required.
 
-   d. It must have [Ansible](https://www.ansible.com) installed.
+    d. It must have [Ansible](https://www.ansible.com) installed.
 
 0. Download the [`create-local-repo.sh` BASH script](https://github.com/parallelvirtualcluster/pvc-ansible/raw/master/create-local-repo.sh) to your management system. Do not try to pipe directly into a BASH shell or you might miss the prompts, as the script is not set up for this.
 
@@ -768,13 +768,13 @@ Of special note is the `pvc_nodes` section. This must contain a listing of all n
 
 0. Mount the generated ISO onto your nodes. This can be accomplished in several ways, depending on what your server supports; choose the one that makes the most sense for your environment.
 
-   a. Virtual media in the iDRAC or similar out-of-band management system's console interface.
+    a. Virtual media in the iDRAC or similar out-of-band management system's console interface.
 
-   a. Virtual media in the iDRAC or similar out-of-band management system over HTTP, NFS, or similar.
+    b. Virtual media in the iDRAC or similar out-of-band management system over HTTP, NFS, or similar.
 
-   a. Writing the ISO to a USB flash drive (or several).
+    c. Writing the ISO to a USB flash drive (or several).
 
-   a. Writing the ISO to a CD-ROM or DVD-ROM (or several).
+    d. Writing the ISO to a CD-ROM or DVD-ROM (or several).
 
 0. If you have not already done so, prepare you system disks as a (hardware) RAID-1, so it is ready to be installed to. Note that PVC does not support software RAID (`mdraid` or similar).
 
@@ -782,17 +782,17 @@ Of special note is the `pvc_nodes` section. This must contain a listing of all n
 
 0. Once the ISO boots, the installer script will run, and you will be prompted for several pieces of information about each node. Repeat this step for each node.
 
-   a. For the hostname, ensure this is a FQDN that matches the name set in your `hosts` and `group_vars` - specifically, the short name (e.g. `hv1`) followed by the `local_domain` (e.g. `cluster1.mydomain.tld`).
+    a. For the hostname, ensure this is a FQDN that matches the name set in your `hosts` and `group_vars` - specifically, the short name (e.g. `hv1`) followed by the `local_domain` (e.g. `cluster1.mydomain.tld`).
 
-   b. For disks, all options presented are supported, though the defaults are recommended.
+    b. For disks, all options presented are supported, though the defaults are recommended.
 
-   c. For networking, during this initial state we only need a single interface to get basic connectivity and prepare for Ansible. Generally speaking, setup and bootstrapping is easier if you have a dedicated "setup" NIC in a network directly reachable by your management host ("upstream" or another network), then allow the `pvc-ansible` system to configure the "main" interfaces from there. If this is not possible, you can configure both a bond and a vLAN on top during the installer to pre-configure your "upstream" interface. You can use either DHCP (if you are using a dedicated "setup" network) or a static IP (if you are directly configuring the "upstream" network now).
+    c. For networking, during this initial state we only need a single interface to get basic connectivity and prepare for Ansible. Generally speaking, setup and bootstrapping is easier if you have a dedicated "setup" NIC in a network directly reachable by your management host ("upstream" or another network), then allow the `pvc-ansible` system to configure the "main" interfaces from there. If this is not possible, you can configure both a bond and a vLAN on top during the installer to pre-configure your "upstream" interface. You can use either DHCP (if you are using a dedicated "setup" network) or a static IP (if you are directly configuring the "upstream" network now).
 
-      📝 **NOTE** The installer won't proceed until networking is up. If you need to stop and troubleshoot, you can launch another virtual console using Ctrl+Alt+F2 or similar, cancel the installer script, and interrogate the installer environment in more detail.
+    📝 **NOTE** The installer won't proceed until networking is up. If you need to stop and troubleshoot, you can launch another virtual console using Ctrl+Alt+F2 or similar, cancel the installer script, and interrogate the installer environment in more detail.
 
-   d. For the Debian configuration, you can choose a specific mirror if you wish, but otherwise the defaults are recommended. If you require any additional packages for the system to boot (e.g. firmware, drivers, etc.), ensure you list them in the additional packages step.
+    d. For the Debian configuration, you can choose a specific mirror if you wish, but otherwise the defaults are recommended. If you require any additional packages for the system to boot (e.g. firmware, drivers, etc.), ensure you list them in the additional packages step.
 
-   e. For SSH, you have two options: the recommended option is to provide an HTTP URL to an SSH `id_x.pub` file or existing `authorized_keys` file; or you can provide a password which can then be used to upload keys later. Keys will be required for long-term maintenance of the system, so it is recommended that you prepare this now, place the public key(s) in a file on a reachable web server, and use that.
+    e. For SSH, you have two options: the recommended option is to provide an HTTP URL to an SSH `id_x.pub` file or existing `authorized_keys` file; or you can provide a password which can then be used to upload keys later. Keys will be required for long-term maintenance of the system, so it is recommended that you prepare this now, place the public key(s) in a file on a reachable web server, and use that.
 
 0. Installation will now begin, and once completed, there will be an option to launch a shell in the new environment if required. If not, you will be prompted with the final notes. Take note of the default root password: this will provide you access should the networking be unreachable, then press Enter to reboot into the newly installed system. Repeat this step for each node.
 
@@ -909,13 +909,13 @@ Of special note is the `pvc_nodes` section. This must contain a listing of all n
 
 0. Create the virtual network. There are many options here, so see `pvc network add -h` for details. Generally, you will create either `managed` or `bridged` networks:
 
-   * To create a managed (EVPN VXLAN) network `10000` with subnet `10.100.0.0/24`,  gateway `.1` and DHCP from `.100` to `.199`, run the command as follows:
+    * To create a managed (EVPN VXLAN) network `10000` with subnet `10.100.0.0/24`,  gateway `.1` and DHCP from `.100` to `.199`, run the command as follows:
 
       ```
       $ pvc network add 10000 --type managed --description my-managed-network --domain myhosts.local --ipnet 10.100.0.0/24 --gateway 10.100.0.1 --dhcp --dhcp-start 10.100.0.100 --dhcp-end 10.100.0.199
       ```
 
-   * To create a bridged (switch-configured, tagged VLAN, with no PVC management of IPs) network `200`, run the command as follows:
+    * To create a bridged (switch-configured, tagged VLAN, with no PVC management of IPs) network `200`, run the command as follows:
 
       ```
       $ pvc network add 200 --type bridged --description my-bridged-network
