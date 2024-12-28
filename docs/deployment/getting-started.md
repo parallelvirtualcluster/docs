@@ -845,27 +845,27 @@ Of special note is the `pvc_nodes` section. This must contain a listing of all n
     For example, if each node has two data disks, as `/dev/sdb` and `/dev/sdc`, run the commands as follows to add the first disk to each node, then the second disk to each node:
 
     ```
-    $ pvc storage osd add --weight 1.0 pvchv1 /dev/sdb
+    $ pvc storage osd add --weight 1.0 hv1 /dev/sdb
     ```
 
     ```
-    $ pvc storage osd add --weight 1.0 pvchv2 /dev/sdb
+    $ pvc storage osd add --weight 1.0 hv2 /dev/sdb
     ```
 
     ```
-    $ pvc storage osd add --weight 1.0 pvchv3 /dev/sdb
+    $ pvc storage osd add --weight 1.0 hv3 /dev/sdb
     ```
 
     ```
-    $ pvc storage osd add --weight 1.0 pvchv1 /dev/sdc
+    $ pvc storage osd add --weight 1.0 hv1 /dev/sdc
     ```
 
     ```
-    $ pvc storage osd add --weight 1.0 pvchv2 /dev/sdc
+    $ pvc storage osd add --weight 1.0 hv2 /dev/sdc
     ```
 
     ```
-    $ pvc storage osd add --weight 1.0 pvchv3 /dev/sdc
+    $ pvc storage osd add --weight 1.0 hv3 /dev/sdc
     ```
 
     📝 **NOTE** On the CLI, the `--weight` argument is optional, and defaults to `1.0`. In the API, it must be specified explicitly, but the CLI sets a default value. OSD weights determine the relative amount of data which can fit onto each OSD. Under normal circumstances, you would want all OSDs to be of identical size, and hence all should have the same weight. If your OSDs are instead different sizes, the weight should be proportional to the size, e.g. `1.0` for a 100GB disk, `2.0` for a 200GB disk, etc. For more details, see the [Cluster Architecture](/cluster-architecture) and Ceph documentation.
