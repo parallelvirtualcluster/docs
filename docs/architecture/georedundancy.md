@@ -60,7 +60,7 @@ It is the opinion of the author that the caveats of single-cluster georedundancy
 
 ## Multi-Cluster Georedundancy
 
-Starting with PVC version 0.9.103, the system now supports online VM snapshot transfers between clusters. This can help enable a second georedundancy mode, leveraging a full cluster in two sites, between which important VMs replicate. In addition, this design can be used with higher-layer abstractions like service-level redundancy to ensure the optimal operation of services even if an entire cluster becomes unavailable. Service-level redundancy between two clusters is not addressed here.
+Starting with PVC version 0.9.104, the system now supports online VM snapshot transfers between clusters. This can help enable a second georedundancy mode, leveraging a full cluster in two sites, between which important VMs replicate. In addition, this design can be used with higher-layer abstractions like service-level redundancy to ensure the optimal operation of services even if an entire cluster becomes unavailable. Service-level redundancy between two clusters is not addressed here.
 
 Multi-cluster redundancy eliminates most of the caveats of single-cluster georedundancy while permitting single-instance VMs to be safely replicated for hot availability, but introduces several additional caveats regarding promotion of VMs between clusters that must be considered before and during failure events.
 
