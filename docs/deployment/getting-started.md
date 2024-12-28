@@ -954,7 +954,7 @@ Congratulations, you now have a PVC cluster, ready to run your VMs.
 
 ### Adding additional nodes
 
-If you want to add additional non-coordinator nodes, you can do so now. Run through the node installer on them, and then bootstrap them using the Ansible playbook **without** the `-e bootstrap` option. The nodes will be automatically configured and join the cluster when they reboot, ready to provide compute for VMs or additional OSD disks for storage.
+If you want to add additional non-coordinator nodes, you can do so now. Add them your `hosts` list and the cluster `group_vars`. Run through the node installer on them, and then bootstrap them using the Ansible playbook **without** the `-e bootstrap` option. The nodes will be automatically configured and join the cluster when they reboot, ready to provide compute for VMs or additional OSD disks for storage.
 
 ## Next steps
 
