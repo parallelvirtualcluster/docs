@@ -60,9 +60,9 @@ It is the opinion of the author that the caveats of single-cluster georedundancy
 
 ## Multi-Cluster Georedundancy
 
-Starting with PVC version 0.9.103, PVC now supports online VM snapshot transfers between clusters. This can help enable a second georedundancy mode, leveraging a full cluster in two sites, between which important VMs replicate. In addition, this design can be used with higher-layer abstractions like service-level redundancy to ensure the optimal operation of services even if an entire cluster becomes unavailable. Service-level redundancy between two clusters is not addressed here.
+Starting with PVC version 0.9.103, the system now supports online VM snapshot transfers between clusters. This can help enable a second georedundancy mode, leveraging a full cluster in two sites, between which important VMs replicate. In addition, this design can be used with higher-layer abstractions like service-level redundancy to ensure the optimal operation of services even if an entire cluster becomes unavailable. Service-level redundancy between two clusters is not addressed here.
 
-Multi-cluster redundancy eliminates most of the caveats of single-cluster georedundancy, but introduces several additional caveats regarding promotion of VMs between clusters.
+Multi-cluster redundancy eliminates most of the caveats of single-cluster georedundancy while permitting single-instance VMs to be safely replicated for hot availability, but introduces several additional caveats regarding promotion of VMs between clusters that must be considered before and during failure events.
 
 ### No Failover Automation
 
@@ -70,7 +70,7 @@ Georedundancy with multiple clusters offers no automation within the PVC system 
 
 ### VM Automirrors
 
-The VM automirror subsystem must be used for proper automatic redundancy on any single-instance VMs within the cluster. A "primary" side must be selected to run the service normally, while a "secondary" site receives regular mirror snapshots to update its local copy.
+The VM automirror subsystem must be used for proper automatic redundancy on any single-instance VMs within the cluster. A "primary" side must be selected to run the service normally, while a "secondary" site receives regular mirror snapshots to update its local copy and be ready for promotion should this be necessary. Note that controlled cutovers (for e.g. maintenance events) do not present issues aside from brief VM downtime, as a final snapshot is sent during these operations.
 
 The automirror schedule is very important to define here. Since automirrors are point-in-time snapshots, only data at the last sent snapshot will be available on the secondary cluster. Thus, extremely frequent automirrors, on the order of hours or even minutes, are recommended. In addition note that automirrors are run on a fixed schedule for all VMs in the cluster; it is not possible to designate some VMs to run more frequently at this time.
 
@@ -84,4 +84,6 @@ VM automirror snapshots are point-in-time; for a clean promotion without data lo
 
 * Once the secondary is promoted to become the primary manually, both clusters will consider themselves primary for the VM, should the original primary cluster recover. At that time, there will be a split-brain between the two, and one side's changes must be discarded; there is no reconciliation possible on the PVC side between the two instances. Usually, recovery here will mean the removal of the original primary's copy of the VM and a re-synchronization from the former secondary (now primary) to the original primary cluster with `pvc vm mirror create`, followed by a graceful transition with `pvc vm mirror promote`. Note that the transition will also result in additional downtime for the VM.
 
-Ultimately the potential for data loss during unplanned promotions must be carefully weighed against the benefits of manually promoting the peer cluster. For short or transient outages, it is highly likely to result in more data loss and impact than is acceptable, and thus a manual promotion should only be considered in truly catastrophic situations.
+## Overall Conclusion: Proceed with Caution
+
+Ultimately the potential for data loss during unplanned promotions must be carefully weighed against the benefits of manually promoting the peer cluster. For short or transient outages, it is highly likely to result in more data loss and impact than is acceptable, and thus a manual promotion should only be considered in truly catastrophic situations. In such situations, the amount of acceptable data loss must inform the timing of the automirrors, and thus how frequently snapshots are taken and transmitted. Ultimately, service-level redundancy is advised when any data loss would be catastrophic.
