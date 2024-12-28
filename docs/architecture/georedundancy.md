@@ -36,7 +36,7 @@ PVC's [fencing mechanism](fencing.md) relies entirely on network access. First, 
 
 Georedundancy introduces significant complications to this process. First, it makes network cuts more likely, as the cut can now occur somewhere outside of the administrator's control (i.e. on a public utility pole). Second, the nature of the cut means that without backup connectivity for the IPMI functionality, any fencing attempt would fail, thus preventing automatic recovery of VMs on the cut site. Thus, in this design, several normally-possible recovery situations become impossible to recover from automatically, up to an including any recovery at all.
 
-## Orphaned Site Availability
+### Orphaned Site Availability
 
 It is also important to note that network cut scenarios in this case will result in the outage of the orphaned site, even if it is otherwise functional. As the single node could no longer communicate with the majority of the storage cluster, its VMs will become unresponsive and blocked from I/O. Thus, splitting a single cluster between sites like this will **not** help ensure that the cut site remains available; on the contrary, the cut site will effectively be sacrificed to preserve the *remainder* of the cluster. For instance, office workers in that location would still not be able to access services on the cluster, even if those services happening to be running in the same physical location.
 
