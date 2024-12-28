@@ -34,7 +34,7 @@ Since hypervisors are not affected by nor affect the quorum, any number can be p
 
 PVC's [fencing mechanism](fencing.md) relies entirely on network access. First, network access is required for a node to update its keepalives to the other nodes via Zookeeper. Second, IPMI out-of-band connectivity is required for the remaining nodes to fence a dead node.
 
-Georedundancy introduces significant complications to this process. First, it makes network cuts more likely, as the cut can now occur somewhere outside of the administrator's control (i.e. on a public utility pole). Second, the nature of the cut means that without backup connectivity for the IPMI functionality, any fencing attempt would fail, thus preventing automatic recovery of VMs on the cut site. Thus, in this design, several normally-possible recovery situations become impossible to recover from automatically, up to an including any recovery at all.
+Georedundancy introduces significant complications to this process. First, it makes network cuts more likely, as the cut can now occur somewhere outside of the administrator's control (e.g. on a public utility pole, or in a provider's upstream network). Second, the nature of the cut means that without backup connectivity for the IPMI functionality, any fencing attempt would fail, thus preventing automatic recovery of VMs from the cut site onto the remaining sites. Thus, in this design, several normally-possible recovery situations become impossible to recover from automatically, up to and including any recovery at all. Situations where individual VM availability is paramount are therefore not ideally served by single-cluster georedundancy.
 
 ### Orphaned Site Availability
 
@@ -54,6 +54,10 @@ As illustrated in this diagram, a write will only be accepted by the client once
 
 To combat this, georedundant nodes should be as close as possible, ideally within 20-30km of each other at a maximum. Thus, a ring *within* a city would work well; a ring *between* cities would likely hamper performance significantly.
 
+## Overall Conclusion: Avoid Single-Cluster Georedundancy
+
+It is the opinion of the author that the caveats of single-cluster georedundancy outweigh the benefits in almost every case. The only situation for which multi-site georedundancy provides a notable benefit is in ensuring that copies of data are stored online at multiple locations, but this can also be achieved at higher layers as well. Thus, we strongly recommend against this solution for most use-cases.
+
 ## Multi-Cluster Georedundancy
 
 Starting with PVC version 0.9.103, PVC now supports online VM snapshot transfers between clusters. This can help enable a second georedundancy mode, leveraging a full cluster in two sites, between which important VMs replicate. In addition, this design can be used with higher-layer abstractions like service-level redundancy to ensure the optimal operation of services even if an entire cluster becomes unavailable. Service-level redundancy between two clusters is not addressed here.
@@ -62,7 +66,7 @@ Multi-cluster redundancy eliminates most of the caveats of single-cluster geored
 
 ### No Failover Automation
 
-Georedundancy with multiple clusters offers no automation within the PVC system for transitioning VMs like with single-cluster fencing and recovery. If a fault occurrs necessitating promotion of services to the secondary cluster, this must be completed manually by the administrator. In addition, once the primary site recovers, it must be handled carefully to reconverge the clusters (see below).
+Georedundancy with multiple clusters offers no automation within the PVC system for transitioning VMs like with single-cluster fencing and recovery. If a fault occurs necessitating promotion of services to the secondary cluster, this must be completed manually by the administrator. In addition, once the primary site recovers, it must be handled carefully to re-converge the clusters (see below).
 
 ### VM Automirrors
 
@@ -78,6 +82,6 @@ VM automirror snapshots are point-in-time; for a clean promotion without data lo
 
 * When promoting a VM on the secondary after a catastrophic failure of the primary (i.e. one in which `pvc vm mirror promote` cannot be used), any data written to the primary side since the last snapshot will be lost. As mentioned above, this necessitates very frequent automirror snapshots to be viable, but even with frequent snapshots some amount of data loss will occur.
 
-* Once the secondary is promoted to become the primary manually, both clusters will consider themselves primary for the VM, should the original primary cluster recover. At that time, there will be a split-brain between the two, and one side's changes must be discarded; there is no reconciliation possible on the PVC side between the two instances. Usually, recovery here will mean the removal of the original primary's copy of the VM and a resynchronization from the former secondary (now primary) to the original primary cluster with `pvc vm mirror create`, followed by a graceful transition with `pvc vm mirror promote`. Note that the transition will also result in additional downtime for the VM.
+* Once the secondary is promoted to become the primary manually, both clusters will consider themselves primary for the VM, should the original primary cluster recover. At that time, there will be a split-brain between the two, and one side's changes must be discarded; there is no reconciliation possible on the PVC side between the two instances. Usually, recovery here will mean the removal of the original primary's copy of the VM and a re-synchronization from the former secondary (now primary) to the original primary cluster with `pvc vm mirror create`, followed by a graceful transition with `pvc vm mirror promote`. Note that the transition will also result in additional downtime for the VM.
 
 Ultimately the potential for data loss during unplanned promotions must be carefully weighed against the benefits of manually promoting the peer cluster. For short or transient outages, it is highly likely to result in more data loss and impact than is acceptable, and thus a manual promotion should only be considered in truly catastrophic situations.
