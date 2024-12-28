@@ -1,4 +1,4 @@
-For more information about what PVC is and what it's for, please see the [about page](/about).
+For more information about what PVC is and what it's for, please see the [about page](../../about).
 
 One of PVC's design goals is administrator simplicity. Thus, it is relatively easy to get a cluster up and running in about 2 hours with only a few configuration steps, a set of nodes (with physical or remote vKVM access), and the provided tooling. This guide will walk you through setting up a simple 3-node PVC cluster from scratch, ending with a fully-usable cluster ready to provision virtual machines.
 
@@ -12,7 +12,7 @@ One of PVC's design goals is administrator simplicity. Thus, it is relatively ea
 
 It is important to consider the design of your PVC cluster before deploying it. While PVC is very flexible, and a cluster easily expanded later, some aspects are fixed after bootstrapping, so consider these carefully.
 
-Read through the [Cluster Architecture documentation](/cluster-architecture). This documentation details and explains the requirements of a PVC cluster. It is important to understand these requirements before proceeding.
+Read through the [Cluster Architecture documentation](../../architecture/cluster-architecture). This documentation details and explains the requirements of a PVC cluster. It is important to understand these requirements before proceeding.
 
 To set up a PVC cluster, you must pick several networks and vLANs to use in later steps, and have these ready for later steps. As outlined in that document:
 
@@ -905,7 +905,7 @@ Of special note is the `pvc_nodes` section. This must contain a listing of all n
 
 ## Part Six - Creating client networks
 
-0. Determine a domain name and IPv4, and/or IPv6 network for your first client network, and any other client networks you may wish to create. These networks must not overlap with the cluster networks. For full details on the client network types, see the [cluster architecture documentation](/cluster-architecture).
+0. Determine a domain name and IPv4, and/or IPv6 network for your first client network, and any other client networks you may wish to create. These networks must not overlap with the cluster networks. For full details on the client network types, see the [cluster architecture documentation](../../architecture/cluster-architecture).
 
 0. Create the virtual network. There are many options here, so see `pvc network add -h` for details. Generally, you will create either `managed` or `bridged` networks:
 
@@ -958,4 +958,4 @@ If you want to add additional non-coordinator nodes, you can do so now. Add them
 
 ## Next steps
 
-For the next steps, see the [Provisioner Guide](/deployment/provisioner) for details on how to use the PVC provisioner to create new Virtual Machines, as well as the [CLI manual](/manuals/cli) and [API manual](/manuals/api) for details on day-to-day usage of PVC.
+For the next steps, see the [Provisioner Guide](../provisioner) for details on how to use the PVC provisioner to create new Virtual Machines, as well as the [CLI manual](../..//manuals/cli) and [API manual](../..//manuals/api) for details on day-to-day usage of PVC.
