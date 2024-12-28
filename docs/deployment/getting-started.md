@@ -1,4 +1,4 @@
-For more information about what PVC is and what it's for, please see the [about page](../../about).
+For more information about what PVC is and what it's for, please see the [about page](../../about-pvc).
 
 One of PVC's design goals is administrator simplicity. Thus, it is relatively easy to get a cluster up and running in about 2 hours with only a few configuration steps, a set of nodes (with physical or remote vKVM access), and the provided tooling. This guide will walk you through setting up a simple 3-node PVC cluster from scratch, ending with a fully-usable cluster ready to provision virtual machines.
 
