@@ -171,7 +171,7 @@ basic-ssh   11  Content-Type: text/cloud-config; charset="us-ascii"
 
 The PVC provisioner provides a scripting framework in order to automate VM installation. This is generally the most useful with UNIX-like systems which can be installed over the network via shell scripts. For instance, the script might install a Debian VM using `debootstrap`, which is automatically installed by default. However all deployment profiles require some provisioning script, minimally to craft their Libvirt configuration.
 
-Several example scripts are provided in the `/usr/share/pvc/provisioner/examples/scripts` directory of all PVC hypervisors. These can be imported into the provisioner system as-is to help get you started, or you are of course free to modify or extend these as you wish, or write your own based on them to suit your needs.
+Several example scripts are provided in the `/usr/share/pvc/provisioner/examples/script` directory of all PVC hypervisors. These can be imported into the provisioner system as-is to help get you started, or you are of course free to modify or extend these as you wish, or write your own based on them to suit your needs.
 
 Provisioner scripts are written in Python 3 and are implemented as a class, `VMBuilderScript`, which extends the built-in `VMBuilder` class, for example:
 
